@@ -73,20 +73,13 @@
   font-weight: 800;
 }
 
-/*
-.navbar-section nav ul {
-  width: 100%;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-} */
+
 
 .navbar-section nav ul {
   width: 100%;
   list-style: none;
   display: flex;
-  justify-content: space-between; /* Make space for the button */
+  justify-content: space-between; 
   align-items: center;
 }
 
@@ -142,11 +135,11 @@
   border: none;
   cursor: pointer;
   padding: 10px;
-  font-size: 24px; /* Increase size for better visibility */
-  margin-left: 10px; /* Adjust space */
+  font-size: 24px;
+  margin-left: 10px; 
 }
 
-/* Custom navbar styles */
+
 .navbar-section .navbar-brand {
   font-family: 'Cardo', serif;
   font-weight: 800;
@@ -207,13 +200,21 @@
   padding-left: 130px; 
 }
 
+
+
 footer {
   display: flex;
   flex-wrap: wrap;
-  background-color: #17395C;
+  margin-top: auto;
+  background-color: #17395C; 
   padding: 30px 3%;
   box-sizing: border-box;
-  height: 250px;
+}
+
+.footer-col {
+  width: 33.33%; 
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 footer h1 {
@@ -301,11 +302,11 @@ footer .nav-list li {
 @media(max-width: 800px){
 
   .navbar-section .menu-button {
-    font-size: 30px; /* Make the button larger for better visibility */
-    padding: 15px; /* Increase padding for easier clicking */
+    font-size: 30px; 
+    padding: 15px; 
   }
 
-  /* Ensure the sidebar can still be toggled */
+ 
   .navbar-section .sidebar {
     position: fixed;
     top: 0;
@@ -323,16 +324,27 @@ footer .nav-list li {
   } /*nav stuff*/
 
   footer {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    padding: 30px 5%;
+  }
+
+  .row {
+    flex-direction: column !important;
   }
 
   .footer-col {
-      width: 100% !important;
-      text-align: center;
-      padding-left: 0 !important;
-    }
+    width: 100% !important;
+    margin-bottom: 30px;
+    text-align: center;
+    padding-left: 0 !important;
+  }
+
+  .footer-col .nav-list {
+    justify-content: center;
+  }
+
+  .footer-col h1 {
+    font-size: 24px;
+  }
 
 
 
@@ -340,26 +352,14 @@ footer .nav-list li {
 @media(max-width: 500px){
   .navbar-section .sidebar{
     width: 100%;
-  } /*nav stuff*/
+  }
 
   .navbar-section .menu-button {
-    font-size: 30px; /* Make the button larger for better visibility */
-    padding: 15px; /* Increase padding for easier clicking */
+    font-size: 30px;
+    padding: 15px; 
   }
 
-  footer {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-  }
-
-
-  .footer-col {
-      width: 100% !important;
-      text-align: center;
-      padding-left: 0 !important;
-    }
-
+  
 }
 
   

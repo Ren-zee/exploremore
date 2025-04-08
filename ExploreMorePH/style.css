@@ -70,4 +70,15 @@
     position: relative;
   }
 
+  @media (max-width: 800px) {
+    .fixed-caption-carousel {
+      font-size: 40px; 
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .fixed-caption-carousel {
+      font-size: 30px; 
+    }
+  }
 
