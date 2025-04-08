@@ -54,306 +54,312 @@
 
   
   
-  /*stuff for nav*/
-  .navbar-section nav {
-    background-color: #FFF9F1;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); 
-    position: fixed;
-    top: 0;
-    width: 100%;
-    /* z-index: 1000; */
-    font-family: "Cardo", serif;
-    font-weight: 800;
-  }
-  
-  /*
-  .navbar-section nav ul {
-    width: 100%;
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  } */
+   
+/*stuff for nav*/
 
-  .navbar-section nav ul {
-    width: 100%;
-    list-style: none;
-    display: flex;
-    justify-content: space-between; /* Make space for the button */
-    align-items: center;
-  }
-  
-  .navbar-section nav li {
-    height: 50px;
-  }
-  
-  .navbar-section nav a {
-    height: 100%;
-    padding: 0 30px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    color: black;
-  }
-  
-  .navbar-section nav a:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .navbar-section nav li:first-child {
-    margin-right: auto;
-  }
-  
-  .navbar-section .sidebar {
-    position: fixed;
-    top: 0; 
-    right: 0;
-    height: 100vh;
-    width: 250px;
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .navbar-section .sidebar li {
-    width: 100%;
-  
-  }
-  
-  .navbar-section .sidebar a {
-    width: 100%;
-  }
-  
-  .navbar-section .menu-button {
-    display: block;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 24px; /* Increase size for better visibility */
-    margin-left: 10px; /* Adjust space */
-  }
+.navbar-toggler {
+  display: block !important;
+} 
 
-  .btn {
-    box-sizing: border-box; 
-    background-color: #A70303; 
-    padding: 0 15px; 
-    text-decoration: none;
-    font-size: 14px;
-    margin-left: 50px;
-    height: 40px;  
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center;  
-    line-height: 40px;  
-    
-  }
 
-  .btn:hover {
-      background-color: #4F0808; 
-  }
+.navbar-section nav {
+  background-color: #FFF9F1;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); 
+  position: fixed;
+  top: 0;
+  width: 100%;
+  /* z-index: 1000; */
+  font-family: "Cardo", serif;
+  font-weight: 800;
+}
+
+/*
+.navbar-section nav ul {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+} */
+
+.navbar-section nav ul {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: space-between; /* Make space for the button */
+  align-items: center;
+}
+
+.navbar-section nav li {
+  height: 50px;
+}
+
+.navbar-section nav a {
+  height: 100%;
+  padding: 0 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: black;
+}
+
+.navbar-section nav a:hover {
+  background-color: #f0f0f0;
+}
+
+.navbar-section nav li:first-child {
+  margin-right: auto;
+}
+
+.navbar-section .sidebar {
+  position: fixed;
+  top: 0; 
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.navbar-section .sidebar li {
+  width: 100%;
+
+}
+
+.navbar-section .sidebar a {
+  width: 100%;
+}
+
+.navbar-section .menu-button {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 24px; /* Increase size for better visibility */
+  margin-left: 10px; /* Adjust space */
+}
+
+/* Custom navbar styles */
+.navbar-section .navbar-brand {
+  font-family: 'Cardo', serif;
+  font-weight: 800;
+  color: black !important;
+}
+
+.navbar-section .dropdown-item {
+  padding: 0.5rem 1.5rem;
+  color: black;
+  font-family: 'Cardo', serif;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.navbar-section .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+
+.btn.custom-btn {
+  background-color: #A70303 !important;
+  color: white !important;
+  padding: 0 15px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  font-family: 'Cardo', serif;
+  font-weight: 800;
+  border-radius: 0;
+  margin-right: 30px;
+ 
+}
+
+.btn.custom-btn:hover {
+  background-color: #4F0808 !important;
+}
 
 
 /*END for stuff for nav*/
-  
 
 
 
- 
-  /*------------------------------------------------------------------------------------*/
 
-  /*stuff for footer*/
-  .footer-col.nav-col {
-    width: 25%; 
-  }
-  
-  .footer-col:not(.nav-col) {
-    width: 37.5%; 
-  }
 
-  .footer-col.pad-left-col {
-    padding-left: 130px; 
-  }
+/*------------------------------------------------------------------------------------*/
 
-   footer {
+/*stuff for footer*/
+.footer-col.nav-col {
+  width: 25%; 
+}
+
+.footer-col:not(.nav-col) {
+  width: 37.5%; 
+}
+
+.footer-col.pad-left-col {
+  padding-left: 130px; 
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #17395C;
+  padding: 30px 3%;
+  box-sizing: border-box;
+  height: 250px;
+}
+
+footer h1 {
+  font-family: "Cardo", serif;
+  font-weight: 900;
+  color: #EFB758;
+  font-size: 30px;
+}
+
+footer p {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: #EFB758;
+}
+
+
+footer ul {
+    list-style: none;
+}
+
+
+
+.footer-col h4 {
+  position: relative;
+  font-family: "Cardo", serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: #EFB758;
+}
+
+footer ul li:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+footer ul li a {
+  display: block;
+  color: #EFB758; 
+  text-decoration: none;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+footer li a:hover {
+    color: #f1bc0d;
+    background-color: rgba(40, 130, 214, 0.2);
+}
+
+
+footer .links a:hover {
+    color: #4d4f55;
+    background-color: white;
+}
+
+
+footer .nav-list {
     display: flex;
     flex-wrap: wrap;
-    margin-top: auto;
-    background-color: #17395C; 
-    padding: 30px 3%;
+    padding: 0;
+    margin: 0;
+    gap: 4px 0;
+}
+
+footer .nav-list li {
+    width: 50%;
     box-sizing: border-box;
-  }
+    margin-bottom: 4px;
+}
 
-  footer h1 {
-    font-family: "Cardo", serif;
-    font-weight: 900;
-    color: #EFB758;
-  }
+.feedback-icon path {
+  stroke: #EFB758;   
+  stroke-width: 4.5;  
+}
+
+.email-icon path {
+  stroke: #EFB758;
   
-  footer p {
-    font-family: "Source Sans 3", sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    color: #EFB758;
+}
+
+ /*END for stuff for footer*/
+/*------------------------------------------------------------------------------------*/
+
+/*when the screen width is getting small*/
+@media(max-width: 800px){
+
+  .navbar-section .menu-button {
+    font-size: 30px; /* Make the button larger for better visibility */
+    padding: 15px; /* Increase padding for easier clicking */
   }
 
+  /* Ensure the sidebar can still be toggled */
+  .navbar-section .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    display: none;
+    flex-direction: column;
+  }
 
-  footer ul {
-      list-style: none;
+  .hideOnMobile{
+    display: none;
+  } /*nav stuff*/
+
+  footer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
   }
 
   .footer-col {
-      width: 33.33%;
-      padding: 0 5px;
-      box-sizing: border-box;
-  }
-
-  .footer-col h4 {
-    position: relative;
-    font-family: "Cardo", serif;
-    font-weight: 900;
-    font-size: 18px;
-    color: #EFB758;
-  }
-
-  footer ul li:not(:last-child) {
-      margin-bottom: 8px;
-  }
-
-  footer ul li a {
-    display: block;
-    color: #EFB758; 
-    text-decoration: none;
-    font-family: "Source Sans 3", sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-  }
-
-  footer li a:hover {
-      color: #f1bc0d;
-      background-color: rgba(40, 130, 214, 0.2);
-  }
-
-
-  footer .links a:hover {
-      color: #4d4f55;
-      background-color: white;
-  }
-
-
-  footer .nav-list {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 0;
-      margin: 0;
-      gap: 4px 0;
-  }
-
-  footer .nav-list li {
-      width: 50%;
-      box-sizing: border-box;
-      margin-bottom: 4px;
-  }
-  
-  .feedback-icon path {
-    stroke: #EFB758;   
-    stroke-width: 4.5;  
-  }
-
-  .email-icon path {
-    stroke: #EFB758;
-    
-  }
-
-   /*END for stuff for footer*/
-  /*------------------------------------------------------------------------------------*/
-
-  /*when the screen width is getting small*/
-  @media(max-width: 800px){
-
-    .navbar-section .menu-button {
-      font-size: 30px; /* Make the button larger for better visibility */
-      padding: 15px; /* Increase padding for easier clicking */
-    }
-  
-    /* Ensure the sidebar can still be toggled */
-    .navbar-section .sidebar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      width: 250px;
-      background-color: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      display: none;
-      flex-direction: column;
-    }
-
-    .hideOnMobile{
-      display: none;
-    } /*nav stuff*/
-
-    footer {
-      display: flex;
-      flex-direction: column; 
-      align-items: center; 
-    }
-  
-    .footer-col {
-      width: 100%; 
-      margin-bottom: 30px; 
-      text-align: center; 
-    }
-  
-    .footer-col.pad-left-col {
-      padding-left: 0; 
+      width: 100% !important;
       text-align: center;
-    }
-  
-    .footer-col.nav-col {
-      width: 100%; 
+      padding-left: 0 !important;
     }
 
-      .footer-col h4::before {
-          all: unset;
-      } 
 
 
+}
+@media(max-width: 500px){
+  .navbar-section .sidebar{
+    width: 100%;
+  } /*nav stuff*/
+
+  .navbar-section .menu-button {
+    font-size: 30px; /* Make the button larger for better visibility */
+    padding: 15px; /* Increase padding for easier clicking */
   }
-  @media(max-width: 500px){
-    .navbar-section .sidebar{
-      width: 100%;
-    } /*nav stuff*/
 
-    .navbar-section .menu-button {
-      font-size: 30px; /* Make the button larger for better visibility */
-      padding: 15px; /* Increase padding for easier clicking */
-    }
-
-    footer {
-      display: flex;
-      flex-direction: column; 
-      align-items: center; 
-    }
-  
-
-    .footer-col {
-      width: 100%; 
-    }
-  
-    .footer-col.pad-left-col {
-      padding-left: 0; 
-    }
-  
-    .footer-col.nav-col {
-      width: 100%; 
-    }
-  
+  footer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
   }
+
+
+  .footer-col {
+      width: 100% !important;
+      text-align: center;
+      padding-left: 0 !important;
+    }
+
+}
 
   
