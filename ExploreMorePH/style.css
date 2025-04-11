@@ -82,3 +82,49 @@
     }
   }
 
+  .featured-spot {
+    display: flex; /* Use flexbox for side-by-side layout */
+    align-items: center; /* Vertically center items */
+    gap: 20px; /* Space between text and image */
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+    text-align: left; /* Left-align the text */
+}
+.featured-spot h2 {
+  color: #ca3030;
+  margin-bottom: 10px;
+}
+
+.featured-spot h3 {
+  color: #6e6e6e;
+  margin-bottom: 15px;
+}
+.spot-content {
+    flex: 1; /* Take up available space */
+}
+
+.spot-image {
+    flex: 0 0 auto; /* Don't grow or shrink */
+}
+
+.spot-image img {
+    max-width: 200px; /* Adjust image size as needed */
+    height: auto;
+    border-radius: 4px;
+}
+
+.more-info {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #e1b243;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.more-info:hover {
+    background-color: #e3a516;
+}
