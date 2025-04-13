@@ -82,6 +82,54 @@
     }
   }
 
+   /* This the Blue Box sa welcome/Intro banner
+  I cant put it sa tourist SpotInfo kasi the blue box need to be above the welcome/Intro banner
+  i did that through "z-index" thingy */
+  .info-box-MainIslandPH {
+    position: absolute;
+    top: 100%; /* Adjust based on where you want it */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4E5F70;
+    opacity: 1;
+    color: black;
+    padding: 1.5rem 2rem;
+    border-radius: 2px;
+    width: 1150px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    z-index: 11;
+    font-family: "Cardo", serif;
+  }
+
+  @media (max-width: 1200px) {
+    .info-box-MainIslandPH {
+      width: 90%; /* Scales the width to fit smaller screens */
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .info-box-MainIslandPH {
+      top: 110%; /* Adjust position if needed */
+      width: 95%;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .info-box-MainIslandPH {
+      font-size: 0.9rem;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+    }
+  }
+  
+  
+
+  /* -----------------------------------------------------------------------------*/
+
   .featured-spot {
     display: flex; /* Use flexbox for side-by-side layout */
     align-items: center; /* Vertically center items */

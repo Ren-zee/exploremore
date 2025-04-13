@@ -1,0 +1,451 @@
+
+
+.region-list {
+    padding: 2px;
+  }
+
+  .region-list h1 {
+    font-family: "Cardo", serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #4E5F70;
+  }
+
+  .region-list li {
+    font-family: "Source Sans 3", sans-serif;
+    font-weight: 400;
+    /*font-size: 14px;*/
+  }
+  
+  .regionImage {
+    padding: 10px;
+  }
+  
+  .regionImage img {
+    max-width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /*-----------------------------------------------------------------------*/
+
+  .introTouristSpot {
+    margin-bottom: 2px;
+
+  }
+
+  .introTouristSpot h1 {
+    font-family: "Cardo", serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #4E5F70;
+  }
+  
+  .introTouristSpot h2 {
+    font-family: "Cardo", serif;
+    font-weight: 600;
+    color: #986000;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .card-body p {
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+    color: black;
+  }
+
+  /*-----------------------------------------------------------*/
+
+  
+  .location {
+    text-align: center;
+    margin: top 50px;
+    padding: 30px;
+
+  }
+  
+  .location h3 {
+    text-align: right;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+  .location p {
+    text-align: right;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+  }
+
+  .touristSpotGoogleMaps {
+    padding: 30px;
+  }
+
+  .map-responsive {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .map-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /*---------------------------------------------------------*/
+
+  .bestTime-Date {
+    padding: 30px;
+  }
+
+  .bestTime-Date h3 {
+    text-align: left;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+  .bestTime-Date p {
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+  }
+
+
+  .weatherForecast {
+    padding: 30px;
+  }
+
+  .weatherForecast h4{
+    text-align: left;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+    /*--------------------------------------------------------*/
+
+
+.festival {
+    padding: 10px;
+
+  }
+  
+  
+  .festival h3 {
+    text-align: center;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+  .descriptionFestivalEvent{
+    padding: 10px;
+  }
+  
+
+  .descriptionFestivalEvent h4 {
+    text-align: left;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+ 
+  .descriptionFestivalEvent p {
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+  }
+
+  .picFestivalEvent1,
+  .picFestivalEvent2 {
+    padding: 10px;
+  }
+  
+  
+
+  .picFestivalEvent1 img,
+  .picFestivalEvent2 img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  
+  
+  .descriptionFestivalEvent .btn {
+    background-color: #A70303;
+    font-weight: bold;
+    color: white;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+    border-radius: 1px;
+    border: none;
+    font-size: 12px;
+
+  }
+  
+  .descriptionFestivalEvent .btn:hover {
+    background-color: #4F0808;
+  }
+
+  
+  /* ------------------------------------------------------------------ */
+
+
+  .accomodation {
+    padding: 10px;
+  }
+
+  .accomodation h3 {
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+  .descriptionAccomodation {
+    padding: 10px;
+  }
+
+  .descriptionAccomodation h4 {
+    text-align: left;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+ 
+  .descriptionAccomodation p {
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+  }
+
+  .descriptionAccomodation .btn {
+    background-color: #A70303;
+    font-weight: bold;
+    color: white;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+    border-radius: 1px;
+    border: none;
+    font-size: 12px;
+
+  }
+  
+  .descriptionAccomodation .btn:hover {
+    background-color: #4F0808;
+  }
+
+  .picAccomodation {
+    padding: 10px;
+  }
+  
+  
+  .picAccomodation img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* -------------------------------------------------------------- */
+
+  
+  .resturants {
+    padding: 10px;
+  }
+
+  .resturants h3 {
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+
+  .descriptionResturants {
+    padding: 10px;
+  }
+
+  .descriptionResturants h4 {
+    text-align: left;     
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  }
+ 
+  .descriptionResturants p {
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+  }
+
+  .descriptionResturants .btn {
+    background-color: #A70303;
+    font-weight: bold;
+    color: white;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+    border-radius: 1px;
+    border: none;
+    font-size: 12px;
+
+  }
+  
+  .descriptionResturants .btn:hover {
+    background-color: #4F0808;
+  }
+
+  .picResturants1, 
+  .picResturants2 {
+    padding: 10px;
+  }
+  
+  
+  .picResturants1 img,
+  .picResturants2 img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+
+    /* -------------------------------------------------------------- */
+
+   
+
+    .transportation {
+        padding: 30px;
+        
+
+      }
+      
+      .transportation h3 {
+        color: #4F0808;
+        font-family: "Cardo", serif;
+        font-weight: 600;
+        margin-bottom: 30px;
+      }
+      
+
+      .transportationList{
+        display: flex;
+        justify-content: center; 
+        height: 100%;
+        align-items: stretch;
+
+      }
+
+      .transportationMode {
+        background-color: #E5C692;
+        text-align: left;
+        padding: 20px;
+        border-radius: 3px;
+        height: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .transportationMode h4 {
+        color: #4F0808;
+        font-family: "Cardo", serif;
+        font-weight: 600;
+      }
+      
+      .transportationMode p {
+        text-align: left;    
+        color: black;           
+        font-family: "Source Sans Pro", sans-serif;
+        line-height: 1.6;
+      }
+      
+      .transportationMode .btn {
+        background-color: #A70303;
+        font-weight: bold;
+        color: white;           
+        font-family: "Source Sans Pro", sans-serif;
+        line-height: 1.6;
+        border-radius: 1px;
+        border: none;
+        font-size: 12px;
+      }
+      
+      .transportationMode .btn:hover {
+        background-color: #4F0808;
+      }
+      
+      .placeholder-box {
+        background-color: #ccc;
+        height: 150px;
+        border-radius: 5px;
+      }
+      
+      .picTranspo img {
+        width: 100%;
+        height: auto;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+       /* -------------------------------------------------------------- */
+.priceBreakdown {
+    padding:20px;
+}
+.priceBreakdown h3 {
+    color: #4F0808;
+    font-family: "Cardo", serif;
+    font-weight: 600;
+}
+
+.priceBreakdown p,ol,li,ul {
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+}
+
+.priceBreakdown img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+/* --------------------------------------------------------------------------------------- */
+
+.safety {
+    padding:1px;
+}
+
+.safety h3 {
+    color: #4F0808;
+    font-family: "Cardo", serif;
+    font-weight: 600;
+    text-align: right;
+}
+
+.safety h4{
+    color: #4F0808;
+    font-family: "Cardo", serif;
+    font-weight: 600;
+  
+}
+
+.safety p{
+    text-align: right;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+}
+
+.safety ol,li,ul {
+
+    text-align: left;    
+    color: black;           
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+}
