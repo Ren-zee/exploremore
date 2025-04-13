@@ -82,6 +82,8 @@
     }
   }
 
+   /* Tourist spot of the month */
+
   .featured-spot {
     display: flex; /* Use flexbox for side-by-side layout */
     align-items: center; /* Vertically center items */
