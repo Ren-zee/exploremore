@@ -8,6 +8,7 @@
     <title>ExploreMore PH</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="nav_footer.css">
+    <link rel="stylesheet" href="touristSpotInfo.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
@@ -23,7 +24,7 @@
           <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.html">
-              <img src="C:\Users\Julianna Boado\Desktop\ExploreMore-PH\ExploreMorePH\images\logo_nav.png" 
+              <img src="images\logo_nav.png" 
                    alt="ExploreMore PH Logo" 
                    class="me-2"
                    style="height: 40px;">
@@ -80,26 +81,49 @@
      <!-- Start of the contents of the webiste -->
 
     <!-- Welcome banner with carousel pics-->
-    <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
 
       <!-- Fixed Center Text -->
       <div class="fixed-caption-carousel ">
         Welcome to Mindanao
       </div>
 
+      <!-- Blue info box of the Main Island (Luzon, Visayas, Mindanao)-->
+    <div class="info-box-MainIslandPH">
+      <p>
+        Enter short description of Mindanao (around 3-5 sentences). You can find this part sa code at the welcome/intro banner
+      </p>
+    </div>
+
       
       
       <!-- The slideshow/carousel -->
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="C:\Users\Julianna Boado\Desktop\ExploreMore-PH\ExploreMorePH\images\1.png" alt="Image 1" class="d-block w-100">
+          <img src="images\1.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\2.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\3.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\4.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\5.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\6.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\7.png" alt="Image 1" class="d-block w-100">
         </div>
         <div class="carousel-item">
-          <img src="C:\Users\Julianna Boado\Desktop\ExploreMore-PH\ExploreMorePH\images\8.png" alt="Image 2" class="d-block w-100">
+          <img src="images\8.png" alt="Image 2" class="d-block w-100">
         </div>
-        <div class="carousel-item">
-          <img src="C:\Users\Julianna Boado\Desktop\ExploreMore-PH\ExploreMorePH\images\5.png" alt="Image 3" class="d-block w-100">
-        </div>
+        
       </div>
       
       <!-- Left and right arrows -->
@@ -111,22 +135,1080 @@
       </button>
     </div> <!-- END of carousel -->
     <!-- ------------------------------------------------------------------------------------------------ -->
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- List of regions-->
+    <div class="container mt-5">
+        <div class="row align-items-center">
+          
+          <!-- Column 1: List of the Region in the Main Island-->
+          <div class="col-md-5 region-list">
+            <h1>Regions in Mindanao</h1>
+            <ol>
+              <li>Region IX – Zamboanga Peninsula</li>
+              <li>Region X – Northern Mindanao</li>
+              <li>Region XI – Davao Region</li>
+              <li>Region XII – SOCCSKSARGEN</li>
+              <li>Region XIII – Caraga</li>
+              <li>BARMM – Bangsamoro Autonomous Region in Muslim Mindanao</li>
+            </ol>            
+          </div>
+          
+          <!-- Column 2: Image related to the Main Island/regions mentioned -->
+          <div class="col-md-7 regionImage">
+            <div id="regionCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    
+
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/mainIsland.png" class="d-block w-100" alt="Visayas 1">
+                </div> <!-- CHANGE PIC HERE^^^^ with anything related to mindanao -->
+                <div class="carousel-item">
+                  <img src="images/mainIsland.png" class="d-block w-100" alt="Visayas 2">
+                </div> <!-- CHANGE PIC HERE^^^^ with anything related to mindanao -->
+              </div>
+
+              <!--You can add more pics-->
+              
+              <!-- Arrows for manual control -->
+              <button class="carousel-control-prev" type="button" data-bs-target="#regionCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#regionCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+              
+            </div>
+          </div>
+
+          <!--  
+          <div class="col-md-7 regionImage">
+          <img src="images/mainIsland_Visayas.png" alt="Visayas">
+          </div>
+          
+          -->
+      
+        </div>
+    </div>
+
+    
+    <!--toursit spot 1-->
+    <div class="container mt-5">
+      <!-- Row wrapper for the title and clickable tourist spot name -->
+      <div class="row align-items-center introTouristSpot">
+        <div class="col-12">
+          <h1 class="mb-3">Hidden Tourist Spot in [Region Name]</h1>
+    
+          <!-- Clickable tourist spot name that toggles the collapse -->
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot1">
+            [Name of the tourist spot]
+          </h2>
+        </div>
+      </div>
+    
+      <!-- Collapsible content -->
+      <div class="collapse" id="TouristSpot1">
+        <div class="card card-body mt-5 border-0">
+          <div class="row">
+            <!-- Carousel Section -->
+            <div class="col-md-8 guisiLighthouse mb-4 mb-md-0 mx-auto">
+              <div id="TouristSpot1PICS" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 3">
+                  </div>
+                </div>
+
+                <!--Change the images here^^^. you can add more pics if u want langgg-->
+    
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+    
+            <!-- Description Section -->
+              <p>
+                <br>
+                [Enter the description of the tourist spot in 3-5 sentences. you can add more sentences to it if you want but try to make it short]
+              </p>
+          </div> <!-- End of tourist spot description with pics-->
+
+          <!--Location-->
+          <div class="row">
+            <div class="col-md-8 touristSpotGoogleMaps"> 
+              <!--Column 1: Google Maps part. 
+              how to do it: https://www.youtube.com/watch?v=4U_AAGHzTok
+              You need to edit the width and height to w=700 h=350
+              you can change the w & h if u want lang-->
+              <div class="map-responsive">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d207.52842373855916!2d122.4745078!3d10.48134!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ae8c3be02ca269%3A0x7f76cb2ccf2c2f2e!2sGuisi%20Lighthouse!5e1!3m2!1sen!2sph!4v1744444457385!5m2!1sen!2sph"
+                  width="700" height="350"
+                  style="border:0;"
+                  allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div> <!--end of the google maps parts-->
+
+            </div>
+            <!--Column 2: Location-->
+            <div class="col-md-4 location">
+              <h3>Location of this<br>Hidden Gem</h3>
+              <p> [put the location of the tourist spot here. okay lang if it is not exact]
+              </p>
+            </div>
+
+          </div> <!-- End of location of tourist spot-->
 
 
-    <h1>Mindanao </h1>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
+          <!--Best time to visit the tourist spot-->
+          <div class="row">
+
+            <div class="col-md-6 bestTime-Date"> <!--Colomn 1: Description of the best month&time to visit the tourist spot-->
+              <h3>Ideal Time and Months to Visit</h3>
+              <p>
+                [description of best month and time to visit the tourist spot in 8 sentences (more or less, up to u).  PLS make the month bold with this <b> "(<b>bold </b>)" </b>]. check visayas page for sample
+              </p>
+            </div>
+
+            <div class="col-md-6 weatherForecast"> <!--Column 2: The weather forecast of it-->
+              <!--where to get the widget weather forecast = https://weatherwidget.io/
+              i got the weather forecast widget through that website ^^^
+              just type in the location of the tourist spot. if the location is invalid then use the region the tourist spot belongs to
+              OR u guys can find/use another widget
+              
+              -->
+              <h4>Weather Forecast</h4>
+              <a class="weatherwidget-io" href="https://forecast7.com/en/10d59122d63/guimaras/" data-label_1="GUIMARAS" data-label_2="WEATHER" data-theme="original" >
+                GUIMARAS WEATHER
+              </a>
+                <script>
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                </script>
+            </div>
+          </div> <!--End of section best time to visit the tourist spot-->
+
+          <!--Festivals adn Events-->
+          <div class="row festival">
+            <h3>Discover Local Celebrations</h3>
+
+            <div class="row"> <!--Festivals 1-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  [Festival or Event name]
+                </h4>
+                <p>
+                  [Description of the event or festival in 3 sentences (more or less). Btw its fine if you can only find 1 lang]
+                </p>
+                <a href="https://www.atlasobscura.com/foods/guimaras-mango-festival" target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                  <!--remember to replace the link pls-->
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+              </div> <!--change the picture-->
+
+            </div> <!--End of Festivals 1-->
+
+
+            <div class="row"> <!--Festivals 2-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  [Festival or Event name]
+                </h4>
+                <p>
+                  [Description of the event or festival in 3 sentences (more or less). Btw its fine if you can only find 1 lang]
+                </p>
+                <a href="https://www.atlasobscura.com/foods/guimaras-mango-festival" target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                  <!--remember to replace the link pls-->
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+              </div> <!--change the picture-->
+
+            </div> <!--End of Festivals 2-->
+
+
+          </div> <!--End of Festivals adn Events-->
+
+          <!--Accomodations-->
+          <div class="row accomodation">
+            <h3>Comfortable Places to Stay</h3>
+            
+            <!--accomodation 1-->
+            <div class="col-md-6 picAccomodation">
+              <img src="images/AccomodationRestaurants.png" alt="Visayas">
+            </div> <!--change the pic pleaseeee-->
+
+            <div class="col-md-6 descriptionAccomodation">
+              <h4>[Name of the Accomodation</h4>
+              <p>
+                [dexcription in 3 sentence (more or less). its fine if u can only find 1]
+              </p>
+              <a href="https://www.booking.com/hotel/ph/green-bamboo-guimaras.en-gb.html?aid=306395&label=nueva-valencia-%2AnLIGIhJy66fCWeQ3kaSNQS626014379464%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-58901870140%3Alp1011169%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YZVcNNsENnH02-pWD53qm9c&sid=23cfa6bce57e26169eaa153b2d8176f7&dest_id=-2442147&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=8&hpos=8&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1744295008&srpvid=7c17651bc41c0480&type=total&ucfs=1& " target="_blank">
+                <button class="btn btn-primary">Learn More</button>
+              </a> <!--change the link please-->
+            
+            </div>
+
+          </div> <!--End of Accomodations-->
+
+
+          <!--Resturant-->
+          <div class="row resturants">
+            <h3>Taste the Local Flavors</h3>
+            
+            <!--Resturant1-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>[Name of restutant]</h4>
+                <p>
+                  [description in 3 sentences (more or less). okay lang if 1 lang yan]
+                </p>
+                <a href="https://www.facebook.com/profile.php?id=61560837885679# " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a> <!--change the link plss-->
+              </div>
   
+              <div class="col-md-6 picResturants1">
+                <img src="images/AccomodationRestaurants.png" alt="Visayas">
+                <!--change the pic plssss-->
+              </div>
+            </div>
+
+            <!--Resturant2-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>[Name of restutant]</h4>
+                <p>
+                  [description in 3 sentences (more or less). okay lang if 1 lang yan]
+                </p>
+                <a href="https://www.facebook.com/profile.php?id=61560837885679# " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a> <!--change the link plss-->
+              </div>
+  
+              <div class="col-md-6 picResturants1">
+                <img src="images/AccomodationRestaurants.png" alt="Visayas">
+                <!--change the pic plssss-->
+              </div>
+            </div>
+
+            
+            
+
+          </div> <!--End of Resturant-->
+
+          <!-- modes of Transportation -->
+          <div class="container transportation">
+            <h3>Modes of Transportation</h3>
+            
+
+            <div class="row g-4 transportationList">
+              <!-- Card 1: transportation mode 1 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 1-->
+
+              <!-- Card 2: transportation mode 2 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 2-->
+
+              <!-- Card 3: transportation mode 3 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 3-->
+
+
+              <!--just add more transpotation mode parts below here. there is no limit naman so add as many u want-->
+
+              
+
+   
+
+              
+
+
+            </div>
+          </div><!--End of Transportation-->
+
+          <div class="row">
+            <div class="col-md-7 priceBreakdown">
+              <h3>
+                Price breakdown
+              </h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
+              <!--for this part^^^ the 'based on 2 overnight.....' you can change the part naman or remove it. it is up to u naaa-->
+              <ol>
+                <li><b>Average stay duration (Total)</b> = [enter estimate price]</li>
+                <li><b>Average cost of accommodation</b> = [enter estimate price] (for ??? overnight stays)</li>
+                <li><b>Average Transportation cost depending on mode of transportation</b> 
+                  <ul> <!--change the mode of transportation. it should be the same as the ones u gave sa 'modes of transporation' part -->
+                    <li>Airplane = [enter estimate price]</li>
+                    <li>Ferry = [enter estimate price]</li>
+                    <li>Van/Shuttle Bus = [enter estimate price]</li>
+                    <li>Jeepney = [enter estimate price]</li>
+                    <li>Motorcycle = [enter estimate price]</li>
+                  </ul>
+                </li>
+                <li><b>Average Food cost</b> = [enter estimate price] </li>
+                <li><b>Entrance fees cost</b>
+                  <ul> <!--find the entance fee of the place. ALSO its operationg hours if u can find it lang. Also mention rin if need yun tour guide-->
+                    <li>10 Php per person for the lighthouse</li>
+                    <li>30 Php  per person for the beach</li>
+                    <li>The place is open from 8:00 AM to 8:00 PM, Monday to Friday, and closed on weekends.</li>
+                </li>
+              </ol>
+            </div> 
+
+
+            <div class="col-md-5 priceBreakdown">
+              <div class="picPrice mt-3">
+                <img src="images/Visayas/TouristSpot1_Pics4.png"   alt="Visayas">
+              </div> <!--change the picture pleaseee-->
+            </div>
+
+          </div> <!--End of price breakdown-->
+
+          <!--Safety Assessment-->
+          <div class="row">
+            <div class="col-md-12 safety">
+              <h3>Safety Assessment</h3>
+              <p>
+                [enter description of the safeness of the place in 8 sentences (more or less). mention if there are any scams or crime. mention too if the tourist is safe to walk around or something similar. check visayas page for sample/refrence]
+              </p>
+             
+              <h4>Emergency Contact Details</h4>
+              <!--please remember to change this part. check visayas page for reference/sample-->
+              <ol>
+                <li>
+                  Provincial Disaster Risk Reduction and Management Council (PDRRMC) Rescue/ 4k Hotline
+                  <ul>
+                    <li>
+                      0998 369 3844 (Smart)
+                    </li>
+                    <li>
+                      0926 713 13 72 (Globe)
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Disaster Risk Reduction and Management Council (MDRRMC)/Rescue Hotline Nueva Valencia
+                  <ul>
+                    <li>
+                      0939 812 9676
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Police Provincial Office (GPPO)
+                  <ul>
+                    <li>
+                      0998 598 6180
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Police Station (MPS)  Nueva Valencia
+                  <ul>
+                    <li>
+                      0998 598 6183 
+                    </li>
+                    <li>
+                      0939 469 7474
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Bureau of Fire Protection (BFP)
+                  <ul>
+                    <li>
+                      0931 833 4491
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Station Guimaras
+                  <ul>
+                    <li>
+                      0975 563 0181
+                    </li>
+
+                    <li>
+                      0931 716 0156
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Sub-Station Nueva Valencia
+                  <ul>
+                    <li>
+                      0970 279 9785
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Emergency Room/ DCHNPH Hospital
+                  <ul>
+                    <li>
+                      0961 556 9210
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Electric Cooperative (Guimelco)
+                  <ul>
+                    <li>
+                      0998 369 2121
+                    </li>
+                    <li>
+                      0917 303 0191
+                    </li>
+                  </ul>
+                </li>
+
+
+
+              </ol>
+            </div>
+          </div> <!--End of Safety Assessment-->
+
+ 
+
+        </div>
+      </div> <!-- End of Collapsible content -->
+    </div> <!--End of tourist spot 1-->
+
+
+    <!--toursit spot 2-->
+    <div class="container mt-5">
+      <!-- Row wrapper for the title and clickable tourist spot name -->
+      <div class="row align-items-center introTouristSpot">
+        <div class="col-12">
+          <h1 class="mb-3">Hidden Tourist Spot in [Region Name]</h1>
+    
+          <!-- Clickable tourist spot name that toggles the collapse -->
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot2">
+            [Name of the tourist spot]
+          </h2>
+        </div>
+      </div>
+    
+      <!-- Collapsible content -->
+      <div class="collapse" id="TouristSpot2">
+        <div class="card card-body mt-5 border-0">
+          <div class="row">
+            <!-- Carousel Section -->
+            <div class="col-md-8 guisiLighthouse mb-4 mb-md-0 mx-auto">
+              <div id="TouristSpot1PICS" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/TouristSpot_Pics.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 3">
+                  </div>
+                </div>
+
+                <!--Change the images here^^^. you can add more pics if u want langgg-->
+    
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+    
+            <!-- Description Section -->
+              <p>
+                <br>
+                [Enter the description of the tourist spot in 3-5 sentences. you can add more sentences to it if you want but try to make it short]
+              </p>
+          </div> <!-- End of tourist spot description with pics-->
+
+          <!--Location-->
+          <div class="row">
+            <div class="col-md-8 touristSpotGoogleMaps"> 
+              <!--Column 1: Google Maps part. 
+              how to do it: https://www.youtube.com/watch?v=4U_AAGHzTok
+              You need to edit the width and height to w=700 h=350
+              you can change the w & h if u want lang-->
+              <div class="map-responsive">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d207.52842373855916!2d122.4745078!3d10.48134!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ae8c3be02ca269%3A0x7f76cb2ccf2c2f2e!2sGuisi%20Lighthouse!5e1!3m2!1sen!2sph!4v1744444457385!5m2!1sen!2sph"
+                  width="700" height="350"
+                  style="border:0;"
+                  allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div> <!--end of the google maps parts-->
+
+            </div>
+            <!--Column 2: Location-->
+            <div class="col-md-4 location">
+              <h3>Location of this<br>Hidden Gem</h3>
+              <p> [put the location of the tourist spot here. okay lang if it is not exact]
+              </p>
+            </div>
+
+          </div> <!-- End of location of tourist spot-->
+
+
+          <!--Best time to visit the tourist spot-->
+          <div class="row">
+
+            <div class="col-md-6 bestTime-Date"> <!--Colomn 1: Description of the best month&time to visit the tourist spot-->
+              <h3>Ideal Time and Months to Visit</h3>
+              <p>
+                [description of best month and time to visit the tourist spot in 8 sentences (more or less, up to u).  PLS make the month bold with this <b> "(<b>bold </b>)" </b>]. check visayas page for sample
+              </p>
+            </div>
+
+            <div class="col-md-6 weatherForecast"> <!--Column 2: The weather forecast of it-->
+              <!--where to get the widget weather forecast = https://weatherwidget.io/
+              i got the weather forecast widget through that website ^^^
+              just type in the location of the tourist spot. if the location is invalid then use the region the tourist spot belongs to
+              OR u guys can find/use another widget
+              
+              -->
+              <h4>Weather Forecast</h4>
+              <a class="weatherwidget-io" href="https://forecast7.com/en/10d59122d63/guimaras/" data-label_1="GUIMARAS" data-label_2="WEATHER" data-theme="original" >
+                GUIMARAS WEATHER
+              </a>
+                <script>
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                </script>
+            </div>
+          </div> <!--End of section best time to visit the tourist spot-->
+
+          <!--Festivals adn Events-->
+          <div class="row festival">
+            <h3>Discover Local Celebrations</h3>
+
+            <div class="row"> <!--Festivals 1-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  [Festival or Event name]
+                </h4>
+                <p>
+                  [Description of the event or festival in 3 sentences (more or less). Btw its fine if you can only find 1 lang]
+                </p>
+                <a href="https://www.atlasobscura.com/foods/guimaras-mango-festival" target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                  <!--remember to replace the link pls-->
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+              </div> <!--change the picture-->
+
+            </div> <!--End of Festivals 1-->
+
+
+            <div class="row"> <!--Festivals 2-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  [Festival or Event name]
+                </h4>
+                <p>
+                  [Description of the event or festival in 3 sentences (more or less). Btw its fine if you can only find 1 lang]
+                </p>
+                <a href="https://www.atlasobscura.com/foods/guimaras-mango-festival" target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                  <!--remember to replace the link pls-->
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/FestivalEvents.png" alt="Visayas">
+              </div> <!--change the picture-->
+
+            </div> <!--End of Festivals 2-->
+
+
+          </div> <!--End of Festivals adn Events-->
+
+          <!--Accomodations-->
+          <div class="row accomodation">
+            <h3>Comfortable Places to Stay</h3>
+            
+            <!--accomodation 1-->
+            <div class="col-md-6 picAccomodation">
+              <img src="images/AccomodationRestaurants.png" alt="Visayas">
+            </div> <!--change the pic pleaseeee-->
+
+            <div class="col-md-6 descriptionAccomodation">
+              <h4>[Name of the Accomodation</h4>
+              <p>
+                [dexcription in 3 sentence (more or less). its fine if u can only find 1]
+              </p>
+              <a href="https://www.booking.com/hotel/ph/green-bamboo-guimaras.en-gb.html?aid=306395&label=nueva-valencia-%2AnLIGIhJy66fCWeQ3kaSNQS626014379464%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-58901870140%3Alp1011169%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YZVcNNsENnH02-pWD53qm9c&sid=23cfa6bce57e26169eaa153b2d8176f7&dest_id=-2442147&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=8&hpos=8&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1744295008&srpvid=7c17651bc41c0480&type=total&ucfs=1& " target="_blank">
+                <button class="btn btn-primary">Learn More</button>
+              </a> <!--change the link please-->
+            
+            </div>
+
+          </div> <!--End of Accomodations-->
+
+
+          <!--Resturant-->
+          <div class="row resturants">
+            <h3>Taste the Local Flavors</h3>
+            
+            <!--Resturant1-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>[Name of restutant]</h4>
+                <p>
+                  [description in 3 sentences (more or less). okay lang if 1 lang yan]
+                </p>
+                <a href="https://www.facebook.com/profile.php?id=61560837885679# " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a> <!--change the link plss-->
+              </div>
+  
+              <div class="col-md-6 picResturants1">
+                <img src="images/AccomodationRestaurants.png" alt="Visayas">
+                <!--change the pic plssss-->
+              </div>
+            </div>
+
+            <!--Resturant2-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>[Name of restutant]</h4>
+                <p>
+                  [description in 3 sentences (more or less). okay lang if 1 lang yan]
+                </p>
+                <a href="https://www.facebook.com/profile.php?id=61560837885679# " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a> <!--change the link plss-->
+              </div>
+  
+              <div class="col-md-6 picResturants1">
+                <img src="images/AccomodationRestaurants.png" alt="Visayas">
+                <!--change the pic plssss-->
+              </div>
+            </div>
+
+            
+            
+
+          </div> <!--End of Resturant-->
+
+          <!-- modes of Transportation -->
+          <div class="container transportation">
+            <h3>Modes of Transportation</h3>
+            
+
+            <div class="row g-4 transportationList">
+              <!-- Card 1: transportation mode 1 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 1-->
+
+              <!-- Card 2: transportation mode 2 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 2-->
+
+              <!-- Card 3: transportation mode 3 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    [Mode of transport] 
+                    [find svg icon of the transportation] 
+               
+                  <!-- you can use the website https://www.iconfinder.com/ to find an icon. a] 
+                   add this  style="float: right; margin-left: 10px;" to the svg, at the end-ish
+                   so that the icon will be on the right side. check visayas page for reference
+                  -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    [short description. it is up to  if wanna add a description pa]
+                    <br>
+                    <br>
+                    Estimated Price: [put estimated price ALSO mention if it is a round trip or one way trip]
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a> <!--chnage the link plss. if u cant find a website related to transportation mode then juse delete this part-->
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div> <!--chnage the picture pleaseeee-->
+                </div>
+              </div> <!--end of transpotation mode 3-->
+
+
+              <!--just add more transpotation mode parts below here. there is no limit naman so add as many u want-->
+
+              
+
+   
+
+              
+
+
+            </div>
+          </div><!--End of Transportation-->
+
+          <div class="row">
+            <div class="col-md-7 priceBreakdown">
+              <h3>
+                Price breakdown
+              </h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
+              <!--for this part^^^ the 'based on 2 overnight.....' you can change the part naman or remove it. it is up to u naaa-->
+              <ol>
+                <li><b>Average stay duration (Total)</b> = [enter estimate price]</li>
+                <li><b>Average cost of accommodation</b> = [enter estimate price] (for ??? overnight stays)</li>
+                <li><b>Average Transportation cost depending on mode of transportation</b> 
+                  <ul> <!--change the mode of transportation. it should be the same as the ones u gave sa 'modes of transporation' part -->
+                    <li>Airplane = [enter estimate price]</li>
+                    <li>Ferry = [enter estimate price]</li>
+                    <li>Van/Shuttle Bus = [enter estimate price]</li>
+                    <li>Jeepney = [enter estimate price]</li>
+                    <li>Motorcycle = [enter estimate price]</li>
+                  </ul>
+                </li>
+                <li><b>Average Food cost</b> = [enter estimate price] </li>
+                <li><b>Entrance fees cost</b>
+                  <ul> <!--find the entance fee of the place. ALSO its operationg hours if u can find it lang. Also mention rin if need yun tour guide-->
+                    <li>10 Php per person for the lighthouse</li>
+                    <li>30 Php  per person for the beach</li>
+                    <li>The place is open from 8:00 AM to 8:00 PM, Monday to Friday, and closed on weekends.</li>
+                </li>
+              </ol>
+            </div> 
+
+
+            <div class="col-md-5 priceBreakdown">
+              <div class="picPrice mt-3">
+                <img src="images/Visayas/TouristSpot1_Pics4.png"   alt="Visayas">
+              </div> <!--change the picture pleaseee-->
+            </div>
+
+          </div> <!--End of price breakdown-->
+
+          <!--Safety Assessment-->
+          <div class="row">
+            <div class="col-md-12 safety">
+              <h3>Safety Assessment</h3>
+              <p>
+                [enter description of the safeness of the place in 8 sentences (more or less). mention if there are any scams or crime. mention too if the tourist is safe to walk around or something similar. check visayas page for sample/refrence]
+              </p>
+             
+              <h4>Emergency Contact Details</h4>
+              <!--please remember to change this part. check visayas page for reference/sample-->
+              <ol>
+                <li>
+                  Provincial Disaster Risk Reduction and Management Council (PDRRMC) Rescue/ 4k Hotline
+                  <ul>
+                    <li>
+                      0998 369 3844 (Smart)
+                    </li>
+                    <li>
+                      0926 713 13 72 (Globe)
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Disaster Risk Reduction and Management Council (MDRRMC)/Rescue Hotline Nueva Valencia
+                  <ul>
+                    <li>
+                      0939 812 9676
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Police Provincial Office (GPPO)
+                  <ul>
+                    <li>
+                      0998 598 6180
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Police Station (MPS)  Nueva Valencia
+                  <ul>
+                    <li>
+                      0998 598 6183 
+                    </li>
+                    <li>
+                      0939 469 7474
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Bureau of Fire Protection (BFP)
+                  <ul>
+                    <li>
+                      0931 833 4491
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Station Guimaras
+                  <ul>
+                    <li>
+                      0975 563 0181
+                    </li>
+
+                    <li>
+                      0931 716 0156
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Sub-Station Nueva Valencia
+                  <ul>
+                    <li>
+                      0970 279 9785
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Emergency Room/ DCHNPH Hospital
+                  <ul>
+                    <li>
+                      0961 556 9210
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Electric Cooperative (Guimelco)
+                  <ul>
+                    <li>
+                      0998 369 2121
+                    </li>
+                    <li>
+                      0917 303 0191
+                    </li>
+                  </ul>
+                </li>
+
+
+
+              </ol>
+            </div>
+          </div> <!--End of Safety Assessment-->
+
+ 
+
+        </div>
+      </div> <!-- End of Collapsible content -->
+    </div> <!--End of tourist spot 2-->
+
 
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
