@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExploreMore PH</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="budget.css">
     <link rel="stylesheet" href="nav_footer.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +33,8 @@
 
             <div class="d-flex align-items-center gap-2 ms-auto">
                 <!--Log In and Sign In Buttons-->
-                <a href="#" class="btn custom-btn">Log In</a>
-                <a href="#" class="btn custom-btn">Sign In</a>
+                <a href="login.html" class="btn custom-btn">Log In</a>
+                <a href="signup.html" class="btn custom-btn">Sign Up</a>
                 
                 <!--Menu Button -->
                 <button class="navbar-toggler"
@@ -129,19 +130,43 @@
     <!-- ------------------------------------------------------------------------------------------------ -->
 
 
-    <h1>Budget Estimator </h1>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
-    <p>testing testing testing testing testing testing testing testing testing testing testing testing testing testing testingtesting testing testing testing testing</p>
+    <main>  
+      <section class="estimator">
+        <h3>Budget Estimator</h3>
+        <form id="budgetForm">
+          <label for="stayDuration">Stay Duration (days):</label>
+          <input type="number" id="stayDuration" required />
+
+          <label for="accommodationCost">Accommodation Cost (per day):</label>
+          <input type="number" id="accommodationCost" required />
+
+          <label for="transportationBudget">Transportation Budget:</label>
+          <input type="number" id="transportationBudget" required />
+
+          <label for="foodBudget">Food Budget:</label>
+          <input type="number" id="foodBudget" required />
+
+          <label for="otherCosts">Other Costs Budget:</label>
+          <input type="number" id="otherCosts" required />
+
+          <label for="currency">Currency:</label>
+          <select id="currency">
+            <option value="PHP">PHP</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+          </select>
+
+          <div style="display: flex; gap: 10px;">
+            <button type="submit">Calculate</button>
+            <button type="reset">Reset</button>
+          </div>
+        </form>
+        <div class="result" id="resultContainer" style="display: none;">
+          <h4>Estimate Budget is: <span id="totalBudget"></span></h4>
+        </div>
+      </section>
+    </main>
   
 
     <!-- END of the contents of the website -->
@@ -215,7 +240,7 @@
         </div>
       </footer>  <!-- END of footer -->
       
- 
+      
 
     <script> 
 
@@ -228,8 +253,8 @@
         sidebar.style.display = 'none'
       }
     </script> <!-- END OF SCRIPT (this is for the nav /menu part)-->
+    <script src="script.js"></script>
 
   </body> <!-- END OF BODY -->
 
 </html> <!-- END OF HTML -->
-
