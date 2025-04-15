@@ -128,51 +128,85 @@
   
   
 
-  /* -----------------------------------------------------------------------------*/
-
+  /* Tourist spot of the month-----------------------------------------------------------------------------*/
   .featured-spot {
-    display: flex; /* Use flexbox for side-by-side layout */
-    align-items: center; /* Vertically center items */
-    gap: 20px; /* Space between text and image */
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin: 20px 0;
-    background-color: #f9f9f9;
-    text-align: left; /* Left-align the text */
-}
-.featured-spot h2 {
-  color: #ca3030;
-  margin-bottom: 10px;
-}
-
-.featured-spot h3 {
-  color: #6e6e6e;
-  margin-bottom: 15px;
-}
-.spot-content {
-    flex: 1; /* Take up available space */
-}
-
-.spot-image {
-    flex: 0 0 auto; /* Don't grow or shrink */
-}
-
-.spot-image img {
-    max-width: 200px; /* Adjust image size as needed */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    border: 3px solid #e1b243;
+    padding: 40px;
+    margin: 40px auto;
+    background-color: #fff4db;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    max-width: 1200px;
+  }
+  
+  .featured-spot h2 {
+    color: #ca3030;
+    font-size: 36px;
+    font-family: "Cardo", serif;
+    margin-bottom: 15px;
+  }
+  
+  .featured-spot h3 {
+    color: #4E5F70;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .spot-content {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .spot-image img {
+    max-width: 300px;
     height: auto;
-    border-radius: 4px;
-}
-
-.more-info {
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .more-info {
     display: inline-block;
-    padding: 8px 15px;
+    padding: 10px 20px;
     background-color: #e1b243;
     color: white;
     text-decoration: none;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-.more-info:hover {
-    background-color: #e3a516;
-}
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .more-info:hover {
+    background-color: #d1970c;
+  }
+  
+  @media (max-width: 768px) {
+    .featured-spot {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px 20px;
+    }
+  
+    .spot-content {
+      padding-right: 0;
+    }
+  
+    .spot-image img {
+      max-width: 250px;
+    }
+  
+    .featured-spot h2 {
+      font-size: 30px;
+    }
+  
+    .featured-spot h3 {
+      font-size: 24px;
+    }
+  }
+  
