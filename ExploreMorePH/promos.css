@@ -1,0 +1,82 @@
+h1{
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 800;
+}
+
+h2 {
+    color: #4F0808;           
+    font-family: "Cardo", serif;
+    font-weight: 800;
+
+    border-top: 3px solid #A70303;
+    padding: 4px;
+}
+
+
+.swiper {
+    width: 100%;
+    padding-bottom: 50px; /* Add space for pagination */
+    position: relative;
+}
+
+.swiper-slide {
+    width: 300px;
+    height: auto;
+    padding: 15px 15px 15px 15px;
+    background-color: #E5C692;
+    border-radius: 3px;
+}
+
+
+.card-img-top {
+
+    width: 100%;
+    height: auto;
+    
+}
+
+.card-body {
+    background-color: #E5C692;
+    border: none;
+    outline: none;
+    padding: 3px 3px 3px 3px;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #E5C692;
+    background-color: #4E5F70;
+    border: 1px solid #0f2841;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+
+
+
+
+/* Change arrow color */
+.swiper-button-next,
+.swiper-button-prev {
+    color: black; /* Change to your desired color */
+}
+
+/* Optional: Hover effects */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    color: #cc0000; /* Darker shade for hover */
+    transform: scale(1.2);
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 10px; 
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+  }
