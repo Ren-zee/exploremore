@@ -130,25 +130,21 @@
       </button>
     </div> <!-- END of carousel -->
     <!-- ------------------------------------------------------------------------------------------------ -->
-
-
       <!-- Tourist Spot of the Month Section -->
-  <div class="featured-spot">
-    <div class="spot-content">
-        <h2>Tourist Spot of the Month</h2>
-        <h3>Guisi Lighthouse in Guimaras</h3>
-        <a href="visayas.html#TouristSpot3" class="more-info" role="button">More Info</a>
+      <div class="featured-spot">
+        <div class="spot-content">
+            <h2>Tourist Spot of the Month</h2>
+            <h3>Guisi Lighthouse in Guimaras</h3>
+            <a href="visayas.html#TouristSpot3" class="more-info" role="button">More Info</a>
+        </div>
+        <div class="spot-image">
+            <img src="images\TOM.png" alt="Tourist Spot Image">
+        </div>
     </div>
-    <div class="spot-image">
-        <img src="images\TOM.png" alt="Tourist Spot Image">
-    </div>
-</div>
+    
+ 
 
 
-
-
-
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Philippine Tourist Spots Map</title>
@@ -198,9 +194,8 @@
     height: auto;
 }
   </style>
-</head>
-<body>
-  <div class="map-container">
+
+<div class="map-container">
       <h1>Philippine Tourist Spots</h1>
       <svg baseprofile="tiny" fill="#6f9c76" height="1000" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5" version="2" viewBox="0 0 1000 1000" width="1000" xmlns="http://www.w3.org/2000/svg">
           <!-- Original SVG paths -->
@@ -256,32 +251,26 @@
   <div class="tooltip" id="tooltip" style="display: none;"></div>
   
   <script>
-      // Tooltip functionality
-      const locations = document.querySelectorAll('.location');
-      const tooltip = document.getElementById('tooltip');
-      
-      locations.forEach(location => {
-          location.addEventListener('mouseover', (e) => {
-              const name = location.getAttribute('data-name');
-              const province = location.getAttribute('data-province');
-              tooltip.innerHTML = `<strong>${name}</strong><br>${province}`;
-              tooltip.style.display = 'block';
-              
-              // Position tooltip near cursor
-              const rect = location.getBoundingClientRect();
-              tooltip.style.left = `${rect.left + window.scrollX}px`;
-              tooltip.style.top = `${rect.top + window.scrollY - 40}px`;
-          });
-          
-          location.addEventListener('mouseout', () => {
-              tooltip.style.display = 'none';
-          });
-          
-          location.addEventListener('mousemove', (e) => {
-              tooltip.style.left = `${e.clientX + 10}px`;
-              tooltip.style.top = `${e.clientY + 10}px`;
-          });
-      });
+    const locations = document.querySelectorAll('.location');
+    const tooltip = document.getElementById('tooltip');
+
+    locations.forEach(location => {
+        location.addEventListener('mouseover', (e) => {
+            const name = location.getAttribute('data-name');
+            const province = location.getAttribute('data-province');
+            tooltip.innerHTML = `<strong>${name}</strong><br>${province}`;
+            tooltip.style.display = 'block';
+        });
+
+        location.addEventListener('mousemove', (e) => {
+            tooltip.style.left = `${e.pageX + 10}px`;
+            tooltip.style.top = `${e.pageY + 10}px`;
+        });
+
+        location.addEventListener('mouseout', () => {
+            tooltip.style.display = 'none';
+        });
+    });
       
       function showDetails(id) {
     // Define the target URL and section ID for each region
