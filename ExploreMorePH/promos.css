@@ -1,13 +1,16 @@
-h1{
+.container h1{
     color: #4F0808;           
     font-family: "Cardo", serif;
     font-weight: 800;
+    font-style: normal;
+   
 }
 
-h2 {
+.container h2 {
     color: #4F0808;           
     font-family: "Cardo", serif;
     font-weight: 800;
+    font-style: normal;
 
     border-top: 3px solid #A70303;
     padding: 4px;
