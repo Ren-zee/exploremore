@@ -85,6 +85,22 @@ body {
     background-color: #0056b3;
   }
 
+  /* Style for the reset button */
+  button[type="reset"] {
+    background-color: #dc3545; /* Red color for reset */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button[type="reset"]:hover {
+    background-color: #a71d2a; /* Darker red on hover */
+  }
+
   /* Style the result section */
   .result {
     margin-top: 20px;

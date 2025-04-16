@@ -84,3 +84,60 @@ document.addEventListener('DOMContentLoaded', () => {
     signUpForm.addEventListener('submit', validateSignUpForm);
   }
 });
+
+// Budget Calculator with Currency Conversion
+document.getElementById("budgetForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const duration = parseFloat(document.getElementById("stayDuration").value);
+  const accommodation = parseFloat(document.getElementById("accommodationCost").value);
+  const transportation = parseFloat(document.getElementById("transportationBudget").value);
+  const food = parseFloat(document.getElementById("foodBudget").value);
+  const other = parseFloat(document.getElementById("otherCosts").value);
+  const currency = document.getElementById("currency").value;
+
+  if (isNaN(duration) || isNaN(accommodation) || isNaN(transportation) || isNaN(food) || isNaN(other)) {
+    alert("Please fill in all fields with valid numbers.");
+    return;
+  }
+
+  const totalInPeso = (duration * accommodation) + transportation + food + other;
+
+  // Conversion rates (example rates, replace with actual rates if needed)
+  // Fetch real-time conversion rates from an API
+  let conversionRates = {};
+  fetch('https://api.exchangerate-api.com/v4/latest/PHP')
+    .then(response => response.json())
+    .then(data => {
+      conversionRates = {
+        USD: data.rates.USD,
+        EUR: data.rates.EUR,
+        JPY: data.rates.JPY,
+      };
+    })
+    .catch(error => {
+      console.error('Error fetching conversion rates:', error);
+      alert('Unable to fetch real-time conversion rates. Please try again later.');
+    });
+
+  // Wait for conversion rates to be fetched before calculating
+  fetch('https://api.exchangerate-api.com/v4/latest/PHP')
+    .then(response => response.json())
+    .then(data => {
+      conversionRates = {
+        USD: data.rates.USD,
+        EUR: data.rates.EUR,
+        JPY: data.rates.JPY,
+      };
+
+      const convertedTotal = totalInPeso * (conversionRates[currency] || 1);
+
+      // Update the result and make it visible
+      document.getElementById("totalBudget").textContent = `${convertedTotal.toFixed(2)} ${currency}`;
+      document.getElementById("resultContainer").style.display = "block";
+    })
+    .catch(error => {
+      console.error('Error fetching conversion rates:', error);
+      alert('Unable to fetch real-time conversion rates. Please try again later.');
+    });
+});
