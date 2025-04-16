@@ -200,14 +200,27 @@
           <h1 class="mb-3">Hidden Tourist Spot in Western Visayas</h1>
     
           <!-- Clickable tourist spot name that toggles the collapse -->
-          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot1">
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="3">
             Guisi Lighthouse in Guimaras
           </h2>
         </div>
       </div>
     
+      <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash;
+    if (hash) {
+        const target = document.querySelector(hash);
+        if (target && target.classList.contains("collapse")) {
+            const collapse = new bootstrap.Collapse(target, {
+                toggle: true
+            });
+        }
+    }
+});
+    </script>
       <!-- Collapsible content -->
-      <div class="collapse" id="TouristSpot1">
+      <div class="collapse" id="TouristSpot3">
         <div class="card card-body mt-5 border-0">
           <div class="row">
             <!-- Carousel Section -->
@@ -698,14 +711,14 @@
           <h1 class="mb-3">Hidden Tourist Spot in Eastern Visayas</h1>
     
           <!-- Clickable tourist spot name that toggles the collapse -->
-          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot2">
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot4">
             Linao Cave in Guiuan
           </h2>
         </div>
       </div>
     
       <!-- Collapsible content -->
-      <div class="collapse" id="TouristSpot2">
+      <div class="collapse" id="TouristSpot4">
         <div class="card card-body mt-5 border-0">
           <div class="row">
             <!-- Carousel Section -->
@@ -1238,18 +1251,7 @@
  
 
     <script> 
-  document.addEventListener("DOMContentLoaded", function () {
-    const hash = window.location.hash;
-    if (hash) {
-      const target = document.querySelector(hash);
-      if (target && target.classList.contains("collapse")) {
-        const collapse = new bootstrap.Collapse(target, {
-          toggle: true
-        });
-      }
-    }
-  });
-  
+
       function showSidebar(){
         const sidebar = document.querySelector('.sidebar')
         sidebar.style.display = 'flex'

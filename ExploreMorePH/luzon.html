@@ -214,7 +214,19 @@
           </h2>
         </div>
       </div>
-    
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target && target.classList.contains("collapse")) {
+                    const collapse = new bootstrap.Collapse(target, {
+                        toggle: true
+                    });
+                }
+            }
+        });
+            </script>
       <!-- Collapsible content -->
       <div class="collapse" id="TouristSpot1">
         <div class="card card-body mt-5 border-0">

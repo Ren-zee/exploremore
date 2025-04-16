@@ -136,7 +136,7 @@
     <div class="spot-content">
         <h2>Tourist Spot of the Month</h2>
         <h3>Guisi Lighthouse in Guimaras</h3>
-        <a href="visayas.html#TouristSpot1" class="more-info" role="button">More Info</a>
+        <a href="visayas.html#TouristSpot3" class="more-info" role="button">More Info</a>
     </div>
     <div class="spot-image">
         <img src="images\TOM.png" alt="Tourist Spot Image">
@@ -147,7 +147,6 @@
 
 
 
-<h1>Philippine Tourist Spots</h1>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -161,7 +160,7 @@
       }
       .map-container {
           max-width: 1000px;
-          margin: 0 auto;
+          margin: 0 auto 40px;
           background-color: white;
           padding: 20px;
           border-radius: 8px;
@@ -177,9 +176,11 @@
           color: white;
           padding: 5px 10px;
           border-radius: 4px;
-          font-size: 14px;
+          font-size: 13px;
           pointer-events: none;
           z-index: 100;
+          max-width: 200px;
+          line-height: 1.4;
       }
       .location {
           cursor: pointer;
@@ -187,7 +188,14 @@
       }
       .location:hover {
           fill: #ffcc00 !important;
+      
       }
+      svg {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+}
   </style>
 </head>
 <body>
@@ -199,36 +207,48 @@
   class="philippines-base"/>
           <!-- More original paths... -->
           
-          <!-- Luzon Locations -->
-          <!-- Banaue Rice Terraces -->
-          <path d="M450 300" class="location luzon" fill="#4CAF50" data-name="Banaue Rice Terraces" data-province="Ifugao" onclick="showDetails('banaue')"/>
-          
-          <!-- Mayon Volcano -->
-          <path d="M550 450" class="location luzon" fill="#4CAF50" data-name="Mayon Volcano" data-province="Albay" onclick="showDetails('mayon')"/>
-          
-          <!-- Visayas Locations -->
-          <!-- Chocolate Hills -->
-          <path d="M400 550" class="location visayas" fill="#2196F3" data-name="Chocolate Hills" data-province="Bohol" onclick="showDetails('chocolate')"/>
-          
-          <!-- Boracay -->
-          <path d="M350 500" class="location visayas" fill="#2196F3" data-name="Boracay" data-province="Aklan" onclick="showDetails('boracay')"/>
-          
-          <!-- Mindanao Locations -->
-          <!-- Mount Apo -->
-          <path d="M450 750" class="location mindanao" fill="#F44336" data-name="Mount Apo" data-province="Davao" onclick="showDetails('apo')"/>
-          
-          <!-- Enchanted River -->
-          <path d="M500 800" class="location mindanao" fill="#F44336" data-name="Enchanted River" data-province="Surigao del Sur" onclick="showDetails('enchanted')"/>
-          
+<!-- Luzon Locations -->
+<!-- Nagsasa Cove -->
+<circle cx="410" cy="390" r="10" class="location luzon" fill="#4CAF50"
+  data-name="Nagsasa Cove" data-province="San Antonio, Zambales"
+  onclick="showDetails('TouristSpot1')" />
+
+<!-- Pacific View Deck -->
+<circle cx="480" cy="374" r="10" class="location luzon" fill="#4CAF50"
+  data-name="Pacific View Deck" data-province="Dingalan, Aurora"
+  onclick="showDetails('TouristSpot2')" />
+
+<!-- Visayas Locations -->
+<!-- Guisi Lighthouse -->
+<circle cx="542" cy="635" r="10" class="location visayas" fill="#2196F3"
+  data-name="Guisi Lighthouse" data-province="Nueva Valencia, Guimaras"
+  onclick="showDetails('TouristSpot3')" />
+
+<!-- Linao Cave -->
+<circle cx="710" cy="610" r="10" class="location visayas" fill="#2196F3"
+  data-name="Linao Cave" data-province="Guiuan, Eastern Samar"
+  onclick="showDetails('TouristSpot4')" />
+
+<!-- Mindanao Locations -->
+<!-- Philippine Eagle Center -->
+<circle cx="690" cy="815" r="10" class="location mindanao" fill="#F44336"
+  data-name="Philippine Eagle Center" data-province="Davao City"
+  onclick="showDetails('TouristSpot5')" />
+
+<!-- Tinago Falls -->
+<circle cx="625" cy="760" r="10" class="location mindanao" fill="#F44336"
+  data-name="Tinago Falls" data-province="Iligan City, Lanao del Norte"
+  onclick="showDetails('TouristSpot6')" />
+
           <!-- Legend -->
           <rect x="700" y="50" width="20" height="20" fill="#4CAF50"/>
-          <text x="730" y="65" font-size="16">Luzon</text>
+          <text x="730" y="65" font-size="16" fill="#000">Luzon</text>
           
           <rect x="700" y="80" width="20" height="20" fill="#2196F3"/>
-          <text x="730" y="95" font-size="16">Visayas</text>
+          <text x="730" y="95" font-size="16" fill="#000">Visayas</text>
           
           <rect x="700" y="110" width="20" height="20" fill="#F44336"/>
-          <text x="730" y="125" font-size="16">Mindanao</text>
+          <text x="730" y="125" font-size="16" fill="#000">Mindanao</text>
       </svg>
   </div>
   
@@ -262,15 +282,40 @@
           });
       });
       
-      // Click handler
       function showDetails(id) {
-          // In a real implementation, this would navigate to a details page
-          alert(`Showing details for ${id}. In a real app, this would navigate to a details page.`);
-          
-          // Example of what you might do:
-          // window.location.href = `/tourist-spot/${id}`;
-      }
-  </script>
+    // Define the target URL and section ID for each region
+    let targetUrl = '';
+    let sectionId = '';
+
+    // Logic for Luzon
+    if (id === 'TouristSpot1') {
+        targetUrl = 'luzon.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot1';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }
+    if (id === 'TouristSpot2') {
+        targetUrl = 'luzon.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot2';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot3') {
+        targetUrl = 'visayas.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot3';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot4') {
+        targetUrl = 'visayas.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot4';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot5') {
+        targetUrl = 'mindanao.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot5';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot6') {
+        targetUrl = 'mindanao.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot6';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }
+}
+</script>
 </body>
 
     <!-- END of the contents of the website -->
