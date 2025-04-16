@@ -275,10 +275,9 @@ function showResultBox() {
     );
 
     // Update result display
-    const spotImageContainer = document.querySelector('.spot-image');
+    const spotImageContainer = document.querySelector('.spot-image-container');
     spotImageContainer.innerHTML = `
-        <img src="${topSpot.image}" alt="${topSpot.name}" class="recommended-image">
-        <p class="score-display">Match Score: ${topSpot.score}/${Object.keys(topSpot.matches).length}</p>
+    <img src="${topSpot.image}" alt="${topSpot.name}" class="spot-image">
     `;
     
     document.querySelector('.recommend-Spot').textContent = topSpot.name;
