@@ -7,7 +7,7 @@ const quizSection = document.querySelector('.quiz-section')
 const quizBox = document.querySelector('.quiz-box')
 const resultBox = document.querySelector('.result-box')
 const tryAgainBtn = document.querySelector('.tryAgain-btn')
-const goHomeBtn = document.querySelector('.goHome-btn')
+const learnMoreBtn = document.querySelector('.learnMore-btn');
 const prevBtn = document.querySelector('.prev-btn');
 
 
@@ -143,16 +143,8 @@ prevBtn.onclick = () => {
     }
 };
 
-goHomeBtn.onclick = () => {
-    quizSection.classList.remove('active');
-    nextBtn.classList.remove('active');
-    resultBox.classList.remove('active');
-    
-    questionCount = 0;
 
-    showQuestions(questionCount);
-    questionCounter(questionNumb);
-}
+
 
 
 let questionCount = 0;
@@ -251,12 +243,10 @@ function questionCounter(index) {
     questionTotal.textContent = `${index} of ${questions.length} Questions`;
 }
 
-
 function showResultBox() {
     quizBox.classList.remove('active');
     resultBox.classList.add('active');
     
-    // Calculate scores
     const scores = touristSpots.map(spot => {
         let score = 0;
         Object.entries(spot.matches).forEach(([questionId, validAnswers]) => {
@@ -265,20 +255,40 @@ function showResultBox() {
                 score++;
             }
         });
-        return { ...spot, score }; // Include spot properties in result
+        return { ...spot, score };
     });
     
-    // Find top spot
     const topSpot = scores.reduce((max, curr) => 
         curr.score > max.score ? curr : max, 
         { score: -1 }
     );
 
-    // Update result display
-    const spotImageContainer = document.querySelector('.spot-image-container');
-    spotImageContainer.innerHTML = `
-    <img src="${topSpot.image}" alt="${topSpot.name}" class="spot-image">
-    `;
-    
+    // Set result info
     document.querySelector('.recommend-Spot').textContent = topSpot.name;
+    document.querySelector('.spot-image-container').innerHTML = `
+        <img src="${topSpot.image}" alt="${topSpot.name}" class="spot-image">
+    `;
+
+    let targetHref = "#";
+    switch (topSpot.name) {
+        case "Nagsasa Cove":
+            targetHref = "luzon.html#TouristSpot1";
+            break;
+        case "Pacific View Deck":
+            targetHref = "luzon.html#TouristSpot2";
+            break;
+        case "Guisi Lighthouse":
+            targetHref = "visayas.html#TouristSpot1";
+            break;
+        case "Linao Cave":
+            targetHref = "visayas.html#TouristSpot2";
+            break;
+        case "Philippine Eagle Center":
+            targetHref = "mindanao.html#TouristSpot1";
+            break;
+        case "Tinago Falls":
+            targetHref = "mindanao.html#TouristSpot2";
+            break;
+    }
+    learnMoreBtn.setAttribute("href", targetHref);
 }

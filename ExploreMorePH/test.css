@@ -331,8 +331,9 @@
         padding-top: 20px;
         margin-top: 20px;
     }
-
-    .buttons button {
+    
+    .buttons button,
+    .buttons a.learnMore-btn {
         width: 130px;
         height: 47px;
         background: #4E5F70;
@@ -344,20 +345,18 @@
         font-weight: 600;
         margin: 0 20px 20px;
         cursor: pointer;
+        text-align: center;
+        line-height: 47px; 
+        text-decoration: none; 
+        display: inline-block;
     }
-
-    .buttons button:nth-child(1):hover {
+    
+    .buttons button:hover,
+    .buttons a.learnMore-btn:hover {
         background: #01162C;
         color: white;
-        
     }
-
-    .buttons button:nth-child(2):hover {
-        background: #01162C;
-        color: white;
-        
-    }
-
+    
 
     .unanswered-warning {
         animation: pulseWarning 1s infinite;
