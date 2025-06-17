@@ -147,7 +147,7 @@
         left: 100%;
         width: 100%;
         height: 100%;
-        background: #E5C692;
+        background: #f4f4f4; /*#E5C692; */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -189,34 +189,35 @@
 
     .quiz-box .question-text {
         font-family: "Cardo", serif;
-        font-weight: 800;
+        font-weight: 900;          
+        font-size: 24px;            
         color: #A70303;
-
+        margin-bottom: 10px;        
     }
+
 
     .option-list .options {
         font-family: "Source Sans Pro", sans-serif;
-        line-height: 1.6;
+        line-height: 1; /*1.6;*/
         color: black;
         width: 100%;
         padding: 12px;
         background: transparent;
-        border: 2px solid black;
+        border: 1.5px solid black;
         border-radius: 2px;
-        font-size: 15px;
+        font-size: 14px;
         margin: 15px 0;
         cursor: pointer;
     }
 
     .option-list .options:hover {
-        background: #986000;
+        background: #4E5F70 !important;
     
     }
 
   
     .option-list .options.selected {
-    background: #4E5F70 !important;
-    border-color: #01162C !important;
+        background: #c68411;
 
     }
 
@@ -231,7 +232,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 2px solid #A70303;
+        border-top: 3px solid #A70303;
         padding-top: 20px;
         margin-top: 20px;
     }
@@ -242,19 +243,20 @@
     .quiz-footer .prev-btn {
         width: 100px;
         height: 45px;
-        background: #01162C;
+        background: #E5C692;
         border: none;
         outline: none;
         border-radius: 2px;
-        font-size: 16px;
-        color: #E5C692;
+        font-size: 14px;
+        color: black;
         font-weight: 600;
         cursor: pointer;
         transition: .5s;
     }
     
     .quiz-footer .prev-btn:hover {
-        background: #4E5F70;
+        background-color: #583c0a;
+        color: white;
     }
     
 
@@ -262,19 +264,20 @@
 .quiz-footer .next-btn { 
     width: 100px;
     height: 45px;
-    background: #01162C; 
+    background: #E5C692; 
     border: none;
     outline: none; 
     border-radius: 2px;
-    font-size: 16px;
-    color: #E5C692;
+    font-size: 14px;
+    color: black;
     font-weight: 600;
     cursor: pointer;
     transition: .5s;
     }
 
     .quiz-footer .next-btn:hover {
-        background:#4E5F70;
+        background-color: #583c0a;
+        color: white;
 
     }
 
@@ -384,3 +387,19 @@
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
+    .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #A70303;
+        cursor: pointer;
+        z-index: 200;
+        transition: 0.3s;
+    }
+
+    .close-btn:hover {
+        color: black;
+        transform: scale(1.2);
+    }

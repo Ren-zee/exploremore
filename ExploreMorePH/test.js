@@ -129,12 +129,18 @@ continueBtn.onclick = () => {
 };
 
 tryAgainBtn.onclick = () => {
-    quizBox.classList.add('active');
-    nextBtn.classList.remove('active');
-    resultBox.classList.remove('active');
+    userAnswers = {};
     questionCount = 0;
+
     showQuestions(questionCount);
+
+    quizBox.classList.add('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+
+    quizSection.scrollIntoView({ behavior: 'smooth' });
 };
+
 
 prevBtn.onclick = () => {
     if (questionCount > 0) {
@@ -291,4 +297,24 @@ function showResultBox() {
             break;
     }
     learnMoreBtn.setAttribute("href", targetHref);
-}
+}  
+
+
+
+const closePopup = document.getElementById('close-btn');
+
+closePopup.addEventListener('click', () => {
+     userAnswers = {}; 
+    questionCount = 0;
+
+    showQuestions(questionCount);
+
+    quizBox.classList.add('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+
+    document.querySelector('.quiz-section').classList.remove('active');
+    
+    quizSection.scrollIntoView({ behavior: 'smooth' });
+});
+

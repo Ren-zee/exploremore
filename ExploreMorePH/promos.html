@@ -131,6 +131,33 @@
     </div> <!-- END of carousel -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+      <script>
+        const swipers = document.querySelectorAll('.mySwiper');
+        swipers.forEach(swiperEl => {
+          new Swiper(swiperEl, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+              nextEl: swiperEl.querySelector('.swiper-button-next'),
+              prevEl: swiperEl.querySelector('.swiper-button-prev'),
+            },
+            pagination: {
+              el: swiperEl.querySelector('.swiper-pagination'),
+              clickable: true,
+            },
+            breakpoints: {
+              576: {
+                slidesPerView: 2
+              },
+              768: {
+                slidesPerView: 3
+              }
+            }
+          });
+        });
+      </script>
 
 
     <div class="container mt-5"> 
