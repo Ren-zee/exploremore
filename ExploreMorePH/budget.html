@@ -336,21 +336,6 @@
         sidebar.style.display = "none";
       }
 
-      // Check authentication state on page load
-      document.addEventListener('DOMContentLoaded', function() {
-        updateAuthButtons();
-      });
-
-      function updateAuthButtons() {
-        const isLoggedIn = localStorage.getItem('userId') !== null;
-        document.querySelectorAll('.auth-guest').forEach(el => {
-          el.style.display = isLoggedIn ? 'none' : 'inline-block';
-        });
-        document.querySelectorAll('.auth-user').forEach(el => {
-          el.style.display = isLoggedIn ? 'inline-block' : 'none';
-        });
-      }
-
     </script>
     <!-- END OF SCRIPT (this is for the nav /menu part)-->
     <script src="script.js"></script>

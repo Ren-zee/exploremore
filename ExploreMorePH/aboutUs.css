@@ -71,16 +71,37 @@
 }
 
 .feedback-form .btn-primary {
-  background-color: #007bff;
-  border: none;
+  grid-column: span 2; /* Make the button span across both columns */
   padding: 10px;
   font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .feedback-form .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.submit-feedback-btn {
+  grid-column: span 2;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  max-width: 200px; /* Optional: limit max width */
+  margin: 0 auto; /* Optional: center the button */
+  display: block; /* Optional: center the button */
+}
+
+.submit-feedback-btn:hover {
   background-color: #0056b3;
 }
 

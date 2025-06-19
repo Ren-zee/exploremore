@@ -19,7 +19,7 @@ let touristSpots = [
         matches: {
             1: ["A", "B"],
             2: ["A"], //Similar famous tourist spot
-            3: [], //Food
+            3: ["A", "B"], //Food
             4: ["C"], //Place to stay
             5: ["A"],  //Months  
             6: ["A"],     // Days plan to stay
@@ -31,11 +31,11 @@ let touristSpots = [
         name: "Pacific View Deck",
         image: "images/resultImg_View.png",
         matches: {
-            1: [],
+            1: ["A", "B"],
             2: ["B"],   //Similar famous tourist spot
             3: ["A", "B"], //Food
-            4: ["C"],  //Place to stay //recheck this
-            5: ["A"],  //Months  //recheck this again
+            4: ["C"],  //Place to stay 
+            5: ["A"],  //Months  
             6: ["A"],   // Days plan to stay
             7: ["A"],    //Region: Luzon       
             8: ["C"]     //Experience  
@@ -45,7 +45,7 @@ let touristSpots = [
         name: "Guisi Lighthouse",
         image: "images/resultImg_Lighthouse.png",
         matches: {
-            1: [],
+            1: ["B", "C"],
             2: ["C"], //Similar famous tourist spot
             3: ["A", "D"], //Food
             4: ["A"], //Place to stay
@@ -59,7 +59,7 @@ let touristSpots = [
         name: "Linao Cave",
         image: "images/resultImg_Cave.png",
         matches: {
-            1: [],
+            1: ["C", "D"],
             2: ["B"], //Similar famous tourist spot
             3: ["A", "B"], //Food
             4: ["D"], //Place to stay
@@ -73,7 +73,7 @@ let touristSpots = [
         name: "Philippine Eagle Center",
         image: "images/resultImg_Eagle.png",
         matches: {
-            1: [],
+            1: ["C", "D"],
             2: ["E"], //Similar famous tourist spot
             3: ["A", "C"], //Food
             4: ["C"], //Place to stay 
@@ -87,7 +87,7 @@ let touristSpots = [
         name: "Tinago Falls",
         image: "images/resultImg_Falls.png",
         matches: {
-            1: [],
+            1: ["C", "D"],
             2: ["D"], //Similar famous tourist spot
             3: ["C", "A"],   //Food
             4: ["B"], //Place to stay
@@ -129,12 +129,18 @@ continueBtn.onclick = () => {
 };
 
 tryAgainBtn.onclick = () => {
-    quizBox.classList.add('active');
-    nextBtn.classList.remove('active');
-    resultBox.classList.remove('active');
+    userAnswers = {};
     questionCount = 0;
+
     showQuestions(questionCount);
+
+    quizBox.classList.add('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+
+    quizSection.scrollIntoView({ behavior: 'smooth' });
 };
+
 
 prevBtn.onclick = () => {
     if (questionCount > 0) {
@@ -291,4 +297,23 @@ function showResultBox() {
             break;
     }
     learnMoreBtn.setAttribute("href", targetHref);
-}
+}  
+
+
+
+const closePopup = document.getElementById('close-btn');
+
+closePopup.addEventListener('click', () => {
+     userAnswers = {}; 
+    questionCount = 0;
+
+    showQuestions(questionCount);
+
+    quizBox.classList.add('active');
+    resultBox.classList.remove('active');
+    nextBtn.classList.remove('active');
+
+    document.querySelector('.quiz-section').classList.remove('active');
+    
+    quizSection.scrollIntoView({ behavior: 'smooth' });
+});

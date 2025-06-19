@@ -84,107 +84,110 @@ document.addEventListener("DOMContentLoaded", () => {
   const signUpForm = document.querySelector(".signup-form form");
   if (signUpForm) {
     signUpForm.addEventListener("submit", validateSignUpForm);
-}
+  }
 
-// Login Form Submission
-document
-  .getElementById("loginForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+  // Login Form Submission
+  const loginFormEl = document.getElementById("loginForm");
+  if (loginFormEl) {
+    loginFormEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-    try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
 
-      if (response.ok) {
-        const { userId, role } = await response.json();
-        localStorage.setItem("userId", userId); // Store userId in localStorage
-        localStorage.setItem("role", role); // Store role in localStorage
-        alert("Login successful!");
-        window.location.href = "aboutus.html"; // Redirect to the About Us page
-      } else {
+        if (response.ok) {
+          const { userId, role } = await response.json();
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("role", role);
+          alert("Login successful!");
+          window.location.href = "aboutus.html";
+        } else {
+          const message = await response.text();
+          alert(message);
+        }
+      } catch (error) {
+        console.error("Error logging in:", error);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  }
+
+  // Signup Form Submission
+  const signupFormEl = document.getElementById("signupForm");
+  if (signupFormEl) {
+    signupFormEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const fullname = document.getElementById("fullname").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value.trim();
+      const role = document.getElementById("role").value;
+
+      console.log("Submitting signup form:", { fullname, email, password, role });
+
+      try {
+        const response = await fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fullname, email, password, role }),
+        });
+
         const message = await response.text();
         alert(message);
+
+        if (response.ok) {
+          window.location.href = "login.html";
+        }
+      } catch (error) {
+        console.error("Error signing up:", error);
+        alert("An error occurred. Please try again.");
       }
-    } catch (error) {
-      console.error("Error logging in:", error);
-      alert("An error occurred. Please try again.");
-    }
-  });
+    });
+  }
 
-// Signup Form Submission
-document
-  .getElementById("signupForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+  // Feedback Form Submission
+  const feedbackFormEl = document.getElementById("feedbackForm");
+  if (feedbackFormEl) {
+    feedbackFormEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-    const fullname = document.getElementById("fullname").value.trim();
-    const email = document.getElementById("signup-email").value.trim();
-    const password = document.getElementById("signup-password").value.trim();
-    const role = document.getElementById("role").value;
+      const feedback = document.getElementById("feedback").value;
+      const userId = localStorage.getItem("userId");
 
-    console.log("Submitting signup form:", { fullname, email, password, role });
-
-    try {
-      const response = await fetch("http://localhost:3000/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, email, password, role }),
-      });
-
-      const message = await response.text();
-      alert(message);
-
-      if (response.ok) {
-        window.location.href = "login.html"; // Redirect to login page after successful signup
+      if (!userId) {
+        alert("You must be logged in to submit feedback.");
+        return;
       }
-    } catch (error) {
-      console.error("Error signing up:", error);
-      alert("An error occurred. Please try again.");
-    }
-  });
 
-// Feedback Form Submission
-document
-  .getElementById("feedbackForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+      try {
+        const response = await fetch("http://localhost:3000/submit-feedback", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, feedback }),
+        });
 
-    const feedback = document.getElementById("feedback").value;
-    const userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
-
-    if (!userId) {
-      alert("You must be logged in to submit feedback.");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:3000/submit-feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, feedback }),
-      });
-
-      if (response.ok) {
-        alert("Feedback submitted successfully!");
-        document.getElementById("feedbackForm").reset();
-      } else {
-        const message = await response.text();
-        alert(message);
+        if (response.ok) {
+          alert("Feedback submitted successfully!");
+          document.getElementById("feedbackForm").reset();
+        } else {
+          const message = await response.text();
+          alert(message);
+        }
+      } catch (error) {
+        console.error("Error submitting feedback:", error);
+        alert("An error occurred. Please try again.");
       }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      alert("An error occurred. Please try again.");
-    }
-  });
+    });
+  }
 
-// Budget Calculator with Currency Conversion
+  // Budget Calculator with Currency Conversion
   const budgetForm = document.getElementById("budgetForm");
   const currencySelect = document.getElementById("currency");
   const resultContainer = document.getElementById("resultContainer");
@@ -217,7 +220,6 @@ document
 
     if (resultContainer && totalBudget) {
       totalBudget.textContent = formattedTotal;
-      resultContainer.style.display = "block";
     }
   }
 
@@ -226,6 +228,9 @@ document
     budgetForm.addEventListener("submit", function (e) {
       e.preventDefault();
       calculateTotal();
+      if (resultContainer) {
+        resultContainer.style.display = "block";
+      }
     });
 
     // Handle currency change
