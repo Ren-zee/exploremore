@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreMore PH</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer.css">
+    <link rel="stylesheet" href="touristSpotInfo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  </head> <!-- END OF HEAD -->
+
+  <body>
+    <div class="navbar-section">
+        <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #FFF9F1; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">
+          <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+              <img src="images\logo_nav.png" 
+                   alt="ExploreMore PH Logo" 
+                   class="me-2"
+                   style="height: 40px;">
+              <span class="d-none d-sm-inline" style="font-family: 'Cardo', serif; font-weight: 800;">ExploreMore PH</span>
+            </a>
+
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <!--Log In and Sign In Buttons-->
+                <a href="login.html" class="btn custom-btn">Log In</a>
+                <a href="signup.html" class="btn custom-btn">Sign Up</a>
+                
+                <!--Menu Button -->
+                <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#sidebarMenu"
+                    aria-controls="sidebarMenu"
+                    style="border: none; font-size: 1.5rem;">
+                  ☰
+                </button>
+              </div>
+      
+            
+          </div>
+        </nav>  
+      
+        <!-- Offcanvas Sidebar ( Menu) -->
+        <div class="offcanvas offcanvas-end" 
+             tabindex="-1" 
+             id="sidebarMenu"
+             style="width: 250px; background-color: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);">
+          <div class="offcanvas-header justify-content-end">
+            <button type="button" 
+                    class="btn-close" 
+                    data-bs-dismiss="offcanvas" 
+                    aria-label="Close"
+                    style="font-size: 24px; font-weight: bold; background: none; line-height: 1;">×</button>
+          </div>
+          <div class="offcanvas-body p-0">
+            <ul class="list-unstyled">
+              <li><a class="dropdown-item" href="index.html">Home</a></li>
+              <li><a class="dropdown-item" href="luzon.html">Luzon</a></li>
+              <li><a class="dropdown-item" href="visayas.html">Visayas</a></li>
+              <li><a class="dropdown-item" href="mindanao.html">Mindanao</a></li>
+              <li><a class="dropdown-item" href="budget.html">Budget Estimator</a></li>
+              <li><a class="dropdown-item" href="promos.html">Promo and Discounts</a></li>
+              <li><a class="dropdown-item" href="aboutus.html">About us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div> <!-- END OF NAV -->
+
+    <!-- ------------------------------------------------------------------------------------------------ -->
+     <!-- Start of the contents of the webiste -->
+
+    <!-- Welcome banner with carousel pics-->
+    <div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
+
+      <!-- Fixed Center Text -->
+      <div class="fixed-caption-carousel ">
+        Welcome to Visayas
+      </div>
+
+      <!-- Blue info box of the Main Island (Luzon, Visayas, Mindanao)-->
+    <div class="info-box-MainIslandPH">
+      <p>The Visayas is the central island group of the Philippines, made up of seven major islands (Bohol, Cebu, Leyte, Masbate, Negros, Panay, and Samar) along with countless smaller ones. When people think of the Visayas, iconic destinations like Boracay’s white sands and the Chocolate Hills often come to mind. But beyond these famous sites, the region is a natural paradise with breathtaking beaches, vibrant coral reefs, and different kinds of landforms. Visayas offers endless adventures and unforgettable experiences, where every corner reveals a new wonder waiting to be explored.
+      </p>
+    </div>
+
+      
+      
+      <!-- The slideshow/carousel -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="images\1.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\2.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\3.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\4.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\5.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\6.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item active">
+          <img src="images\7.png" alt="Image 1" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+          <img src="images\8.png" alt="Image 2" class="d-block w-100">
+        </div>
+        
+      </div>
+      
+      <!-- Left and right arrows -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div> <!-- END of carousel -->
+    <!-- ------------------------------------------------------------------------------------------------ -->
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- List of regions-->
+    <div class="container mt-5">
+        <div class="row align-items-center">
+          
+          <!-- Column 1: List of the Region in the Main Island-->
+          <div class="col-md-5 region-list">
+            <h1>Regions in Visayas</h1>
+            <ol>
+              <li>Region VI – Western Visayas</li>
+              <li>Region VII – Central Visayas</li>
+              <li>Region VIII – Eastern Visayas</li>
+            </ol>
+            
+
+          </div>
+          
+          <!-- Column 2: Image related to the Main Island/regions mentioned -->
+          <div class="col-md-7 regionImage">
+            <div id="regionCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+    
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="images/Visayas/mainIsland_Visayas2.png" class="d-block w-100" alt="Visayas 1">
+                </div>
+                <div class="carousel-item">
+                  <img src="images/Visayas/mainIsland_Visayas.png" class="d-block w-100" alt="Visayas 2">
+                </div>
+              </div>
+              
+              <!-- Arrows for manual control -->
+              <button class="carousel-control-prev" type="button" data-bs-target="#regionCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#regionCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+              
+            </div>
+          </div>
+
+          <!--  
+          <div class="col-md-7 regionImage">
+          <img src="images/mainIsland_Visayas.png" alt="Visayas">
+          </div>
+          
+          -->
+      
+        </div>
+    </div>
+
+
+    <div class="container mt-5">
+      <!-- Row wrapper for the title and clickable tourist spot name -->
+      <div class="row align-items-center introTouristSpot">
+        <div class="col-12">
+          <h1 class="mb-3">Hidden Tourist Spot in Western Visayas</h1>
+    
+          <!-- Clickable tourist spot name that toggles the collapse -->
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot3">
+            Guisi Lighthouse in Guimaras
+          </h2>
+        </div>
+      </div>
+    
+      
+      <!-- Collapsible content -->
+      <div class="collapse" id="TouristSpot3">
+        <div class="card card-body mt-5 border-0">
+          <div class="row">
+            <!-- Carousel Section -->
+            <div class="col-md-8 guisiLighthouse mb-4 mb-md-0 mx-auto">
+              <div id="TouristSpot1PICS" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/Visayas/TouristSpot1_Pics1.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/Visayas/TouristSpot1_Pics2.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/Visayas/TouristSpot1_Pics3.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 3">
+                  </div>
+                </div>
+    
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+    
+            <!-- Description Section -->
+              <p>
+                <br>
+                Want to explore Philippine history during the Spanish colonial era? Visit <b>Guisi Lighthouse</b>, also known as <i>Faro de Punta Luzaran</i>, in Nueva Valencia, Guimaras. It is one of the oldest lighthouses in the country, built in the 18th century. You can admire its remaining structure, nearby rock formations, and the breathtaking coastline view. Afterward, relax and enjoy the beach right next to it, where history meets beach vibes.
+              </p>
+          </div> <!-- End of tourist spot description with pics-->
+
+          <!--Location-->
+          <div class="row">
+            <div class="col-md-8 touristSpotGoogleMaps"> 
+              <!--Column 1: Google Maps part. 
+              how to do it: https://www.youtube.com/watch?v=4U_AAGHzTok
+              You need to edit the width and height to w=700 h=350
+              you can change the w & h if u want lang-->
+              <div class="map-responsive">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d207.52842373855916!2d122.4745078!3d10.48134!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ae8c3be02ca269%3A0x7f76cb2ccf2c2f2e!2sGuisi%20Lighthouse!5e1!3m2!1sen!2sph!4v1744444457385!5m2!1sen!2sph"
+                  width="700" height="350"
+                  style="border:0;"
+                  allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+
+            </div>
+            <!--Column 2: Location-->
+            <div class="col-md-4 location">
+              <h3>Location of this<br>Hidden Gem</h3>
+              <p>Guisi, Barangay Dolores, Nueva Valencia, Guimaras, Philippines
+              </p>
+            </div>
+
+          </div> <!-- End of location of tourist spot-->
+
+
+          <!--Best time to visit the tourist spot-->
+          <div class="row">
+
+            <div class="col-md-6 bestTime-Date"> <!--Colomn 1: Description of the best month&time to visit the tourist spot-->
+              <h3>Ideal Time and Months to Visit</h3>
+              <p> Guisi Lighthouse is located in Guimaras, Philippines. The best time to visit is during <b>April and May</b> when the weather is sunny and good. This is an ideal opportunity to explore the lighthouse and enjoy the nearby beach. Additionally, you can visit in <b>January</b>, especially during the last week, to experience the Sadsaran Festival celebrated in Nueva Valencia. This festival allows you to gain a deeper appreciation of the local culture and history. It is also best if you visit it during the morning or afternoon to take good pictures of the lighthouse during sunset. 
+              </p>
+            </div>
+
+            <div class="col-md-6 weatherForecast"> <!--Column 2: The weather forecast of it-->
+              <h4>Weather Forecast</h4>
+              <a class="weatherwidget-io" href="https://forecast7.com/en/10d59122d63/guimaras/" data-label_1="GUIMARAS" data-label_2="WEATHER" data-theme="original" >
+                GUIMARAS WEATHER
+              </a>
+                <script>
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                </script>
+            </div>
+          </div> <!--End of section best time to visit the tourist spot-->
+
+          <!--Festivals adn Events-->
+          <div class="row festival">
+            <h3>Discover Local Celebrations</h3>
+
+            <div class="row"> <!--Festivals 1-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/Visayas/TouristSpot1_festivalevent1.1.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  Manggahan Festival
+                </h4>
+                <p>Guimaras is known as the Mango Capital of the Philippines. Every summer, they celebrate the mango harvest and give thanks to the people who grow them. If you love mangoes, try the Mango-All-You-Can challenge where you pay ₱100 to eat as many mangoes as you can in 30 minutes.</p>
+                <a href="https://www.atlasobscura.com/foods/guimaras-mango-festival" target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/Visayas/TouristSpot1_festivalevent1.2.png" alt="Visayas">
+              </div>
+
+            </div> <!--End of Festivals 1-->
+
+
+            <div class="row"> <!--Festivals 2-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/Visayas/TouristSpot1_festivalevent2.1.png" alt="Visayas">
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  Sadsaran Festival
+                </h4>
+                <p>Held every last week of January, the word 'Sadsaran' is rooted in 'sadsad' is named after a local word for dancing in Nueva Valencia. It features cultural performances, music, and traditional dances. Since fishing is a key livelihood, the festival also highlights seafood dishes and local delicacies.</p>
+                <a href="https://paspasguimaras.com/sadsaran-festival/ " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/Visayas/TouristSpot1_festivalevent2.2.png" alt="Visayas">
+              </div>
+            </div> <!--End of Festivals 2-->
+
+          </div> <!--End of Festivals adn Events-->
+
+          <!--Accomodations-->
+          <div class="row accomodation">
+            <h3>Comfortable Places to Stay</h3>
+            <div class="col-md-6 picAccomodation">
+              <img src="images/Visayas/touristSpot1_Accomodation.png" alt="Visayas">
+            </div>
+
+            <div class="col-md-6 descriptionAccomodation">
+              <h4>Cabrera Guest House (Formerly known as Green Bamboo Guimaras)</h4>
+              <p>It is a beachfront homestay in Nueva Valencia, Guimaras. Guests can enjoy amenities like a terrace, free WiFi, private parking, and access to a shared kitchen and picnic area. Each unit or room is air-conditioned and may include a patio or dining area, making it ideal for families or groups.</p>
+              <a href="https://www.booking.com/hotel/ph/green-bamboo-guimaras.en-gb.html?aid=306395&label=nueva-valencia-%2AnLIGIhJy66fCWeQ3kaSNQS626014379464%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-58901870140%3Alp1011169%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YZVcNNsENnH02-pWD53qm9c&sid=23cfa6bce57e26169eaa153b2d8176f7&dest_id=-2442147&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=8&hpos=8&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1744295008&srpvid=7c17651bc41c0480&type=total&ucfs=1& " target="_blank">
+                <button class="btn btn-primary">Learn More</button>
+              </a>
+            
+            </div>
+
+          </div> <!--End of Accomodations-->
+
+
+          <!--Resturant-->
+          <div class="row resturants">
+            <h3>Taste the Local Flavors</h3>
+            <!--Resturant1-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>JaDel Food & Refreshment Hub</h4>
+                <p>Jadel Food and Refreshment Hub, located beside the Municipal Hall of Nueva Valencia in Poblacion, Guimaras, offers a flavorful experience rooted in Filipino favorites. From hearty bowls of Jadel’s Signature Batchoy and sizzling Pork Sisig to the savory comfort of homemade Lumpia Shanghai and Chicken Inasal, this cozy spot celebrates local tastes. Whether you're craving a classic meal with rice or refreshing drinks and snacks, this restaurant brings a taste of Filipino hospitality in every bite.</p>
+                <a href="https://www.facebook.com/profile.php?id=61560837885679# " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+  
+              <div class="col-md-6 picResturants1">
+                <img src="images/Visayas/touristSpot1_Resturant2.png" alt="Visayas">
+              </div>
+            </div>
+
+            <!--Resturant2-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>Kusina Ingan by Leonisa's Diner</h4>
+                <p>Kusina Ingan by Leonisa's Diner is a cozy eatery nestled in a 38-year-old ancestral home in Igang, Nueva Valencia, Guimaras, offering a warm and homey dining experience. They serve a wide variety of drinks, including coffee-based beverages, frappes, milkshakes, teas, juices, and refreshing fresh fruit shakes. The menu also features burgers, shawarma, nachos, sandwiches, and a selection of street foods like kikiam, lumpiang shanghai, and more.</p>
+                <a href="https://www.facebook.com/p/Kusina_Ingan-100063787463070/  " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+  
+              <div class="col-md-6 picResturants2">
+                <img src="images/Visayas/touristSpot1_Resturant1.png" alt="Visayas">
+              </div>
+            </div>
+
+            
+
+          </div> <!--End of Resturant-->
+
+          <!-- modes of Transportation -->
+          <div class="container transportation">
+            <h3>Modes of Transportation</h3>
+            
+
+            <div class="row g-4 transportationList">
+              <!-- Card 1 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Airplane 
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    There are no direct flights to Guimaras, so you’ll need to fly to Iloilo City first.
+                    <br>
+                    <br>
+                    Estimated Price: ₱4,000 to ₱9,000 per person (one-way trip)
+                  </p>
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Ferry
+                    <svg height="24" viewBox="0 0 48 48" width="24" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M0 0h48v48h-48z" fill="none"/>
+                      <path d="M40 42c-2.78 0-5.56-.94-8-2.65-4.88 3.42-11.12 3.42-16 0-2.44 1.71-5.22 2.65-8 2.65h-4v4h4c2.75 0 5.48-.69 8-1.99 5.04 2.59 10.96 2.59 16 0 2.52 1.29 5.25 1.99 8 1.99h4v-4h-4zm-32.11-4h.11c3.2 0 6.05-1.76 8-4 1.95 2.24 4.8 4 8 4s6.05-1.76 8-4c1.96 2.24 4.79 4 8 4h.11l3.79-13.37c.17-.51.12-1.07-.12-1.55-.25-.48-.68-.84-1.2-.99l-2.58-.85v-9.24c0-2.21-1.79-4-4-4h-6v-6h-12v6h-6c-2.21 0-4 1.79-4 4v9.24l-2.57.84c-.52.16-.95.51-1.2.99s-.29 1.04-.12 1.55l3.78 13.38zm4.11-26h24v7.93l-12-3.93-12 3.93v-7.93z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    From Iloilo, take a ferry at either Ortiz Wharf or Parola Wharf going to Jordan Port, Guimaras.
+                    <br>
+                    <br>
+                    Estimated Price: ₱15 to ₱50 per person (one-way trip)
+                  </p>
+
+                  <a href="https://iloilodirectory.com/comprehensive-travel-guide-how-to-get-to-guimaras-island-from-iloilo-city/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a>
+                 
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo2.png"   alt="Visayas">
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Van/Shuttle Bus
+                    <svg height="24" width="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M0 0h48v48h-48z" fill="none"/>
+                      <path d="M8 32c0 1.77.78 3.34 2 4.44v3.56c0 1.1.9 2 2 2h2c1.11 0 2-.9 2-2v-2h16v2c0 1.1.89 2 2 2h2c1.1 0 2-.9 2-2v-3.56c1.22-1.1 2-2.67 2-4.44v-20c0-7-7.16-8-16-8s-16 1-16 8v20zm7 2c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm18 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-12h-24v-10h24v10z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    Upon arriving at Jordan Port, visit the Guimaras Tourism Office to arrange a government-regulated van or shuttle tour to Guisi Lighthouse or other destinations.
+                    <br>
+                    <br>
+                    Estimated Price: ₱500 per vehicle
+                  </p>
+                
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo3.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Jeepney
+                    <svg width="30" height="30" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <g id="School_bus">
+                        <path d="M321.4221,361.1694c1.7774,57.816,85.7163,57.83,87.5.0011C407.1469,303.3556,323.208,303.3406,321.4221,361.1694Z"/>
+                        <path d="M85.1743,361.1694c1.7773,57.816,85.7162,57.83,87.5.0011C170.8991,303.3545,86.96,303.3406,85.1743,361.1694Z"/>
+                        <path d="M465.8356,159.8756c3.042-27.3491-15.2954-52.3632-43.75-52.4124h-271.25a43.6541,43.6541,0,0,0-43.75,43.75v105h-.0876L61.7612,275.55a26.2963,26.2963,0,0,0-15.9256,24.2377v48.3a13.0922,13.0922,0,0,0,13.125,13.125c3.3838-92.8641,136.5842-92.8213,140,0h96.25c3.3838-92.8641,136.5842-92.8213,140,0h17.5a13.1065,13.1065,0,0,0,13.125-13.125C465.8441,348.0925,465.8292,159.89,465.8356,159.8756Zm-275.625,96.3376h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Z"/>
+                      </g>
+                    </svg>
+                  </h4>
+                  <p>
+                    You can ride a jeepney to reach Guisi Lighthouse.
+                    <br>
+                    <br>
+                    Estimated Price: ₱40 to ₱50 per person
+
+                  </p>
+                
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo4.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 5 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Motorcycle
+                    <svg width="24" height="24" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M342.5 32C357.2 32 370.7 40.05 377.6 52.98L391.7 78.93L439.1 39.42C444.9 34.62 452.1 32 459.6 32H480C497.7 32 512 46.33 512 64V96C512 113.7 497.7 128 480 128H418.2L473.3 229.1C485.5 226.1 498.5 224 512 224C582.7 224 640 281.3 640 352C640 422.7 582.7 480 512 480C441.3 480 384 422.7 384 352C384 311.1 402.4 276.3 431.1 252.8L415.7 224.2C376.1 253.4 352 299.8 352 352C352 362.1 353.1 373.7 355.2 384H284.8C286.9 373.7 287.1 362.1 287.1 352C287.1 263.6 216.4 192 127.1 192H31.1V160C31.1 142.3 46.33 128 63.1 128H165.5C182.5 128 198.7 134.7 210.7 146.7L255.1 192L354.1 110.3L337.7 80H279.1C266.7 80 255.1 69.25 255.1 56C255.1 42.75 266.7 32 279.1 32L342.5 32zM448 352C448 387.3 476.7 416 512 416C547.3 416 576 387.3 576 352C576 316.7 547.3 288 512 288C509.6 288 507.2 288.1 504.9 288.4L533.1 340.6C539.4 352.2 535.1 366.8 523.4 373.1C511.8 379.4 497.2 375.1 490.9 363.4L462.7 311.2C453.5 322.3 448 336.5 448 352V352zM253.8 376C242.5 435.2 190.5 480 128 480C57.31 480 0 422.7 0 352C0 281.3 57.31 224 128 224C190.5 224 242.5 268.8 253.8 328H187.3C177.9 304.5 154.9 288 128 288C92.65 288 64 316.7 64 352C64 387.3 92.65 416 128 416C154.9 416 177.9 399.5 187.3 376H253.8zM96 352C96 334.3 110.3 320 128 320C145.7 320 160 334.3 160 352C160 369.7 145.7 384 128 384C110.3 384 96 369.7 96 352z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    Rent a motorcycle to explore Guisi Lighthouse and other areas in Guimaras.
+                    <br>
+                    <br>
+                    Estimated Price: ₱500 per day
+                  </p>
+                  <a href="https://www.facebook.com/Alexjsegobre/ " target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a>
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo5.png"   alt="Visayas">
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+
+            </div>
+          </div><!--End of Transportation-->
+
+          <div class="row">
+            <div class="col-md-7 priceBreakdown">
+              <h3>
+                Price breakdown
+              </h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
+              <ol>
+                <li><b>Average stay duration (Total)</b> = 40,000 - 60,000 Php</li>
+                <li><b>Average cost of accommodation</b> = 2,500 - 4,000 Php (for 2 overnight stays)</li>
+                <li><b>Average Transportation cost depending on mode of transportation</b> 
+                  <ul>
+                    <li>Airplane = 52,00 Php (one-way)</li>
+                    <li>Ferry = 260 Php (one-way)</li>
+                    <li>Van/Shuttle Bus = 1,000 Php</li>
+                    <li>Jeepney = 160 Php (one-way)</li>
+                    <li>Motorcycle = 2,000 Php</li>
+                  </ul>
+                </li>
+                <li><b>Average Food cost</b> = 8,000 Php </li>
+                <li><b>Entrance fees cost</b>
+                  <ul>
+                    <li>10 Php per person for the lighthouse</li>
+                    <li>30 Php  per person for the beach</li>
+                    <li>The place is open from 8:00 AM to 8:00 PM, Monday to Friday, and closed on weekends.</li>
+                </li>
+              </ol>
+            </div> 
+
+
+            <div class="col-md-5 priceBreakdown">
+              <div class="picPrice mt-3">
+                <img src="images/Visayas/TouristSpot1_Pics4.png"   alt="Visayas">
+              </div>
+            </div>
+
+          </div> <!--End of price breakdown-->
+
+          <!--Safety Assessment-->
+          <div class="row">
+            <div class="col-md-12 safety">
+              <h3>Safety Assessment</h3>
+              <p>
+                The Guisi Lighthouse is a typically safe place to visit, but because it's on a hilltop, it's best to wear proper shoes for the steep and uneven slopes. You should also avoid going when it's raining because the pathways may get slippery. Because the lighthouse is an old structure, pay attention to your surroundings and keep a close eye on children. Although crime is rarely reported in Guimaras, it’s still a good idea to discuss and negotiate transportation costs beforehand and check the freshness of fruits when buying to avoid being overcharged or buying spoiled goods, as some vendors may take advantage of clueless visitors. Traveling here is safe, but you should always be careful and alert. 
+              </p>
+             
+              <h4>Emergency Contact Details</h4>
+              <ol>
+                <li>
+                  Provincial Disaster Risk Reduction and Management Council (PDRRMC) Rescue/ 4k Hotline
+                  <ul>
+                    <li>
+                      0998 369 3844 (Smart)
+                    </li>
+                    <li>
+                      0926 713 13 72 (Globe)
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Disaster Risk Reduction and Management Council (MDRRMC)/Rescue Hotline Nueva Valencia
+                  <ul>
+                    <li>
+                      0939 812 9676
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Police Provincial Office (GPPO)
+                  <ul>
+                    <li>
+                      0998 598 6180
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Municipal Police Station (MPS)  Nueva Valencia
+                  <ul>
+                    <li>
+                      0998 598 6183 
+                    </li>
+                    <li>
+                      0939 469 7474
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Bureau of Fire Protection (BFP)
+                  <ul>
+                    <li>
+                      0931 833 4491
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Station Guimaras
+                  <ul>
+                    <li>
+                      0975 563 0181
+                    </li>
+
+                    <li>
+                      0931 716 0156
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coast Guard Sub-Station Nueva Valencia
+                  <ul>
+                    <li>
+                      0970 279 9785
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Emergency Room/ DCHNPH Hospital
+                  <ul>
+                    <li>
+                      0961 556 9210
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guimaras Electric Cooperative (Guimelco)
+                  <ul>
+                    <li>
+                      0998 369 2121
+                    </li>
+                    <li>
+                      0917 303 0191
+                    </li>
+                  </ul>
+                </li>
+
+
+
+              </ol>
+            </div>
+          </div> <!--End of Safety Assessment-->
+
+ 
+
+        </div>
+      </div> <!-- End of Collapsible content -->
+    </div> <!--End of tourist spot 1-->
+
+
+
+
+    <!--Toursit spot 2-->
+    <div class="container mt-5">
+      <!-- Row wrapper for the title and clickable tourist spot name -->
+      <div class="row align-items-center introTouristSpot">
+        <div class="col-12">
+          <h1 class="mb-3">Hidden Tourist Spot in Eastern Visayas</h1>
+    
+          <!-- Clickable tourist spot name that toggles the collapse -->
+          <h2 role="button" data-bs-toggle="collapse" data-bs-target="#TouristSpot4">
+            Linao Cave in Guiuan
+          </h2>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hash = window.location.hash;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target && target.classList.contains("collapse")) {
+                    const collapse = new bootstrap.Collapse(target, {
+                        toggle: true
+                    });
+                }
+            }
+        });
+            </script>
+      <!-- Collapsible content -->
+      <div class="collapse" id="TouristSpot4">
+        <div class="card card-body mt-5 border-0">
+          <div class="row">
+            <!-- Carousel Section -->
+            <div class="col-md-8 guisiLighthouse mb-4 mb-md-0 mx-auto">
+              <div id="TouristSpot1PICS" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="images/Visayas/TouristSpot2_Pics1.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 1">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/Visayas/TouristSpot2_Pics2.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 2">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="images/Visayas/TouristSpot2_Pics3.png" class="d-block w-100 rounded shadow" alt="Guisi Lighthouse 3">
+                  </div>
+                </div>
+    
+                <!-- Carousel controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#TouristSpot1PICS" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+    
+            <!-- Description Section -->
+              <p>
+                <br>
+                Linao Cave is a beautiful semi-open cenote located on Calicoan Island in Brgy. Sulangan, Guiuan, Eastern Samar. Its name, "Linao," originated from the Waray-Waray word for "clear," which perfectly reflects its clear, crystal-blue waters. It is a unique natural wonder, perfect for swimming and exploring, with amazing stalagmite and stalactite structures visible inside.
+              </p>
+          </div> <!-- End of tourist spot description with pics-->
+
+          <!--Location-->
+          <div class="row">
+            <div class="col-md-8 touristSpotGoogleMaps"> 
+              <!--Column 1: Google Maps part. 
+              how to do it: https://www.youtube.com/watch?v=4U_AAGHzTok
+              You need to edit the width and height to w=700 h=350
+              you can change the w & h if u want lang-->
+              <div class="map-responsive">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d207.52842373855916!2d122.4745078!3d10.48134!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33ae8c3be02ca269%3A0x7f76cb2ccf2c2f2e!2sGuisi%20Lighthouse!5e1!3m2!1sen!2sph!4v1744444457385!5m2!1sen!2sph"
+                  width="700" height="350"
+                  style="border:0;"
+                  allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2942.9962047662884!2d125.8273115!3d10.9486941!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3306042772cac967%3A0xfa258a8c8c86c61c!2sLinao%20Cave!5e1!3m2!1sen!2sph!4v1744507645297!5m2!1sen!2sph" 
+                width="700" height="350" 
+                style="border:0;" allowfullscreen="" loading="lazy"
+                 referrerpolicy="no-referrer-when-downgrade">
+
+                </iframe>
+              </div>
+
+            </div>
+            <!--Column 2: Location-->
+            <div class="col-md-4 location">
+              <h3>Location of this<br>Hidden Gem</h3>
+              <p>Brgy. Sulangan, Guiuan, Eastern Samar, Philippines
+              </p>
+            </div>
+
+          </div> <!-- End of location of tourist spot-->
+
+
+          <!--Best time to visit the tourist spot-->
+          <div class="row">
+
+            <div class="col-md-6 bestTime-Date"> <!--Colomn 1: Description of the best month&time to visit the tourist spot-->
+              <h3>Ideal Time and Months to Visit</h3>
+              <p> 
+                The best time to visit Linao Cave is during the summer months, from <b>March to May</b>, when the weather is ideal for swimming and beating the heat. You can also visit between <b>September and October</b> to experience the Calicoan Odyssey Waves, a local surfing event that showcases the island's vibrant surf culture. The cave's crystal-clear waters are perfect for a refreshing dip and for exploring its natural beauty. It’s recommended to go in the morning or afternoon when there's plenty of light. Avoid visiting at night or when it’s dark, as the cave can become difficult to navigate.
+              </p>
+            </div>
+
+            <div class="col-md-6 weatherForecast"> <!--Column 2: The weather forecast of it-->
+              <h4>Weather Forecast</h4>
+              <a class="weatherwidget-io" href="https://forecast7.com/en/11d50125d50/eastern-samar/" data-label_1="EASTERN SAMAR" data-label_2="WEATHER" data-theme="original" >EASTERN SAMAR WEATHER</a>
+              <script>
+              !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+              </script>
+            </div>
+          </div> <!--End of section best time to visit the tourist spot-->
+
+          <!--Festivals adn Events-->
+          <div class="row festival">
+            <h3>Discover Local Celebrations</h3>
+
+            <div class="row"> <!--Festivals 1-->
+              <div class="col-md-4 picFestivalEvent1">
+                <img src="images/Visayas/TouristSpot2_festivalevent1.png" alt="Visayas">
+
+              </div>
+
+              <div class="col-md-4 descriptionFestivalEvent">
+                <h4>
+                  Calicoan Odyssey Waves (National Surfing Competition)
+                </h4>
+                <p>
+                  The Calicoan Odyssey Waves is a surfing competition held at the famous ABCD surf break in Calicoan Island, Guiuan, Eastern Samar. It is a Grade 2 surf competition and music festival that brings together top surfers from around the country, with equal prizes for both men and women. Held every September or October, the week-long event celebrates the island's vibrant surf culture and growing surfing community.
+                </p>
+                <a href="https://www.facebook.com/surf.guiuan " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+
+              <div class="col-md-4 picFestivalEvent2">
+                <img src="images/Visayas/TouristSpot2_festivalevent2.png" alt="Visayas">
+              </div>
+
+            </div> <!--End of Festivals 1-->
+
+
+          </div> <!--End of Festivals adn Events-->
+
+          <!--Accomodations-->
+          <div class="row accomodation">
+            <h3>Comfortable Places to Stay</h3>
+            <div class="col-md-6 picAccomodation">
+              <img src="images/Visayas/touristSpot2_Accomodation.png" alt="Visayas">
+            </div>
+
+            <div class="col-md-6 descriptionAccomodation">
+              <h4>Casa Patron Calicoan</h4>
+              <p>
+                Casa Patron Calicoan is a private vacation home on Calicoan Island in Guiuan, Eastern Samar. It is close to the beach and perfect for surfing, kayaking, and other activities. Guests can cook their own meals and explore nearby places using a guest booklet containing a list of nearby restaurants and activities provided by the host.
+               </p>
+              <a href="https://www.facebook.com/casapatroncalicoan/" target="_blank">
+                <button class="btn btn-primary">Learn More</button>
+              </a>
+            
+            </div>
+
+          </div> <!--End of Accomodations-->
+
+
+          <!--Resturant-->
+          <div class="row resturants">
+            <h3>Taste the Local Flavors</h3>
+            <!--Resturant1-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>Cali Island Grill</h4>
+                <p>
+                  Craving grilled food like stuffed squid, fish, pork belly, or chicken? Cali Island Grill, located on Calicoan Island in Ngolos, Guiuan, Eastern Samar, serves up flavorful and affordable home-cooked meals. It’s the perfect place to enjoy island-inspired dishes with a local touch.
+                </p>
+                <a href="https://www.facebook.com/people/Cali-Island-Grill/100086485726627/ " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+  
+              <div class="col-md-6 picResturants1">
+                <img src="images/Visayas/touristSpot2_Restuarant1.png" alt="Visayas">
+              </div>
+            </div>
+
+            <!--Resturant2-->
+            <div class="row">
+              <div class="col-md-6 descriptionResturants">
+                <h4>Tomorrow Land Grill and Restaurant</h4>
+                <p>
+                  Tomorrow Land Grill and Restaurant serves a variety of silog meals, fresh seafood, chicken, and pork dishes packed with flavor. It’s a cozy spot to enjoy hearty Filipino meals in a laid-back setting. You can also meet friendly locals who may guide you on your Linao Cave trip.                 
+                </p>
+                <a href="https://www.facebook.com/people/Tomorrow-land-grill-and-restaurant/100066928226564/ " target="_blank">
+                  <button class="btn btn-primary">Learn More</button>
+                </a>
+              </div>
+  
+              <div class="col-md-6 picResturants2">
+                <img src="images/Visayas/touristSpot2_Restuarant2.png" alt="Visayas">
+              </div>
+            </div>
+
+            
+
+          </div> <!--End of Resturant-->
+
+          <!-- modes of Transportation -->
+          <div class="container transportation">
+            <h3>Modes of Transportation</h3>
+            
+
+            <div class="row g-4 transportationList">
+              <!-- Card 1 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Direct Bus
+                    <svg height="24" width="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M0 0h48v48h-48z" fill="none"/>
+                      <path d="M8 32c0 1.77.78 3.34 2 4.44v3.56c0 1.1.9 2 2 2h2c1.11 0 2-.9 2-2v-2h16v2c0 1.1.89 2 2 2h2c1.1 0 2-.9 2-2v-3.56c1.22-1.1 2-2.67 2-4.44v-20c0-7-7.16-8-16-8s-16 1-16 8v20zm7 2c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm18 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-12h-24v-10h24v10z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    If you do not want to take a plane, there is an option to ride a direct bus from Manila to Guiuan
+                    <br>
+                    <br>
+                    Estimated Price: 160 Php – 300 Php per person (one-way).  
+                  </p>
+
+                  <a href="https://www.facebook.com/goldtranstoursofficial/" target="_blank">
+                    <button class="btn btn-primary">Learn More</button>
+                  </a>
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo6.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Airplane
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" style="float: right; margin-left: 10px;">
+                      <path d="M482.3 192C516.5 192 576 221 576 256C576 292 516.5 320 482.3 320H365.7L265.2 495.9C259.5 505.8 248.9 512 237.4 512H181.2C170.6 512 162.9 501.8 165.8 491.6L214.9 320H112L68.8 377.6C65.78 381.6 61.04 384 56 384H14.03C6.284 384 0 377.7 0 369.1C0 368.7 .1818 367.4 .5398 366.1L32 256L.5398 145.9C.1818 144.6 0 143.3 0 142C0 134.3 6.284 128 14.03 128H56C61.04 128 65.78 130.4 68.8 134.4L112 192H214.9L165.8 20.4C162.9 10.17 170.6 0 181.2 0H237.4C248.9 0 259.5 6.153 265.2 16.12L365.7 192H482.3z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    No direct flight to Guiuan, Easter Samar, so you can take a plane from Manila or Cebu to Tacloban City, Leyte.  
+
+                    <br>
+                    <br>
+                    Estimated Price: 5,000 Php – 9,000 Php per person (one-way).  
+                  </p>
+                 
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo1.png"   alt="Visayas">
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Van/Bus
+                    <svg height="24" width="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M0 0h48v48h-48z" fill="none"/>
+                      <path d="M8 32c0 1.77.78 3.34 2 4.44v3.56c0 1.1.9 2 2 2h2c1.11 0 2-.9 2-2v-2h16v2c0 1.1.89 2 2 2h2c1.1 0 2-.9 2-2v-3.56c1.22-1.1 2-2.67 2-4.44v-20c0-7-7.16-8-16-8s-16 1-16 8v20zm7 2c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm18 0c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-12h-24v-10h24v10z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    After arriving in Tacloban, you can take a van or bus to Guiuan
+                    <br>
+                    <br>
+                    Estimated Price: 160 Php – 280 Php per person (one-way).
+                  </p>
+                
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo3.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 4 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Multicab 
+                    <svg width="30" height="30" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <g id="School_bus">
+                        <path d="M321.4221,361.1694c1.7774,57.816,85.7163,57.83,87.5.0011C407.1469,303.3556,323.208,303.3406,321.4221,361.1694Z"/>
+                        <path d="M85.1743,361.1694c1.7773,57.816,85.7162,57.83,87.5.0011C170.8991,303.3545,86.96,303.3406,85.1743,361.1694Z"/>
+                        <path d="M465.8356,159.8756c3.042-27.3491-15.2954-52.3632-43.75-52.4124h-271.25a43.6541,43.6541,0,0,0-43.75,43.75v105h-.0876L61.7612,275.55a26.2963,26.2963,0,0,0-15.9256,24.2377v48.3a13.0922,13.0922,0,0,0,13.125,13.125c3.3838-92.8641,136.5842-92.8213,140,0h96.25c3.3838-92.8641,136.5842-92.8213,140,0h17.5a13.1065,13.1065,0,0,0,13.125-13.125C465.8441,348.0925,465.8292,159.89,465.8356,159.8756Zm-275.625,96.3376h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Zm83.125,0h-56.875v-96.25h56.875Z"/>
+                      </g>
+                    </svg>
+                  </h4>
+                  <p>
+                    When you arrive at Guiuan, you take a multicab to Sulangan, then walk to the Linao Cave .
+                    <br>
+                    <br>
+                    Estimated Price: 30 Php – 50 Php per person.
+
+                  </p>
+                
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo4.png"   alt="Visayas">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 5 -->
+              <div class="col-md-4">
+                <div class="transportationMode">
+                  <h4>
+                    Tricycle
+                    <svg width="24" height="24" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" style="float: right; margin-left: 10px;">
+                      <path d="M342.5 32C357.2 32 370.7 40.05 377.6 52.98L391.7 78.93L439.1 39.42C444.9 34.62 452.1 32 459.6 32H480C497.7 32 512 46.33 512 64V96C512 113.7 497.7 128 480 128H418.2L473.3 229.1C485.5 226.1 498.5 224 512 224C582.7 224 640 281.3 640 352C640 422.7 582.7 480 512 480C441.3 480 384 422.7 384 352C384 311.1 402.4 276.3 431.1 252.8L415.7 224.2C376.1 253.4 352 299.8 352 352C352 362.1 353.1 373.7 355.2 384H284.8C286.9 373.7 287.1 362.1 287.1 352C287.1 263.6 216.4 192 127.1 192H31.1V160C31.1 142.3 46.33 128 63.1 128H165.5C182.5 128 198.7 134.7 210.7 146.7L255.1 192L354.1 110.3L337.7 80H279.1C266.7 80 255.1 69.25 255.1 56C255.1 42.75 266.7 32 279.1 32L342.5 32zM448 352C448 387.3 476.7 416 512 416C547.3 416 576 387.3 576 352C576 316.7 547.3 288 512 288C509.6 288 507.2 288.1 504.9 288.4L533.1 340.6C539.4 352.2 535.1 366.8 523.4 373.1C511.8 379.4 497.2 375.1 490.9 363.4L462.7 311.2C453.5 322.3 448 336.5 448 352V352zM253.8 376C242.5 435.2 190.5 480 128 480C57.31 480 0 422.7 0 352C0 281.3 57.31 224 128 224C190.5 224 242.5 268.8 253.8 328H187.3C177.9 304.5 154.9 288 128 288C92.65 288 64 316.7 64 352C64 387.3 92.65 416 128 416C154.9 416 177.9 399.5 187.3 376H253.8zM96 352C96 334.3 110.3 320 128 320C145.7 320 160 334.3 160 352C160 369.7 145.7 384 128 384C110.3 384 96 369.7 96 352z"/>
+                    </svg>
+                  </h4>
+                  <p>
+                    Instead of a Multicab, you take a tricycle to Sulangan or near the  Linao Cave.
+                    <br>
+                    <br>
+                    Estimated Price: 200 Php – 500 Php 
+                  </p>
+                  
+                  <div class="picTranspo mt-3">
+                    <img src="images/Visayas/ToursistSpot1_Transpo7.png"   alt="Visayas">
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+
+            </div>
+          </div><!--End of Transportation-->
+
+          <div class="row">
+            <div class="col-md-7 priceBreakdown">
+              <h3>
+                Price breakdown
+              </h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
+              <ol>
+                <li><b>Average stay duration (Total)</b> = 22,000 Php - 60,000 Php Php</li>
+                <li><b>Average cost of accommodation</b> = 13,000 Php - 15,000 Php (for 2 overnight stays)</li>
+                <li><b>Average Transportation cost depending on mode of transportation</b> 
+                  <ul>
+                    <li>Direct Bus = 1,200 Php = 2,000 Php (one-way)</li>
+                    <li>Airplane = 40,00 Php (one-way)</li>
+                    <li>Van/Bus = 1,800 Php</li>
+                    <li>Multicab = 200 Php (one-way)</li>
+                    <li>Motorcycle = 1,000 Php</li>
+                  </ul>
+                </li>
+                <li><b>Average Food cost</b> = 8,000 Php </li>
+                <li><b>Entrance fees cost</b>
+                  <ul>
+                    <li>Tour guide fee: Around 500 Php
+                      <br> <i>You need a tour guide to enter the cave</i>
+                    </li>
+                    <li>Entrance fee: 15 Php - 25 Php</li>
+                </li>
+              </ol>
+            </div> 
+
+
+            <div class="col-md-5 priceBreakdown">
+              <div class="picPrice mt-3">
+                <img src="images/Visayas/TouristSpot2_Pics4.png"   alt="Visayas">
+              </div>
+            </div>
+
+          </div> <!--End of price breakdown-->
+
+          <!--Safety Assessment-->
+          <div class="row">
+            <div class="col-md-12 safety">
+              <h3>Safety Assessment</h3>
+              <p>
+                Linao Cave in Guiuan, Eastern Samar, is considered a generally safe tourist destination, with no reported cases of scams or pickpocketing in the area. However, as with any trip, it’s still best to stay alert and keep your belongings secure. The cave itself can be slippery, so wearing proper footwear is essential. If you're planning to swim, a life jacket is recommended, especially for non-swimmers. It’s also strongly advised to explore the cave with a local tour guide to ensure safety and avoid accidents. Overall, Guiuan remains a peaceful and welcoming town for travelers.
+              </p>
+             
+              <h4>Emergency Contact Details</h4>
+
+              <ol>
+                <li>
+                  Municipal Disaster Risk Reduction and Management Office (MDRRMO) Admin
+                  <ul>
+                    <li>
+                      0926 414 5752
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Police
+                  <ul>
+                    <li>
+                      0917 349 8833
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Bureu of Fire Protection (BFP) Guiuan
+                  <ul>
+                    <li>
+                      0926 992 1534
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Coastgaurd
+                  <ul>
+                    <li>
+                      0915 421 3473
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Easter Sama Electric Cooperative (ESAMELCO)
+                  <ul>
+                    <li>
+                      0945 705 5750
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guiuan Water District 
+                  <ul>
+                    <li>
+                      0916 464 5014
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Rural Health Unit (RHU) Guiuan 
+                  <ul>
+                    <li>
+                      0927 443 4205
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  Guiuan Hotline
+                  <ul>
+                    <li>
+                      0970 023 3300
+                    </li>
+                  </ul>
+                </li>
+
+              </ol>
+
+
+            </div>
+          </div> <!--End of Safety Assessment-->
+
+         
+
+ 
+
+        </div><!--End of tourist spot 2-->
+      </div> <!-- End of Collapsible content -->
+    </div>  <!--End of tourist spot 2-->
+
+
+
+    
+
+    <!-- END of the contents of the website -->
+    <!-- ------------------------------------------------------------------------------------------------ -->
+
+    <footer class="container-fluid px-4 py-4" >
+        <div class="row">
+          <!--logo with tagline-->
+          <div class="footer-col col-md-4 mb-4">
+            <div style="display: flex; align-items: center;">
+              <a href="index.html">
+                <img src="images/logo_footer.png" alt="ExploreMore PH Logo" style="height: 80px; margin-right: 10px;">
+              </a>
+              <h1 >
+                More to See, <br>More to Explore
+              </h1>
+            </div>
+            <br>
+            <p >© 2025 ExploreMore PH. All rights reserved.</p>
+            <p >Developed by Group1-CSS151L-AC1</p>
+          </div>
+
+          <!--quick nav-->
+          <div class="footer-col nav-col col-md-4 mb-4">
+            <h4>Quick Navigation</h4>
+            <ul class="nav-list">
+              <li><a href="index.html">Home</a></li>        
+              <li><a href="budget.html">Budget Estimator</a></li>
+              <li><a href="luzon.html">Luzon</a></li>
+              <li><a href="promos.html">Promo & Discounts</a></li>
+              <li><a href="visayas.html">Visayas</a></li>
+              <li><a href="aboutus.html">About</a></li>
+              <li><a href="mindanao.html">Mindanao</a></li>
+            </ul>
+          </div>
+
+          <!--contact and feedback-->
+          <div class="footer-col pad-left-col col-md-4 mb-4">
+            <h4>Contact us at</h4>
+            <ul>
+              <li>
+                <a href="mailto:Group1_CSS151L@mymail.mapua.edu.ph">
+                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" viewBox="1 0 32 32" width="30" height="30" style="margin-right: 8px;">
+                        <g data-name="mail email e-mail letter" id="mail_email_e-mail_letter">
+                            <path d="M28,13a1,1,0,0,0-1,1v8a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,0-2,0v8a3,3,0,0,0,.88,2.12A3,3,0,0,0,6,25H26a3,3,0,0,0,2.12-.88A3,3,0,0,0,29,22V14A1,1,0,0,0,28,13Z"/>
+                            <path d="M15.4,18.8a1,1,0,0,0,1.2,0L28.41,9.94a1,1,0,0,0,.3-1.23,3.06,3.06,0,0,0-.59-.83A3,3,0,0,0,26,7H6a3,3,0,0,0-2.12.88,3.06,3.06,0,0,0-.59.83,1,1,0,0,0,.3,1.23ZM6,9H26a.9.9,0,0,1,.28,0L16,16.75,5.72,9A.9.9,0,0,1,6,9Z"/>
+                        </g>
+                    </svg>
+                  Group1_CSS151L@mymail.mapua.edu.ph
+                </a>
+              </li>
+            </ul>
+            <br>
+            <h4>Feedback</h4>
+            <ul>
+              <li>
+                <a href="aboutus.html">
+                    <svg class="feedback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="20" height="20" style="margin-right: 16px;">
+                        <rect fill="none" height="50" width="50"/>
+                        <path d="M47,24c0,10.493-9.85,19-22,19  
+                          c-2.076,0-4.085-0.248-5.99-0.712c0,0-3.807,4.739-10.01,4.712c3.001-4.258,2.996-7.673,2.996-7.673C6.541,35.869,3,30.292,3,24  
+                          C3,13.507,12.849,5,25,5C37.15,5,47,13.507,47,24z"
+                          fill="none"/>
+                      </svg>
+                  Send Feedback
+                </a>
+              </li>
+            </ul>
+          </div>
+      
+        </div>
+      </footer>  <!-- END of footer -->
+      
+ 
+
+    <script> 
+
+      function showSidebar(){
+        const sidebar = document.querySelector('.sidebar')
+        sidebar.style.display = 'flex'
+      }
+      function hideSidebar(){
+        const sidebar = document.querySelector('.sidebar')
+        sidebar.style.display = 'none'
+      }
+    </script> <!-- END OF SCRIPT (this is for the nav /menu part)-->
+
+  </body> <!-- END OF BODY -->
+
+</html> <!-- END OF HTML -->
+

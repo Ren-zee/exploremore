@@ -1,0 +1,212 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+  body{
+    background-color: #FFF9F1;
+    padding-top: 55px;
+    min-height: 100vh;
+ 
+  }
+
+  .cardo-regular {
+    font-family: "Cardo", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .cardo-bold {
+    font-family: "Cardo", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .cardo-regular-italic {
+    font-family: "Cardo", serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  
+  .source-sans-regular {
+    font-family: "Source Sans 3", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .source-sans-bold {
+    font-family: "Source Sans 3", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .source-sans-light {
+    font-family: "Source Sans 3", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+
+
+  
+  .fixed-caption-carousel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: #E5C692;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 6px 6px #000;
+    font-family: "Cardo", serif;
+    font-weight: 800;
+    font-size: 50px;
+  }
+  .carousel {
+    position: relative;
+  }
+
+  @media (max-width: 800px) {
+    .fixed-caption-carousel {
+      font-size: 40px; 
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .fixed-caption-carousel {
+      font-size: 30px; 
+    }
+  }
+
+   /* This the Blue Box sa welcome/Intro banner
+  I cant put it sa tourist SpotInfo kasi the blue box need to be above the welcome/Intro banner
+  i did that through "z-index" thingy */
+  .info-box-MainIslandPH {
+    position: absolute;
+    top: 100%; /* Adjust based on where you want it */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4E5F70;
+    opacity: 1;
+    color: black;
+    padding: 1.5rem 2rem;
+    border-radius: 2px;
+    width: 1150px;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    z-index: 11;
+    font-family: "Cardo", serif;
+  }
+
+  @media (max-width: 1200px) {
+    .info-box-MainIslandPH {
+      width: 90%; /* Scales the width to fit smaller screens */
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .info-box-MainIslandPH {
+      top: 110%; /* Adjust position if needed */
+      width: 95%;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .info-box-MainIslandPH {
+      font-size: 0.9rem;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+    }
+  }
+  
+  
+
+  /* Tourist spot of the month-----------------------------------------------------------------------------*/
+  .featured-spot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    border: 3px solid #e1b243;
+    padding: 40px;
+    margin: 40px auto;
+    background-color: #fff4db;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    max-width: 1200px;
+  }
+  
+  .featured-spot h2 {
+    color: #ca3030;
+    font-size: 36px;
+    font-family: "Cardo", serif;
+    margin-bottom: 15px;
+  }
+  
+  .featured-spot h3 {
+    color: #4E5F70;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .spot-content {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .spot-image img {
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .more-info {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e1b243;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .more-info:hover {
+    background-color: #d1970c;
+  }
+  
+  @media (max-width: 768px) {
+    .featured-spot {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px 20px;
+    }
+  
+    .spot-content {
+      padding-right: 0;
+    }
+  
+    .spot-image img {
+      max-width: 250px;
+    }
+  
+    .featured-spot h2 {
+      font-size: 30px;
+    }
+  
+    .featured-spot h3 {
+      font-size: 24px;
+    }
+  }
+  

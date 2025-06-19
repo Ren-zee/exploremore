@@ -1,0 +1,90 @@
+.section-title {
+  margin-top: 60px;
+  margin-bottom: 10px;
+  font-family: "Cardo", serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #4f0808;
+}
+.team-img {
+  font-size: 80px;
+  color: black;
+}
+.team-member {
+  text-align: center;
+  margin: 0 45px;
+}
+
+.team-member p {
+  font-family: "Cardo", serif;
+  font-weight: 400;
+  margin-top: 40px;
+}
+
+.text {
+  margin: auto;
+  font-family: "Source Sans Pro", sans-serif;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* Feedback Section */
+.feedback-section {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.feedback-section .section-title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feedback-section .text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.feedback-form .form-group {
+  margin-bottom: 20px;
+}
+
+.feedback-form .form-label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.feedback-form .form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.feedback-form .btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.feedback-form .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+#feedbackMessage {
+  font-size: 1rem;
+  font-weight: bold;
+}
