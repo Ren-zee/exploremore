@@ -105,7 +105,3 @@ let questions = [
     }
 
 ] 
-<<<<<<< HEAD
-=======
-
->>>>>>> 59a177104834f87d833deed552de1dd3dc813aab
