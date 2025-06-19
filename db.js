@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const db = mysql.createConnection({
   host: process.env.LOCALHOST,
   user: process.env.ROOT,
-  password: process.env.APR_2023107177, // Replace with your MySQL root password
+  password: process.env.APR-2023107177, // Replace with your MySQL root password
   database: process.env.EXPLOREMOREPH,
 });
 
