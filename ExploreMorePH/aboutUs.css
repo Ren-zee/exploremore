@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .section-title {
   margin-top: 60px;
   margin-bottom: 10px;
@@ -109,3 +110,35 @@
   font-size: 1rem;
   font-weight: bold;
 }
+=======
+
+  .section-title {
+    margin-top: 60px;
+    margin-bottom: 10px;
+    font-family: "Cardo", serif;
+    font-weight: 600;
+    font-style: normal;
+    color: #4F0808;
+  }
+  .team-img {
+    font-size: 80px;
+    color: black;
+  }
+  .team-member {
+    text-align: center;
+    margin: 0 45px;
+  }
+
+  .team-member p {
+    font-family: "Cardo", serif;
+    font-weight: 400;
+    margin-top: 40px;
+  }
+
+  .text {
+    margin: auto;
+    font-family: "Source Sans Pro", sans-serif;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+>>>>>>> 59a177104834f87d833deed552de1dd3dc813aab
