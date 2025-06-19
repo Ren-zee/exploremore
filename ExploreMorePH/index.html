@@ -214,6 +214,11 @@
   data-name="Pacific View Deck" data-province="Dingalan, Aurora"
   onclick="showDetails('TouristSpot2')" />
 
+  <!-- Masungi Georeserve -->
+<circle cx="475" cy="410" r="10" class="location" fill="#4CAF50"
+  data-name="Masungi Georeserve" data-province="Tanay, Rizal"
+  onclick="showDetails('TouristSpot7')" />  
+
 <!-- Visayas Locations -->
 <!-- Guisi Lighthouse -->
 <circle cx="542" cy="635" r="10" class="location" fill="#2196F3"
@@ -225,16 +230,26 @@
   data-name="Linao Cave" data-province="Guiuan, Eastern Samar"
   onclick="showDetails('TouristSpot4')" />
 
+  <!-- Nova Shell Museum -->
+<circle cx="601" cy="690" r="10" class="location" fill="#2196F3"
+  data-name="Nova Shell Museum" data-province="Panglao, Bohol"
+  onclick="showDetails('TouristSpot8')" />
+
 <!-- Mindanao Locations -->
 <!-- Philippine Eagle Center -->
 <circle cx="690" cy="815" r="10" class="location" fill="#F44336"
-  data-name="Philippine Eagle Center" data-province="Davao City"
+  data-name="Philippine Eagle Center" data-province="Davao City, Davao"
   onclick="showDetails('TouristSpot5')" />
 
 <!-- Tinago Falls -->
 <circle cx="625" cy="760" r="10" class="location" fill="#F44336"
   data-name="Tinago Falls" data-province="Iligan City, Lanao del Norte"
   onclick="showDetails('TouristSpot6')" />
+
+<!-- Mount Hamiguitan -->
+<circle cx="735" cy="840" r="10" class="location" fill="#F44336"
+  data-name="Mount Hamiguitan" data-province="Mati City, Davao Oriental"
+  onclick="showDetails('TouristSpot9')" />
 
           <!-- Legend -->
           <rect x="700" y="50" width="20" height="20" fill="#4CAF50"/>
@@ -309,6 +324,18 @@ document.addEventListener('DOMContentLoaded', () => {
         targetUrl = 'mindanao.html';  // You might want to load a new page here.
         sectionId = 'TouristSpot6';
         window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot7') {
+        targetUrl = 'Luzon.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot7';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
+    }if (id === 'TouristSpot8') {
+        targetUrl = 'Visayas.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot8';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash   
+    }if (id === 'TouristSpot9') {
+        targetUrl = 'mindanao.html';  // You might want to load a new page here.
+        sectionId = 'TouristSpot9';
+        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash         
     }
 }
 </script>
