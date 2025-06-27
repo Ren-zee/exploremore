@@ -51,7 +51,7 @@ let touristSpots = [
             4: ["A"], //Place to stay
             5: ["B", "A"], //Months 
             6: ["A"],   // Days plan to stay
-            7: ["B"],   //Region: Mindanao     
+            7: ["B"],   //Region: Visayas     
             8: ["E"]      //Experience 
         }
     },
@@ -95,6 +95,48 @@ let touristSpots = [
             6: ["B"],   // Days plan to stay
             7: ["C"],       //Region: Mindanao  
             8: ["C"]       //Experience
+        }
+    },
+    {
+        name: "Masungi Georeserve",
+        image: "ExploreMorePH/images/resultImg_Georeserve.png",
+        matches: {
+            1: ["A"],
+            2: ["B", "D"], //Similar famous tourist spot
+            3: ["A"],   //Food
+            4: ["A", "C"], //Place to stay
+            5: ["A"],  //Months
+            6: ["A"],   // Days plan to stay
+            7: ["A"],       //Region: Luzon  
+            8: ["D"]       //Experience
+        }
+    },
+    {
+        name: "Nova Shell Museum",
+        image: "ExploreMorePH/images/resultImg_Museum.png",
+        matches: {
+            1: ["C"],
+            2: ["A", "C"], //Similar famous tourist spot
+            3: ["A", "D"],   //Food
+            4: ["A", "B"], //Place to stay
+            5: ["A", "C"],  //Months
+            6: ["A", "B"],   // Days plan to stay
+            7: ["B"],       //Region: Visayas  
+            8: ["C"]       //Experience
+        }
+    },
+    {
+        name: "Mount Hamiguitan Range Wildlife Sanctuary",
+        image: "ExploreMorePH/images/resultImg_ Sanctuary.png",
+        matches: {
+            1: ["C"],
+            2: ["B", "D"], //Similar famous tourist spot
+            3: ["A", "B"],   //Food
+            4: ["B", "C"], //Place to stay
+            5: ["A", "B"],  //Months
+            6: ["A", "B"],   // Days plan to stay
+            7: ["C"],       //Region: Mindanao  
+            8: ["B"]       //Experience
         }
     }
     
@@ -284,16 +326,25 @@ function showResultBox() {
             targetHref = "luzon.html#TouristSpot2";
             break;
         case "Guisi Lighthouse":
-            targetHref = "visayas.html#TouristSpot1";
+            targetHref = "visayas.html#TouristSpot3";
             break;
         case "Linao Cave":
-            targetHref = "visayas.html#TouristSpot2";
+            targetHref = "visayas.html#TouristSpot4";
             break;
         case "Philippine Eagle Center":
-            targetHref = "mindanao.html#TouristSpot1";
+            targetHref = "mindanao.html#TouristSpot5";
             break;
         case "Tinago Falls":
-            targetHref = "mindanao.html#TouristSpot2";
+            targetHref = "mindanao.html#TouristSpot6";
+            break;
+        case "Masungi Georeserve":
+            targetHref = "luzon.html#TouristSpot_3";
+            break;
+        case "Nova Shell Museum":
+            targetHref = "visayas.html#TouristSpot8";
+            break;
+        case "Mount Hamiguitan Range Wildlife Sanctuary":
+            targetHref = "mindanao.html#TouristSpot9";
             break;
     }
     learnMoreBtn.setAttribute("href", targetHref);
