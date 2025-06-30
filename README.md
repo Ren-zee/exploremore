@@ -58,9 +58,6 @@ Before running this project, make sure you have the following installed:
      role VARCHAR(50) NOT NULL,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
-   ```
-   );
-   ```
 
 4. **Environment Configuration**
 
@@ -68,55 +65,19 @@ Before running this project, make sure you have the following installed:
    - Add your database configuration:
 
    ```env
-   LOCALHOST=localhost
-   ROOT=your_mysql_username
-   APR-2023107177=your_mysql_password
-   EXPLOREMOREPH=exploremoreph
+   DB_HOST=localhost
+   DB_USER=your_mysql_username
+   DB_PASSWORD=your_mysql_password
+   DB_NAME=exploremoreph
    ```
 
 5. **Start the application**
 
    ```bash
-   node server.js
+   npm start
    ```
 
    The server will start on `http://localhost:3000` (or your configured port)
-
-## 📁 Project Structure
-
-```
-ExploreMore-PH/
-├── public/                    # Frontend files
-│   ├── index.html            # Homepage
-│   ├── aboutus.html          # About Us page
-│   ├── budget.html           # Budget estimator
-│   ├── promos.html           # Promotions page
-│   ├── login.html            # User login
-│   ├── signup.html           # User registration
-│   ├── luzon.html            # Luzon destinations
-│   ├── visayas.html          # Visayas destinations
-│   ├── mindanao.html         # Mindanao destinations
-│   ├── style.css             # Main stylesheet
-│   ├── nav_footer.css        # Navigation styles
-│   ├── script.js             # Main JavaScript
-│   └── images/               # Image assets
-│       ├── Luzon/            # Luzon destination images
-│       ├── Visayas/          # Visayas destination images
-│       └── Mindanao/         # Mindanao destination images
-├── server.js                 # Express server
-├── db.js                     # Database configuration
-├── package.json              # Project dependencies
-└── README.md                 # Project documentation
-```
-
-## 🎯 Usage
-
-### For Travelers
-
-1. **Browse Destinations**: Explore hidden gems by region (Luzon, Visayas, Mindanao)
-2. **Plan Your Budget**: Use the budget estimator to calculate trip costs
-3. **Find Deals**: Check out current promotions and discounts
-4. **Create Account**: Sign up for personalized features and trip planning
 
 ### For Developers
 
@@ -126,76 +87,5 @@ ExploreMore-PH/
    - `POST /login` - User authentication
    - `GET /` - Welcome endpoint
 
-2. **Adding New Destinations**: Update the respective HTML files and add images to the appropriate regional folders
-
-## 👥 Meet the Team
-
-- **Julianna Boado** - Developer
-- **Kyle Espinosa** - Developer
-- **Renzo Falloran** - Developer
-- **Nicko Baldo** - Developer
-
-## 🎨 Design Features
-
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Image Carousels**: Beautiful showcases of destination photos
-- **Interactive Maps**: Visual representation of the Philippines' regions
-- **Modern UI**: Clean, intuitive interface with smooth animations
-- **Accessibility**: Designed with accessibility best practices
-
-## 🔒 Security
-
-- Passwords are securely hashed using bcrypt
-- Input validation and sanitization
-- CORS configuration for secure cross-origin requests
-- Environment variables for sensitive configuration
-
-## 🤝 Contributing
-
-We welcome contributions to ExploreMore PH! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit your changes**: `git commit -m 'Add amazing feature'`
-4. **Push to the branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Contribution Guidelines
-
-- Follow the existing code style and structure
-- Add appropriate comments for complex functionality
-- Test your changes thoroughly
-- Update documentation as needed
-
-## 📝 License
-
-This project is licensed under the ISC License. See the `package.json` file for details.
-
-## 📞 Support & Feedback
-
-Have questions, suggestions, or found a hidden gem we should feature? We'd love to hear from you!
-
-- Use the feedback form on our About Us page
-- Create an issue on GitHub
-- Contact the development team
-
-## 🌟 Future Enhancements
-
-- [ ] Mobile app development
-- [ ] Advanced search and filtering
-- [ ] User reviews and ratings
-- [ ] Trip planning tools
-- [ ] Integration with booking platforms
-- [ ] Multi-language support
-- [ ] Offline map functionality
-
-## 🔗 Links
-
-- **Live Demo**: [Coming Soon]
-- **GitHub Repository**: [https://github.com/your-username/ExploreMore-PH]
-
----
 
 **© 2025 ExploreMore PH. All rights reserved.**
-
-_Discover the Philippines like never before. Explore more, experience more, with ExploreMore PH._
