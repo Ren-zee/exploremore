@@ -33,8 +33,15 @@
 
             <div class="d-flex align-items-center gap-2 ms-auto">
                 <!--Log In and Sign In Buttons-->
-                <a href="login.html" class="btn custom-btn">Log In</a>
-                <a href="signup.html" class="btn custom-btn">Sign Up</a>
+                <a href="login.html" class="btn custom-btn" id="loginButton">Log In</a>
+                <a href="signup.html" class="btn custom-btn" id="signupButton">Sign Up</a>
+                <button
+                  class="btn custom-btn d-none"
+                  id="logoutButton"
+                  onclick="logout()"
+                >
+                  Logout
+                </button>
                 
                 <!--Menu Button -->
                 <button class="navbar-toggler"
@@ -1598,6 +1605,9 @@ A beachfront eatery in Governor Generoso known for its affordable seafood meals 
         sidebar.style.display = 'none'
       }
     </script> <!-- END OF SCRIPT (this is for the nav /menu part)-->
+
+    <script src="auth.js"></script>
+    <script src="budget.js"></script>
 
   </body> <!-- END OF BODY -->
 

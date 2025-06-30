@@ -4,8 +4,8 @@ body {
   background-color: #fff7f0;
 }
 
-/* General styles for the signup container */
-.signup-container {
+/* General styles for the login container */
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,7 @@ body {
   padding: 20px;
 }
 
-.signup-form {
+.login-form {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -23,35 +23,35 @@ body {
   width: 100%;
 }
 
-.signup-form h1 {
+.login-form h1 {
   font-size: 2rem;
   margin-bottom: 10px;
   color: #333;
 }
 
-.signup-form p {
+.login-form p {
   margin-bottom: 20px;
   font-size: 0.9rem;
   color: #666;
 }
 
-.signup-form a {
+.login-form a {
   color: #007bff;
   text-decoration: none;
 }
 
-.signup-form a:hover {
+.login-form a:hover {
   text-decoration: underline;
 }
 
-.signup-form label {
+.login-form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: #333;
 }
 
-.signup-form input {
+.login-form input {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -72,7 +72,7 @@ body {
   cursor: pointer;
 }
 
-.signup-btn {
+.login-btn {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -84,27 +84,51 @@ body {
   transition: background-color 0.3s;
 }
 
-.signup-btn:hover {
+.login-btn:hover {
   background-color: #0056b3;
 }
 
-.signup-image {
+.login-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.login-image {
   display: none; /* Hide the image on smaller screens */
 }
 
-.signup-image img {
+.login-image img {
   max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Error and Success Message Styles */
+.error-messages {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #c3e6cb;
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
-  .signup-container {
+  .login-container {
     flex-direction: row;
   }
 
-  .signup-image {
+  .login-image {
     display: block;
     margin-left: 20px;
   }

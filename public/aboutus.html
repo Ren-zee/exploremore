@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ExploreMore PH</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="budget.css" />
     <link rel="stylesheet" href="nav_footer.css" />
+    <link rel="stylesheet" href="aboutUs.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -48,12 +49,20 @@
           </a>
 
           <div class="d-flex align-items-center gap-2 ms-auto">
-            <!--Log In, Sign In, and Logout Buttons-->
-            <div id="auth-buttons">
-              <a href="login.html" class="btn custom-btn auth-guest">Log In</a>
-              <a href="signup.html" class="btn custom-btn auth-guest">Sign Up</a>
-              <button class="btn custom-btn auth-user" onclick="handleLogout()" style="display: none;">Logout</button>
-            </div>
+            <!--Log In and Sign In Buttons-->
+            <a href="login.html" class="btn custom-btn" id="loginButton"
+              >Log In</a
+            >
+            <a href="signup.html" class="btn custom-btn" id="signupButton"
+              >Sign Up</a
+            >
+            <button
+              class="btn custom-btn d-none"
+              id="logoutButton"
+              onclick="logout()"
+            >
+              Logout
+            </button>
 
             <!--Menu Button -->
             <button
@@ -129,7 +138,10 @@
       data-bs-interval="1000"
     >
       <!-- Fixed Center Text -->
-      <div class="fixed-caption-carousel">Estimate Your Travel Expenses</div>
+      <div class="fixed-caption-carousel">
+        Your Guide to
+        <br />Hidden Gems <br />in the Philippines
+      </div>
 
       <!-- The slideshow/carousel -->
       <div class="carousel-inner">
@@ -180,55 +192,182 @@
     <!-- END of carousel -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
-    <main>
-      <section class="estimator">
-        <h3>Budget Estimator</h3>
-        <form id="budgetForm">
-          <label for="stayDuration">Stay Duration (days):</label>
-          <input type="number" id="stayDuration" required />
-
-          <label for="accommodationCost">Accommodation Cost (per day):</label>
-          <div class="input-group">
-            <span class="input-group-text">₱</span>
-            <input type="number" id="accommodationCost" required />
+    <!-- Meet the Team -->
+    <div class="container mt-8">
+      <h2 class="section-title">Meet the Team</h2>
+      <div class="row justify-content-center mt-3">
+        <div class="col-md-2 team-member">
+          <div class="profile-icon">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 81.99 98.27"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+            >
+              <g data-name="Layer 2" id="Layer_2">
+                <g data-name="Layer 1" id="Layer_1-2">
+                  <path
+                    d="M40.37,47.34A22.9,22.9,0,0,0,57.11,40.4,22.9,22.9,0,0,0,64,23.67,22.91,22.91,0,0,0,57.11,6.93,22.91,22.91,0,0,0,40.37,0,22.9,22.9,0,0,0,23.64,6.93,22.9,22.9,0,0,0,16.7,23.67,22.9,22.9,0,0,0,23.64,40.4,22.91,22.91,0,0,0,40.37,47.34Z"
+                  />
+                  <path
+                    d="M81.79,75.57a58.46,58.46,0,0,0-.8-6.21,48.92,48.92,0,0,0-1.53-6.24,30.84,30.84,0,0,0-2.57-5.82,22,22,0,0,0-3.87-5,17.06,17.06,0,0,0-5.56-3.49,19.21,19.21,0,0,0-7.1-1.28c-1,0-2,.41-3.85,1.63l-4,2.58A23,23,0,0,1,47.33,54a20.14,20.14,0,0,1-12.68,0,22.91,22.91,0,0,1-5.18-2.28l-4-2.59c-1.87-1.22-2.84-1.63-3.85-1.63a19.19,19.19,0,0,0-7.1,1.29A17,17,0,0,0,9,52.25a22,22,0,0,0-3.87,5,30.9,30.9,0,0,0-2.57,5.82A49,49,0,0,0,1,69.36a58.26,58.26,0,0,0-.8,6.21C.07,77.45,0,79.4,0,81.37c0,5.13,1.63,9.28,4.85,12.35s7.38,4.56,12.49,4.56H64.65c5.11,0,9.31-1.53,12.49-4.56S82,86.5,82,81.37C82,79.39,81.92,77.44,81.79,75.57Z"
+                  />
+                </g>
+              </g>
+            </svg>
           </div>
-
-          <label for="transportationBudget">Transportation Budget:</label>
-          <div class="input-group">
-            <span class="input-group-text">₱</span>
-            <input type="number" id="transportationBudget" required />
-          </div>
-
-          <label for="foodBudget">Food Budget:</label>
-          <div class="input-group">
-            <span class="input-group-text">₱</span>
-            <input type="number" id="foodBudget" required />
-          </div>
-
-          <label for="otherCosts">Other Costs Budget:</label>
-          <div class="input-group">
-            <span class="input-group-text">₱</span>
-            <input type="number" id="otherCosts" required />
-          </div>
-
-          <label for="currency">Currency:</label>
-          <select id="currency">
-            <option value="PHP">PHP</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="JPY">JPY</option>
-          </select>
-
-          <div style="display: flex; gap: 10px">
-            <button type="submit">Calculate</button>
-            <button type="reset">Reset</button>
-          </div>
-        </form>
-        <div class="result" id="resultContainer" style="display: none">
-          <h4>Estimate Budget is: <span id="totalBudget"></span></h4>
+          <p>Julianna Boado</p>
         </div>
-      </section>
-    </main>
+
+        <div class="col-md-2 team-member">
+          <div class="profile-icon">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 81.99 98.27"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+            >
+              <g data-name="Layer 2" id="Layer_2">
+                <g data-name="Layer 1" id="Layer_1-2">
+                  <path
+                    d="M40.37,47.34A22.9,22.9,0,0,0,57.11,40.4,22.9,22.9,0,0,0,64,23.67,22.91,22.91,0,0,0,57.11,6.93,22.91,22.91,0,0,0,40.37,0,22.9,22.9,0,0,0,23.64,6.93,22.9,22.9,0,0,0,16.7,23.67,22.9,22.9,0,0,0,23.64,40.4,22.91,22.91,0,0,0,40.37,47.34Z"
+                  />
+                  <path
+                    d="M81.79,75.57a58.46,58.46,0,0,0-.8-6.21,48.92,48.92,0,0,0-1.53-6.24,30.84,30.84,0,0,0-2.57-5.82,22,22,0,0,0-3.87-5,17.06,17.06,0,0,0-5.56-3.49,19.21,19.21,0,0,0-7.1-1.28c-1,0-2,.41-3.85,1.63l-4,2.58A23,23,0,0,1,47.33,54a20.14,20.14,0,0,1-12.68,0,22.91,22.91,0,0,1-5.18-2.28l-4-2.59c-1.87-1.22-2.84-1.63-3.85-1.63a19.19,19.19,0,0,0-7.1,1.29A17,17,0,0,0,9,52.25a22,22,0,0,0-3.87,5,30.9,30.9,0,0,0-2.57,5.82A49,49,0,0,0,1,69.36a58.26,58.26,0,0,0-.8,6.21C.07,77.45,0,79.4,0,81.37c0,5.13,1.63,9.28,4.85,12.35s7.38,4.56,12.49,4.56H64.65c5.11,0,9.31-1.53,12.49-4.56S82,86.5,82,81.37C82,79.39,81.92,77.44,81.79,75.57Z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+          <p>Kyle Espinosa</p>
+        </div>
+
+        <div class="col-md-2 team-member">
+          <div class="profile-icon">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 81.99 98.27"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+            >
+              <g data-name="Layer 2" id="Layer_2">
+                <g data-name="Layer 1" id="Layer_1-2">
+                  <path
+                    d="M40.37,47.34A22.9,22.9,0,0,0,57.11,40.4,22.9,22.9,0,0,0,64,23.67,22.91,22.91,0,0,0,57.11,6.93,22.91,22.91,0,0,0,40.37,0,22.9,22.9,0,0,0,23.64,6.93,22.9,22.9,0,0,0,16.7,23.67,22.9,22.9,0,0,0,23.64,40.4,22.91,22.91,0,0,0,40.37,47.34Z"
+                  />
+                  <path
+                    d="M81.79,75.57a58.46,58.46,0,0,0-.8-6.21,48.92,48.92,0,0,0-1.53-6.24,30.84,30.84,0,0,0-2.57-5.82,22,22,0,0,0-3.87-5,17.06,17.06,0,0,0-5.56-3.49,19.21,19.21,0,0,0-7.1-1.28c-1,0-2,.41-3.85,1.63l-4,2.58A23,23,0,0,1,47.33,54a20.14,20.14,0,0,1-12.68,0,22.91,22.91,0,0,1-5.18-2.28l-4-2.59c-1.87-1.22-2.84-1.63-3.85-1.63a19.19,19.19,0,0,0-7.1,1.29A17,17,0,0,0,9,52.25a22,22,0,0,0-3.87,5,30.9,30.9,0,0,0-2.57,5.82A49,49,0,0,0,1,69.36a58.26,58.26,0,0,0-.8,6.21C.07,77.45,0,79.4,0,81.37c0,5.13,1.63,9.28,4.85,12.35s7.38,4.56,12.49,4.56H64.65c5.11,0,9.31-1.53,12.49-4.56S82,86.5,82,81.37C82,79.39,81.92,77.44,81.79,75.57Z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+          <p>Renzo Falloran</p>
+        </div>
+
+        <div class="col-md-2 team-member">
+          <div class="profile-icon">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 81.99 98.27"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+            >
+              <g data-name="Layer 2" id="Layer_2">
+                <g data-name="Layer 1" id="Layer_1-2">
+                  <path
+                    d="M40.37,47.34A22.9,22.9,0,0,0,57.11,40.4,22.9,22.9,0,0,0,64,23.67,22.91,22.91,0,0,0,57.11,6.93,22.91,22.91,0,0,0,40.37,0,22.9,22.9,0,0,0,23.64,6.93,22.9,22.9,0,0,0,16.7,23.67,22.9,22.9,0,0,0,23.64,40.4,22.91,22.91,0,0,0,40.37,47.34Z"
+                  />
+                  <path
+                    d="M81.79,75.57a58.46,58.46,0,0,0-.8-6.21,48.92,48.92,0,0,0-1.53-6.24,30.84,30.84,0,0,0-2.57-5.82,22,22,0,0,0-3.87-5,17.06,17.06,0,0,0-5.56-3.49,19.21,19.21,0,0,0-7.1-1.28c-1,0-2,.41-3.85,1.63l-4,2.58A23,23,0,0,1,47.33,54a20.14,20.14,0,0,1-12.68,0,22.91,22.91,0,0,1-5.18-2.28l-4-2.59c-1.87-1.22-2.84-1.63-3.85-1.63a19.19,19.19,0,0,0-7.1,1.29A17,17,0,0,0,9,52.25a22,22,0,0,0-3.87,5,30.9,30.9,0,0,0-2.57,5.82A49,49,0,0,0,1,69.36a58.26,58.26,0,0,0-.8,6.21C.07,77.45,0,79.4,0,81.37c0,5.13,1.63,9.28,4.85,12.35s7.38,4.56,12.49,4.56H64.65c5.11,0,9.31-1.53,12.49-4.56S82,86.5,82,81.37C82,79.39,81.92,77.44,81.79,75.57Z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+          <p>Nicko Baldo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goal and Purpose -->
+    <div class="container mt-5">
+      <h3 class="section-title">Goal and Purpose of this Website</h3>
+      <p class="text">
+        The <b><i>ExploreMore PH</i></b> website aims to promote lesser-known
+        tourist destinations in the Philippines by providing reliable, and
+        up-to-date information to travelers. Its purpose is to support
+        sustainable tourism by guiding visitors to explore apart from popular
+        tourist destinations, helping local communities and small businesses
+        thrive. Additionally, the platform encourages cultural appreciation by
+        showcasing local festivals, food, and cultures while ensuring visitor
+        safety through reliable safety assessments.
+      </p>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="container mt-5">
+      <h3 class="section-title">Submit a Feedback of the Website</h3>
+      <p class="text">
+        <b>We’d love to hear from you!</b>
+        <br />
+        Got thoughts about the site or a hidden gem you'd love others to
+        discover? Share your feedback or suggest a tourist spot we should
+        feature. <br />
+        Your input helps us make <b>ExploreMore PH </b>even better for every
+        traveler!
+      </p>
+    </div>
+
+    <div class="container mt-5">
+      <!-- Feedback Form -->
+      <form id="feedbackForm" class="feedback-form">
+        <div id="feedbackMessages" style="display: none"></div>
+
+        <div class="form-group">
+          <label for="feedback" class="form-label">Your Feedback:</label>
+          <textarea
+            id="feedback"
+            name="feedback"
+            class="form-control"
+            rows="5"
+            placeholder="Write your feedback here..."
+            required
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-feedback-btn"
+          id="submitFeedbackBtn"
+        >
+          Submit Feedback
+        </button>
+      </form>
+
+      <p
+        id="feedbackMessage"
+        class="mt-3 text-center"
+        style="display: none; color: green"
+      >
+        Thank you! Your feedback has been received.
+      </p>
+    </div>
+
+    <!-- Removal Section Section -->
+    <div class="container mt-5">
+      <h3 class="section-title">Need Something Removed?</h3>
+      <p class="text">
+        If you believe any image, information, or link on our website should be
+        removed for privacy, accuracy, or copyright reasons, please let us know.
+        You can send us a message through the feedback form above. We respect
+        all contributions and will act promptly.
+      </p>
+    </div>
 
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
@@ -245,7 +384,7 @@
                 style="height: 80px; margin-right: 10px"
               />
             </a>
-            <h1>More to See, <br />More to Explore</h1>
+            <h1>ExploreMore PH</h1>
           </div>
           <br />
           <p>© 2025 ExploreMore PH. All rights reserved.</p>
@@ -335,11 +474,11 @@
         const sidebar = document.querySelector(".sidebar");
         sidebar.style.display = "none";
       }
-
     </script>
-    <!-- END OF SCRIPT (this is for the nav /menu part)-->
-    <script src="script.js"></script>
+
     <script src="auth.js"></script>
+    <script src="budget.js"></script>
+    <!-- END OF SCRIPT (this is for the nav /menu part)-->
   </body>
   <!-- END OF BODY -->
 </html>

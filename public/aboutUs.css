@@ -50,24 +50,43 @@
   margin-bottom: 20px;
 }
 
+/* Feedback Form Styles */
+.feedback-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .feedback-form .form-group {
   margin-bottom: 20px;
 }
 
 .feedback-form .form-label {
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
+  font-family: "Cardo", serif;
+  font-weight: 600;
+  color: #4f0808;
+  margin-bottom: 8px;
   display: block;
 }
 
 .feedback-form .form-control {
   width: 100%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.feedback-form .form-control:focus {
+  outline: none;
+  border-color: #4f0808;
+  box-shadow: 0 0 0 2px rgba(79, 8, 8, 0.1);
 }
 
 .feedback-form .btn-primary {
@@ -103,6 +122,65 @@
 
 .submit-feedback-btn:hover {
   background-color: #0056b3;
+}
+
+.submit-feedback-btn {
+  background-color: #4f0808;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-feedback-btn:hover {
+  background-color: #3a0606;
+}
+
+.submit-feedback-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+/* Authentication message styling */
+#authMessage {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#authMessage .btn {
+  font-size: 14px;
+  padding: 6px 12px;
 }
 
 #feedbackMessage {

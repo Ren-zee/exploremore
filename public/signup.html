@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ExploreMore PH</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="signup.css" />
     <link rel="stylesheet" href="nav_footer.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -49,9 +49,19 @@
 
           <div class="d-flex align-items-center gap-2 ms-auto">
             <!--Log In and Sign In Buttons-->
-            <a href="login.html" class="btn custom-btn" id="loginButton">Log In</a>
-            <a href="signup.html" class="btn custom-btn" id="signupButton">Sign Up</a>
-            <button class="btn custom-btn d-none" id="logoutButton" onclick="logout()">Logout</button>
+            <a href="login.html" class="btn custom-btn" id="loginButton"
+              >Log In</a
+            >
+            <a href="signup.html" class="btn custom-btn" id="signupButton"
+              >Sign Up</a
+            >
+            <button
+              class="btn custom-btn d-none"
+              id="logoutButton"
+              onclick="logout()"
+            >
+              Logout
+            </button>
 
             <!--Menu Button -->
             <button
@@ -120,32 +130,66 @@
     <!-- Start of the contents of the webiste -->
 
     <body>
-      <div class="login-container">
-        <div class="login-form">
-          <h1>Login</h1>
-          <p>Don't have an account? <a href="signup.html">Create now</a></p>
+      <div class="signup-container">
+        <div class="signup-form">
+          <h1>Sign Up</h1>
+          <p>Already have an account? <a href="login.html">Log in</a></p>
 
-          <form id="loginForm">
+          <form id="signupForm">
+            <div
+              id="errorMessages"
+              class="error-messages"
+              style="display: none"
+            ></div>
+            <div
+              id="successMessage"
+              class="success-message"
+              style="display: none"
+            ></div>
+
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+            <div class="field-error" id="usernameError"></div>
+
             <label for="email">E-mail</label>
             <input
               type="email"
               id="email"
+              name="email"
               placeholder="example@gmail.com"
               required
             />
+            <div class="field-error" id="emailError"></div>
 
             <label for="password">Password</label>
-            <div class="password-wrapper">
-              <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                required
-              />
-              <span class="toggle-eye"></span>
-            </div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password (min 6 characters)"
+              required
+            />
+            <div class="field-error" id="passwordError"></div>
 
-            <button type="submit" class="login-btn">Login</button>
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              required
+            />
+            <div class="field-error" id="confirmPasswordError"></div>
+
+            <button type="submit" class="signup-btn" id="submitBtn">
+              Create Account
+            </button>
           </form>
         </div>
       </div>
@@ -259,40 +303,8 @@
     </script>
     <!-- END OF SCRIPT (this is for the nav /menu part)-->
 
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value.trim();
-
-          try {
-            const response = await fetch("http://localhost:3000/login", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email, password }),
-            });
-
-            if (response.ok) {
-              const { userId, role } = await response.json();
-              localStorage.setItem("userId", userId); // Store userId in localStorage
-              localStorage.setItem("role", role); // Store role in localStorage
-              alert("Login successful!");
-              window.location.href = "aboutus.html"; // Redirect to the About Us page
-            } else {
-              const message = await response.text();
-              alert(message); // Show the error message from the server
-            }
-          } catch (error) {
-            console.error("Error logging in:", error);
-            alert("An error occurred. Please try again.");
-          }
-        });
-    </script>
-
-    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="budget.js"></script>
   </body>
   <!-- END OF BODY -->
 </html>

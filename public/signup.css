@@ -4,8 +4,8 @@ body {
   background-color: #fff7f0;
 }
 
-/* General styles for the login container */
-.login-container {
+/* General styles for the signup container */
+.signup-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,7 @@ body {
   padding: 20px;
 }
 
-.login-form {
+.signup-form {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -23,35 +23,35 @@ body {
   width: 100%;
 }
 
-.login-form h1 {
+.signup-form h1 {
   font-size: 2rem;
   margin-bottom: 10px;
   color: #333;
 }
 
-.login-form p {
+.signup-form p {
   margin-bottom: 20px;
   font-size: 0.9rem;
   color: #666;
 }
 
-.login-form a {
+.signup-form a {
   color: #007bff;
   text-decoration: none;
 }
 
-.login-form a:hover {
+.signup-form a:hover {
   text-decoration: underline;
 }
 
-.login-form label {
+.signup-form label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: #333;
 }
 
-.login-form input {
+.signup-form input {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -72,7 +72,7 @@ body {
   cursor: pointer;
 }
 
-.login-btn {
+.signup-btn {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -84,27 +84,73 @@ body {
   transition: background-color 0.3s;
 }
 
-.login-btn:hover {
+.signup-btn:hover {
   background-color: #0056b3;
 }
 
-.login-image {
+.signup-image {
   display: none; /* Hide the image on smaller screens */
 }
 
-.login-image img {
+.signup-image img {
   max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Error and Success Message Styles */
+.error-messages {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #c3e6cb;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: -15px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.field-error.show {
+  display: block;
+}
+
+.signup-form input.error {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.signup-form input.success {
+  border-color: #28a745;
+  background-color: #f8fff9;
+}
+
+.signup-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
-  .login-container {
+  .signup-container {
     flex-direction: row;
   }
 
-  .login-image {
+  .signup-image {
     display: block;
     margin-left: 20px;
   }

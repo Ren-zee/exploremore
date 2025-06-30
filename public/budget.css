@@ -134,6 +134,35 @@ button[type="reset"]:hover {
   text-align: center;
 }
 
+/* Loading indicator styles */
+#loadingIndicator {
+  color: #007bff;
+  font-style: italic;
+  margin-bottom: 10px;
+  animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Currency status styles */
+#currencyStatus {
+  display: block;
+  margin-top: 5px;
+  font-style: italic;
+  color: #28a745 !important;
+}
+
+#currencyStatus:empty {
+  display: none;
+}
+
 footer {
   background-color: #003049;
   color: white;
