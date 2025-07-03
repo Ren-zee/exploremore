@@ -338,7 +338,7 @@ function showResultBox() {
             targetHref = "mindanao.html#TouristSpot6";
             break;
         case "Masungi Georeserve":
-            targetHref = "luzon.html#TouristSpot_3";
+            targetHref = "luzon.html#TouristSpot7";
             break;
         case "Nova Shell Museum":
             targetHref = "visayas.html#TouristSpot8";
