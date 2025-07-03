@@ -27,7 +27,9 @@
             border-radius: 5px;
             pointer-events: none;
             z-index: 1000;
-            transition: opacity 0.2s ease;
+            opacity: 0;
+            display: none;
+            transition: opacity 0.25s cubic-bezier(.4,0,.2,1)
         }
         .tooltip strong {
             color: #4CAF50;
@@ -56,12 +58,12 @@
 
         .location {
             cursor: pointer;
-            transition: fill 0.3s;
+            transition: fill 0.3s, r 0.2s, filter 0.2s;
         }
         .location:hover {
             fill: #ffcc00 !important;
-            r: 12;
-            stroke-width: 3;
+            r: 14;
+            filter: drop-shadow(0 0 10px #ffd60088);
         }
         svg {
             display: block;
@@ -69,6 +71,19 @@
             max-width: 100%;
             height: auto;
         }
+        .location:active, .location.ripple {
+            filter: drop-shadow(0 0 18px #ffab00cc);
+            animation: ripple-effect 0.4s;
+        }
+        .tooltip.show {
+            display: block;
+            opacity: 1;
+}
+        @keyframes ripple-effect {
+            0% { filter: drop-shadow(0 0 0 #ffab00cc); }
+            50% { filter: drop-shadow(0 0 18px #ffab00cc); }
+            100% { filter: drop-shadow(0 0 0 #ffab00cc); }
+}
     </style>
 
   </head> <!-- END OF HEAD -->
@@ -283,62 +298,51 @@
   
 <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const locations = document.querySelectorAll('.location');
-            const tooltip = document.getElementById('tooltip');
+    const locations = document.querySelectorAll('.location');
+    const tooltip = document.getElementById('tooltip');
 
-            locations.forEach(location => {
-                location.addEventListener('mouseenter', (e) => {
-                    const name = location.getAttribute('data-name');
-                    const province = location.getAttribute('data-province');
-                    
-                    if (name && province) {
-                        tooltip.innerHTML = `<strong>${name}</strong>${province}`;
-                        tooltip.style.display = 'block';
-                        tooltip.style.opacity = '1';
-                    }
-                });
-
-                location.addEventListener('mousemove', (e) => {
-                    if (tooltip.style.display === 'block') {
-                        // Use fixed positioning relative to viewport
-                        const tooltipRect = tooltip.getBoundingClientRect();
-                        const viewportWidth = window.innerWidth;
-                        const viewportHeight = window.innerHeight;
-                        
-                        let left = e.clientX + 15;
-                        let top = e.clientY - 10;
-                        
-                        // Prevent tooltip from going off right edge
-                        if (left + tooltip.offsetWidth > viewportWidth) {
-                            left = e.clientX - tooltip.offsetWidth - 15;
-                        }
-                        
-                        // Prevent tooltip from going off bottom edge
-                        if (top + tooltip.offsetHeight > viewportHeight) {
-                            top = e.clientY - tooltip.offsetHeight - 15;
-                        }
-                        
-                        // Prevent tooltip from going off left edge
-                        if (left < 0) {
-                            left = 10;
-                        }
-                        
-                        // Prevent tooltip from going off top edge
-                        if (top < 0) {
-                            top = 10;
-                        }
-                        
-                        tooltip.style.left = `${left}px`;
-                        tooltip.style.top = `${top}px`;
-                    }
-                });
-
-                location.addEventListener('mouseleave', () => {
-                    tooltip.style.display = 'none';
-                    tooltip.style.opacity = '0';
-                });
-            });
+    locations.forEach(location => {
+        location.addEventListener('mouseenter', (e) => {
+            const name = location.getAttribute('data-name');
+            const province = location.getAttribute('data-province');
+            if (name && province) {
+                tooltip.innerHTML = `<strong>${name}</strong>${province}`;
+                tooltip.classList.add('show');
+            }
+            location.setAttribute('r', 14); // Enlarge marker
         });
+
+        location.addEventListener('mousemove', (e) => {
+            if (tooltip.classList.contains('show')) {
+                let left = e.clientX + 15;
+                let top = e.clientY - 10;
+                // Prevent tooltip from going off screen
+                if (left + tooltip.offsetWidth > window.innerWidth) {
+                    left = e.clientX - tooltip.offsetWidth - 15;
+                }
+                if (top + tooltip.offsetHeight > window.innerHeight) {
+                    top = e.clientY - tooltip.offsetHeight - 15;
+                }
+                if (left < 0) left = 10;
+                if (top < 0) top = 10;
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+            }
+        });
+
+        location.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('show');
+            location.setAttribute('r', 10); // Reset marker size
+        });
+
+        location.addEventListener('mousedown', () => {
+            location.classList.add('ripple');
+        });
+        location.addEventListener('mouseup', () => {
+            setTimeout(() => location.classList.remove('ripple'), 400);
+        });
+    });
+});
 
         function showDetails(id) {
             // Define the target URL and section ID for each region
