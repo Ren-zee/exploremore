@@ -18,7 +18,7 @@
     
    <style>
         .tooltip {
-            position: absolute;
+            position: fixed;
             display: none;
             padding: 10px 15px;
             background-color: rgba(0, 0, 0, 0.9);
@@ -276,108 +276,103 @@
           <text x="730" y="125" font-size="16" fill="#000">Mindanao</text>
       </svg>
 
-    <div class="tooltip" id="tooltip"></div>
+    
 
   </div>
+  <div class="tooltip" id="tooltip"></div>
   
-  
-  <script>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const locations = document.querySelectorAll('.location');
+            const tooltip = document.getElementById('tooltip');
 
-document.addEventListener('DOMContentLoaded', () => {
-    const locations = document.querySelectorAll('.location');
-    const tooltip = document.getElementById('tooltip');
-
-    locations.forEach(location => {
-        location.addEventListener('mouseover', () => {
-            const name = location.getAttribute('data-name');
-            const province = location.getAttribute('data-province');
-            tooltip.style.display = 'block';
-            
-            if (name && province) { 
-              tooltip.innerHTML = `<strong>${name}</strong><br>${province}`;
-              tooltip.style.display = 'block';
-            }
-
-        });
-
-         location.addEventListener('mousemove', (e) => {
-                    // Get viewport dimensions to prevent tooltip from going off-screen
-                    const viewportWidth = window.innerWidth;
-                    const viewportHeight = window.innerHeight;
-                    const tooltipRect = tooltip.getBoundingClientRect();
+            locations.forEach(location => {
+                location.addEventListener('mouseenter', (e) => {
+                    const name = location.getAttribute('data-name');
+                    const province = location.getAttribute('data-province');
                     
-                    let left = e.clientX + 15;
-                    let top = e.clientY + 15;
-                    
-                    // Adjust if tooltip would go off right edge
-                    if (left + tooltipRect.width > viewportWidth) {
-                        left = e.clientX - tooltipRect.width - 15;
+                    if (name && province) {
+                        tooltip.innerHTML = `<strong>${name}</strong>${province}`;
+                        tooltip.style.display = 'block';
+                        tooltip.style.opacity = '1';
                     }
-                    
-                    // Adjust if tooltip would go off bottom edge
-                    if (top + tooltipRect.height > viewportHeight) {
-                        top = e.clientY - tooltipRect.height - 15;
-                    }
-                    
-                    tooltip.style.left = `${left}px`;
-                    tooltip.style.top = `${top}px`;
                 });
 
-                location.addEventListener('mouseout', () => {
-                    tooltip.style.display = 'none';
-        });
-    });
-});
-  </script>
-    
-  
-    <script>     
-      function showDetails(id) {
-    // Define the target URL and section ID for each region
-    let targetUrl = '';
-    let sectionId = '';
+                location.addEventListener('mousemove', (e) => {
+                    if (tooltip.style.display === 'block') {
+                        // Use fixed positioning relative to viewport
+                        const tooltipRect = tooltip.getBoundingClientRect();
+                        const viewportWidth = window.innerWidth;
+                        const viewportHeight = window.innerHeight;
+                        
+                        let left = e.clientX + 15;
+                        let top = e.clientY - 10;
+                        
+                        // Prevent tooltip from going off right edge
+                        if (left + tooltip.offsetWidth > viewportWidth) {
+                            left = e.clientX - tooltip.offsetWidth - 15;
+                        }
+                        
+                        // Prevent tooltip from going off bottom edge
+                        if (top + tooltip.offsetHeight > viewportHeight) {
+                            top = e.clientY - tooltip.offsetHeight - 15;
+                        }
+                        
+                        // Prevent tooltip from going off left edge
+                        if (left < 0) {
+                            left = 10;
+                        }
+                        
+                        // Prevent tooltip from going off top edge
+                        if (top < 0) {
+                            top = 10;
+                        }
+                        
+                        tooltip.style.left = `${left}px`;
+                        tooltip.style.top = `${top}px`;
+                    }
+                });
 
-    // Logic for Luzon
-    if (id === 'TouristSpot1') {
-        targetUrl = 'luzon.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot1';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }
-    if (id === 'TouristSpot2') {
-        targetUrl = 'luzon.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot2';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot3') {
-        targetUrl = 'visayas.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot3';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot4') {
-        targetUrl = 'visayas.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot4';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot5') {
-        targetUrl = 'mindanao.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot5';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot6') {
-        targetUrl = 'mindanao.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot6';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot7') {
-        targetUrl = 'Luzon.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot7';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash
-    }if (id === 'TouristSpot8') {
-        targetUrl = 'Visayas.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot8';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash   
-    }if (id === 'TouristSpot9') {
-        targetUrl = 'mindanao.html';  // You might want to load a new page here.
-        sectionId = 'TouristSpot9';
-        window.location.href = targetUrl + "#" + sectionId;  // Update the URL to include the hash         
-    }
-}
-</script>
+                location.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                    tooltip.style.opacity = '0';
+                });
+            });
+        });
+
+        function showDetails(id) {
+            // Define the target URL and section ID for each region
+            let targetUrl = '';
+            let sectionId = '';
+
+            // Logic for different tourist spots
+            switch(id) {
+                case 'TouristSpot1':
+                case 'TouristSpot2':
+                case 'TouristSpot7':
+                    targetUrl = 'luzon.html';
+                    sectionId = id;
+                    break;
+                case 'TouristSpot3':
+                case 'TouristSpot4':
+                case 'TouristSpot8':
+                    targetUrl = 'visayas.html';
+                    sectionId = id;
+                    break;
+                case 'TouristSpot5':
+                case 'TouristSpot6':
+                case 'TouristSpot9':
+                    targetUrl = 'mindanao.html';
+                    sectionId = id;
+                    break;
+            }
+            
+            if (targetUrl) {
+                window.location.href = targetUrl + "#" + sectionId;
+            }
+        }
+    </script>
+
 </body>
 
 <main class="main">
