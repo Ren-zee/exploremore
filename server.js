@@ -463,6 +463,43 @@ app.use((err, req, res, next) => {
   });
 });
 
+
+// ==========================
+// Get Price Breakdown
+// ==========================
+app.get("/api/price-breakdown/:spotId", (req, res) => {
+  const spotId = parseInt(req.params.spotId);
+
+  if (isNaN(spotId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid spot ID",
+    });
+  }
+
+  const query = `
+  SELECT category, label, price_min, price_max, notes
+  FROM price_breakdown
+  WHERE spot_id = ?
+`;
+
+  db.query(query, [spotId], (err, results) => {
+    if (err) {
+      console.error("Error fetching price breakdown:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching price data",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      breakdown: results,
+    });
+  });
+});
+
+
 // ==========================
 // 404 Handler
 // ==========================
@@ -479,3 +516,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+

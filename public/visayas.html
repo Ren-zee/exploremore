@@ -543,33 +543,14 @@
           </div><!--End of Transportation-->
 
           <div class="row">
-            <div class="col-md-7 priceBreakdown">
-              <h3>
-                Price breakdown
-              </h3>
-              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
-              <ol>
-                <li><b>Average stay duration (Total)</b> = 40,000 - 60,000 Php</li>
-                <li><b>Average cost of accommodation</b> = 2,500 - 4,000 Php (for 2 overnight stays)</li>
-                <li><b>Average Transportation cost depending on mode of transportation</b> 
-                  <ul>
-                    <li>Airplane = 52,00 Php (one-way)</li>
-                    <li>Ferry = 260 Php (one-way)</li>
-                    <li>Van/Shuttle Bus = 1,000 Php</li>
-                    <li>Jeepney = 160 Php (one-way)</li>
-                    <li>Motorcycle = 2,000 Php</li>
-                  </ul>
-                </li>
-                <li><b>Average Food cost</b> = 8,000 Php </li>
-                <li><b>Entrance fees cost</b>
-                  <ul>
-                    <li>10 Php per person for the lighthouse</li>
-                    <li>30 Php  per person for the beach</li>
-                    <li>The place is open from 8:00 AM to 8:00 PM, Monday to Friday, and closed on weekends.</li>
-                </li>
-              </ol>
-            </div> 
+            <div class="col-md-7 priceBreakdown"> <!-- <== Add data-id -->
+              <h3>Price breakdown</h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price:</p>
+              <ol class="priceBreakdownContainer" data-id="4">
 
+                <!-- JS will fill this -->
+              </ol>
+            </div>
 
             <div class="col-md-5 priceBreakdown">
               <div class="picPrice mt-3">
@@ -1050,34 +1031,15 @@
           </div><!--End of Transportation-->
 
           <div class="row">
-            <div class="col-md-7 priceBreakdown">
-              <h3>
-                Price breakdown
-              </h3>
-              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
-              <ol>
-                <li><b>Average stay duration (Total)</b> = 22,000 Php - 60,000 Php Php</li>
-                <li><b>Average cost of accommodation</b> = 13,000 Php - 15,000 Php (for 2 overnight stays)</li>
-                <li><b>Average Transportation cost depending on mode of transportation</b> 
-                  <ul>
-                    <li>Direct Bus = 1,200 Php = 2,000 Php (one-way)</li>
-                    <li>Airplane = 40,00 Php (one-way)</li>
-                    <li>Van/Bus = 1,800 Php</li>
-                    <li>Multicab = 200 Php (one-way)</li>
-                    <li>Motorcycle = 1,000 Php</li>
-                  </ul>
-                </li>
-                <li><b>Average Food cost</b> = 8,000 Php </li>
-                <li><b>Entrance fees cost</b>
-                  <ul>
-                    <li>Tour guide fee: Around 500 Php
-                      <br> <i>You need a tour guide to enter the cave</i>
-                    </li>
-                    <li>Entrance fee: 15 Php - 25 Php</li>
-                </li>
-              </ol>
-            </div> 
+          
+            <div class="col-md-7 priceBreakdown"> <!-- <== Add data-id -->
+              <h3>Price breakdown</h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price:</p>
+              <ol class="priceBreakdownContainer" data-id="5">
 
+                <!-- JS will fill this -->
+              </ol>
+            </div>
 
             <div class="col-md-5 priceBreakdown">
               <div class="picPrice mt-3">
@@ -1577,35 +1539,14 @@
           </div><!--End of Transportation-->
 
           <div class="row">
-            <div class="col-md-7 priceBreakdown">
-              <h3>
-                Price breakdown
-              </h3>
-              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price</p>
-              
-              <ol>
-                <li><b>Average stay duration (Total)</b> = 32500 Php - 50,000 Php </li>
-                <li><b>Average cost of accommodation</b> = 5,500 Php - 8,000 Php (for 2 overnight stays)</li>
-                <li><b>Average Transportation cost depending on mode of transportation</b> 
-                  <ul>
-                    <li>Airplane = 16,000 Php - 32,000 Php (one-way)</li>
-                    <li>Bus = 300 Php - 400 Php</li>
-                    <li>Van/Car Rental = 2,800 Php - 20,000 Php</li>
-                    <li>Jeepney = 80 Php - 120 Php</li>
-                    <li>Tricycle = 300 Php - 600 Php</li>
-                    <li>Motorcycle rental - 600 Php - 1400 Php</li>
-                    
-                    
-                  </ul>
-                </li>
-                <li><b>Average Food cost</b> = 9,000 Php </li>
-                <li><b>Entrance fees cost</b>
-                  <ul>
-                    <li>Entrance fee: 100 Php per person</li>
-                </li>
-              </ol>
-            </div> 
+            <div class="col-md-7 priceBreakdown"> <!-- <== Add data-id -->
+              <h3>Price breakdown</h3>
+              <p>Based on 2 overnight stays and a 4-people trip, here is an estimated travel price:</p>
+              <ol class="priceBreakdownContainer" data-id="6">
 
+                <!-- JS will fill this -->
+              </ol>
+            </div>
 
             <div class="col-md-5 priceBreakdown">
               <div class="picPrice mt-3">
@@ -1845,6 +1786,10 @@
 
     <script src="auth.js"></script>
     <script src="budget.js"></script>
+
+    <!-- price breakdown -->
+    <script src="price.js"></script>
+
 
   </body> <!-- END OF BODY -->
 
