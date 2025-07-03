@@ -515,7 +515,7 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
   WHERE spot_id = ?
 `;
 
-  db.query(query, [spotId], (err, results) => {
+  pool.query(query, [spotId], (err, results) => {
     if (err) {
       console.error("Error fetching price breakdown:", err);
       return res.status(500).json({
