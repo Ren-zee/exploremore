@@ -47,6 +47,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -274,9 +275,11 @@
           <rect x="700" y="110" width="20" height="20" fill="#F44336"/>
           <text x="730" y="125" font-size="16" fill="#000">Mindanao</text>
       </svg>
+
+    <div class="tooltip" id="tooltip"></div>
+
   </div>
   
-  <div class="tooltip" id="tooltip"></div>
   
   <script>
 
@@ -291,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tooltip.style.display = 'block';
             
             if (name && province) { 
-              tooltip.innerHTML = '<strong>${name}</strong><br>${province}';
+              tooltip.innerHTML = `<strong>${name}</strong><br>${province}`;
               tooltip.style.display = 'block';
             }
 
