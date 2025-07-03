@@ -4,12 +4,11 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const { body, validationResult } = require("express-validator");
-const db = require("./config/db"); // Ensure db.js is correctly configured
+const pool = require("./config/db");
 const path = require("path");
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware
 app.use(
@@ -37,10 +36,9 @@ app.use(
 
 // Welcome Route
 // Serve index.html for the root path
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-
 
 // ==========================
 // Input Validation Middleware
@@ -92,7 +90,7 @@ app.post("/signup", signupValidation, async (req, res) => {
 
     // Check if username already exists
     const checkUsernameQuery = "SELECT id FROM users WHERE username = ?";
-    db.query(checkUsernameQuery, [username], async (err, usernameResults) => {
+    pool.query(checkUsernameQuery, [username], async (err, usernameResults) => {
       if (err) {
         console.error("Error checking username:", err);
         return res.status(500).json({
@@ -110,7 +108,7 @@ app.post("/signup", signupValidation, async (req, res) => {
 
       // Check if email already exists
       const checkEmailQuery = "SELECT id FROM users WHERE email = ?";
-      db.query(checkEmailQuery, [email], async (err, emailResults) => {
+      pool.query(checkEmailQuery, [email], async (err, emailResults) => {
         if (err) {
           console.error("Error checking email:", err);
           return res.status(500).json({
@@ -133,7 +131,7 @@ app.post("/signup", signupValidation, async (req, res) => {
           // Insert new user
           const insertQuery =
             "INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)";
-          db.query(
+          pool.query(
             insertQuery,
             [username, email, hashedPassword, role],
             (err, result) => {
@@ -191,7 +189,7 @@ app.post("/login", loginValidation, (req, res) => {
 
     const query =
       "SELECT id, username, email, password_hash, role FROM users WHERE email = ?";
-    db.query(query, [email], async (err, results) => {
+    pool.query(query, [email], async (err, results) => {
       if (err) {
         console.error("Error querying the database:", err);
         return res.status(500).json({
@@ -308,7 +306,7 @@ const requireAdmin = (req, res, next) => {
 app.get("/profile", requireAuth, (req, res) => {
   const query =
     "SELECT id, username, email, role, created_at FROM users WHERE id = ?";
-  db.query(query, [req.session.userId], (err, results) => {
+  pool.query(query, [req.session.userId], (err, results) => {
     if (err) {
       console.error("Error fetching user profile:", err);
       return res.status(500).json({
@@ -357,7 +355,7 @@ app.post(
     const userId = req.session.userId;
 
     const query = "INSERT INTO feedback (user_id, feedback) VALUES (?, ?)";
-    db.query(query, [userId, feedback], (err, result) => {
+    pool.query(query, [userId, feedback], (err, result) => {
       if (err) {
         console.error("Error inserting feedback:", err);
         return res.status(500).json({
@@ -388,7 +386,7 @@ app.get("/feedbacks", requireAdmin, (req, res) => {
     ORDER BY f.created_at DESC
   `;
 
-  db.query(query, (err, results) => {
+  pool.query(query, (err, results) => {
     if (err) {
       console.error("Error fetching feedbacks:", err);
       return res.status(500).json({
@@ -428,7 +426,7 @@ app.post(
     const { feedbackId } = req.body;
 
     const query = "UPDATE feedback SET is_verified = TRUE WHERE id = ?";
-    db.query(query, [feedbackId], (err, result) => {
+    pool.query(query, [feedbackId], (err, result) => {
       if (err) {
         console.error("Error verifying feedback:", err);
         return res.status(500).json({
@@ -453,6 +451,40 @@ app.post(
 );
 
 // ==========================
+// Get Verified Feedbacks (Public)
+// ==========================
+app.get("/get-feedbacks", (req, res) => {
+  console.log("GET /get-feedbacks endpoint called");
+
+  const query = `
+    SELECT f.id, f.feedback, f.created_at,
+           u.username
+    FROM feedback f
+    JOIN users u ON f.user_id = u.id
+    ORDER BY f.created_at DESC
+    LIMIT 20
+  `;
+
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching feedbacks:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching feedbacks",
+      });
+    }
+
+    console.log("Feedbacks query results:", results);
+    console.log("Number of feedbacks found:", results.length);
+
+    res.status(200).json({
+      success: true,
+      feedbacks: results,
+    });
+  });
+});
+
+// ==========================
 // Error Handling Middleware
 // ==========================
 app.use((err, req, res, next) => {
@@ -473,7 +505,7 @@ app.use((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -23,12 +23,6 @@ function initializeAuth() {
     loginForm.addEventListener("submit", handleLogin);
   }
 
-  // Handle feedback form
-  const feedbackForm = document.getElementById("feedbackForm");
-  if (feedbackForm) {
-    feedbackForm.addEventListener("submit", handleFeedbackSubmission);
-  }
-
   // Check authentication status on page load
   checkAuthStatus();
 }
@@ -331,9 +325,6 @@ function checkAuthStatus() {
     logoutButton.classList.remove("d-none");
     logoutButton.textContent = `Logout`;
   }
-
-  // Also check feedback authentication status
-  checkFeedbackAuth();
 }
 
 // Logout function
@@ -351,15 +342,11 @@ function logout() {
     logoutButton.classList.add("d-none");
   }
 
-  // Hide any auth or feedback messages
+  // Hide any auth messages
   const authMessage = document.getElementById("authMessage");
   if (authMessage) {
     authMessage.style.display = "none";
   }
-  hideFeedbackMessage();
-
-  // Update feedback form status
-  checkFeedbackAuth();
 
   // Redirect to home page
   window.location.href = "index.html";
@@ -378,138 +365,5 @@ function hideMessage(elementId) {
   const element = document.getElementById(elementId);
   if (element) {
     element.style.display = "none";
-  }
-}
-
-// Feedback functionality
-function checkFeedbackAuth() {
-  const user = JSON.parse(sessionStorage.getItem("user") || "null");
-  const authMessage = document.getElementById("authMessage");
-  const feedbackForm = document.getElementById("feedbackForm");
-
-  if (feedbackForm) {
-    if (!user) {
-      // User not logged in - hide auth message
-      if (authMessage) {
-        authMessage.style.display = "none";
-      }
-      feedbackForm.style.opacity = "1";
-      feedbackForm.style.pointerEvents = "auto";
-    } else {
-      // User logged in - hide auth message, enable form
-      if (authMessage) {
-        authMessage.style.display = "none";
-      }
-      feedbackForm.style.opacity = "1";
-      feedbackForm.style.pointerEvents = "auto";
-    }
-  }
-}
-
-async function handleFeedbackSubmission(event) {
-  event.preventDefault();
-
-  const user = JSON.parse(sessionStorage.getItem("user") || "null");
-  if (!user) {
-    // Show the authentication message when user tries to submit
-    const authMessage = document.getElementById("authMessage");
-    if (authMessage) {
-      authMessage.style.display = "block";
-    }
-    showFeedbackMessage("You must be logged in to submit feedback.", "warning");
-    return;
-  }
-
-  const feedbackTextarea = document.getElementById("feedback");
-  const submitBtn = document.getElementById("submitFeedbackBtn");
-  const feedbackText = feedbackTextarea.value.trim();
-
-  if (!feedbackText) {
-    showFeedbackMessage(
-      "Please enter your feedback before submitting.",
-      "error"
-    );
-    return;
-  }
-
-  const originalText = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting...";
-
-  try {
-    const response = await fetch("/submit-feedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        feedback: feedbackText,
-      }),
-      credentials: "include", // Include session cookies
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      showFeedbackMessage(
-        "Thank you! Your feedback has been submitted.",
-        "success"
-      );
-      feedbackTextarea.value = ""; // Clear the form
-
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        hideFeedbackMessage();
-      }, 5000);
-    } else {
-      if (data.errors && data.errors.length > 0) {
-        const errorMessages = data.errors.map((error) => error.msg).join(", ");
-        showFeedbackMessage(errorMessages, "error");
-      } else {
-        showFeedbackMessage(
-          data.message || "An error occurred while submitting feedback.",
-          "error"
-        );
-      }
-    }
-  } catch (error) {
-    console.error("Feedback submission error:", error);
-    showFeedbackMessage(
-      "Network error. Please check your connection and try again.",
-      "error"
-    );
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
-  }
-}
-
-function showFeedbackMessage(message, type) {
-  const messageElement = document.getElementById("feedbackMessages");
-  if (messageElement) {
-    let className = "alert alert-danger"; // default to error
-    if (type === "success") {
-      className = "alert alert-success";
-    } else if (type === "warning") {
-      className = "alert alert-warning";
-    }
-
-    messageElement.className = className;
-    messageElement.textContent = message;
-    messageElement.style.display = "block";
-
-    // Auto-hide error and warning messages after 8 seconds
-    if (type === "error" || type === "warning") {
-      setTimeout(() => {
-        hideFeedbackMessage();
-      }, 8000);
-    }
-  }
-}
-
-function hideFeedbackMessage() {
-  const messageElement = document.getElementById("feedbackMessages");
-  if (messageElement) {
-    messageElement.style.display = "none";
   }
 }
