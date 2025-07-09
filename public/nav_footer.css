@@ -74,6 +74,12 @@
 }
 
 
+#sidebarMenu {
+  z-index: 10001 !important;
+}
+.offcanvas-backdrop.show {
+  z-index: 10000 !important;
+}
 
 .navbar-section nav ul {
   width: 100%;
@@ -214,6 +220,8 @@ footer {
   background-color: #17395C; 
   padding: 30px 3%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 8888;
 }
 
 .footer-col {
