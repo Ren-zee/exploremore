@@ -1,28 +1,67 @@
+new Swiper('.card-wrapper', {
 
-var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 1,
-    spaceBetween: 10,
-    loop: true,
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
+  loop: true,
+  spaceBetween: 30,
+
+  autoplay: {
+    delay: 3000, // time in milliseconds (3000 = 3 seconds)
+    disableOnInteraction: false, // keeps autoplay going after user interacts
+  },
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+    dynamicBullets: true
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+  // responsive breakpoints
+  breakpoints: {
+    0: {
+        slidesPerView:1
     },
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+    768: {
+        slidesPerView:2
     },
-    breakpoints: {
-        640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-        },
-        768: {
-            slidesPerView: 3,
-            spaceBetween: 25,
-        },
-        1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-        },
-    },
+    1024: {
+        slidesPerView:3
+    }
+  }
+
+
+});
+
+/*-----------------------------------------------*/
+
+// Handle modal open and close
+document.querySelectorAll('.open-modal-button').forEach(button => {
+  button.addEventListener('click', e => {
+    e.preventDefault();
+    const modalId = button.getAttribute('data-modal');
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'flex';
+    }
+  });
+});
+
+// Handle modal close when clicking the "x" or outside the modal
+document.querySelectorAll('.modal').forEach(modal => {
+  const closeBtn = modal.querySelector('.close-button');
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', e => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
 });

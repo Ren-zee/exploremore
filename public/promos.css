@@ -1,85 +1,196 @@
-.container h1{
-    color: #4F0808;           
-    font-family: "Cardo", serif;
-    font-weight: 800;
-    font-style: normal;
-   
+
+
+.main {
+     margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(#ECEFFE, #CED6FB);
+
 }
 
-.container h2 {
-    color: #4F0808;           
-    font-family: "Cardo", serif;
-    font-weight: 800;
-    font-style: normal;
+.card-wrapper {
+    max-width: 1100px;
+    margin: 0 60px 35px;
+    padding: 20px 10px;
+    overflow: hidden;
+}
 
-    border-top: 3px solid #A70303;
-    padding: 4px;
+.card-list .card-item {
+    list-style: none;
+}
+
+.card-list .card-item .card-link {
+    user-select: none;
+    display: block;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+    transition: 0.2s ease;
+}
+
+.card-list .card-item .card-link:active {
+    cursor: grabbing;
+}
+
+.card-list .card-item .card-link:hover {
+    border-color: #5372F0;
 }
 
 
-.swiper {
+
+.card-list .card-link .card-image {
     width: 100%;
-    padding-bottom: 50px; /* Add space for pagination */
-    position: relative;
-}
-
-.swiper-slide {
-    width: 300px;
-    height: auto;
-    padding: 15px 15px 15px 15px;
-    background-color: #E5C692;
-    border-radius: 3px;
+    aspect-ratio: 16/9;
+    object-fit:cover;
+    border-radius: 10px;
 }
 
 
-.card-img-top {
-
-    width: 100%;
-    height: auto;
-    
+.card-list .card-link .badge {
+    color: #5372F0;
+    padding: 8px 16px;
+    font-size: 10px;
+    font-weight: 500;
+    margin: 16px 0 18px;
+    background: #DDE4FF;
+    width: fit-content;
+    border-radius: 50px;
 }
 
-.card-body {
-    background-color: #E5C692;
-    border: none;
-    outline: none;
-    padding: 3px 3px 3px 3px;
+
+.card-list .card-link .badge.Designer {
+    color: magenta;
+    background: #F7Dff5;
 }
 
-.badge {
-    display: inline-block;
+.card-list .card-link .badge.Marketer {
+    color: orangered;
+    background: #ffe3d2;
+}
+
+.card-list .card-link .badge.Editor {
+    color: green;
+    background: #D6F8D6;
+}
+
+.card-list .card-link .badge.Gamer {
+    color: orange;
+    background: #fff3cd;
+}
+
+.card-list .card-link .card-title {
     font-size: 14px;
-    font-weight: 700;
-    color: #E5C692;
-    background-color: #4E5F70;
-    border: 1px solid #0f2841;
-    border-radius: 3px;
-    padding: 5px 10px;
-    margin-top: 10px;
-  }
-
-
-
-
-/* Change arrow color */
-.swiper-button-next,
-.swiper-button-prev {
-    color: black; /* Change to your desired color */
+    color: #000;
+    font-weight: 600;
 }
 
-/* Optional: Hover effects */
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    color: #cc0000; /* Darker shade for hover */
-    transform: scale(1.2);
-    transition: all 0.3s ease;
+.card-list .card-link .card-button {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    margin: 30px 0 5px;
+    background: none;
+    cursor: pointer;
+    border: 2px solid #5372F0;
+    transform: rotate(-45deg);
+    transition: 0.4s ease;
 }
 
-.swiper-pagination {
-    position: absolute;
-    bottom: 10px; 
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 10;
-  }
+.card-list .card-link.card-link:hover .card-button {
+    color:#fff;
+    background: #5372F0;
+}
+
+.card-wrapper .swiper-pagination-bullet {
+    height: 13px;
+    width: 13px;
+    opacity: 0.5;
+    background: #5372F0;
+}
+
+.card-wrapper .swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+.card-wrapper .swipe-slide-button {
+    color: red;
+    margin-top: -35px;
+}
+
+.card-wrapper .swipe-slide-button:active {
+    color: rgb(238, 108, 108);
+}
+
+
+/* Make the swiper-wrapper stretch slides vertically */
+.swiper-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Each slide should fill the full height */
+.swiper-slide {
+  height: auto !important; /* override inline height */
+  display: flex;
+}
+
+/* Make card-link fill height and layout vertically */
+.card-link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/*-----------------*/
+
+/* Full-screen centered modal overlay */
+.modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+/* The modal content box */
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* The close button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+

@@ -192,362 +192,109 @@
     <!-- END of carousel -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-      const swipers = document.querySelectorAll(".mySwiper");
-      swipers.forEach((swiperEl) => {
-        new Swiper(swiperEl, {
-          slidesPerView: 1,
-          spaceBetween: 20,
-          loop: true,
-          navigation: {
-            nextEl: swiperEl.querySelector(".swiper-button-next"),
-            prevEl: swiperEl.querySelector(".swiper-button-prev"),
-          },
-          pagination: {
-            el: swiperEl.querySelector(".swiper-pagination"),
-            clickable: true,
-          },
-          breakpoints: {
-            576: {
-              slidesPerView: 2,
-            },
-            768: {
-              slidesPerView: 3,
-            },
-          },
-        });
-      });
-    </script>
+      <main>
+          <div class="container mt-5">
+        <h1>
+          Check out these promos and discount <br />
+          you can use in your next trip!
+        </h1>
 
-    <div class="container mt-5">
-      <h1>
-        Check out these promos and discount <br />
-        you can use in your next trip!
-      </h1>
+        <br />
+        <br />
+        <h2>Promos and Discounts in Luzon</h2>
+        <div class="container-fluid py-5">
+            <div class="container swiper">
+              <div class="card-wrapper">
+                  <ul class="card-list swiper-wrapper">
+                      <li class="card-item swiper-slide">
+                          <a href="#" class="card-link">
+                              <img src="resultImg_lighthouse.png" alt="Card Image" class="card-image">
+                              <p class="badge Developer">This is a badge</p>
+                              <h2 class="card-title">
+                                  Lorem ipsum </h2>
+                              <button class="card-button open-modal-button material-symbols-rounded" data-modal="modal-developer">
+                                  >
+                              </button>
+                          </a>
+                      </li> 
 
-      <br />
-      <br />
-      <h2>Promos and Discounts in Luzon</h2>
-      <div class="container-fluid py-5">
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cove.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Nagsasa Cove</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Barkada Bundle</h5>
-                <p>Get 20% off entrance fees for groups of 5 or more.</p>
+                      <li class="card-item swiper-slide">
+                          <a href="#" class="card-link">
+                              <img src="resultImg_lighthouse.png" alt="Card Image" class="card-image">
+                              <p class="badge Designer">Designer</p>
+                              <h2 class="card-title">
+                                  Lorem ipsum</h2>
+                              <button class="card-button material-symbols-rounded">
+                                  >
+                              </button>
+                          </a>
+                      </li>
+
+                      <li class="card-item swiper-slide">
+                          <a href="#" class="card-link">
+                              <img src="resultImg_lighthouse.png" alt="Card Image" class="card-image">
+                              <p class="badge Marketer">Marketer</p>
+                              <h2 class="card-title">
+                                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ullam illum est perferendis quasi veniam, sit sint, dolorum dolore incidunt modi enim voluptatibus qui. Repellat non voluptatum cupiditate deleniti iste sed.</h2>
+                              <button class="card-button material-symbols-rounded">
+                                  >
+                              </button>
+                          </a>
+                      </li>
+
+                      <li class="card-item swiper-slide">
+                          <a href="#" class="card-link">
+                              <img src="resultImg_lighthouse.png" alt="Card Image" class="card-image">
+                              <p class="badge Editor">Editor</p>
+                              <h2 class="card-title">
+                                  Lorem ipsum </h2>
+                              <button class="card-button material-symbols-rounded">
+                                  >
+                              </button>
+                          </a>
+                      </li>
+
+                      <li class="card-item swiper-slide">
+                          <a href="#" class="card-link">
+                              <img src="resultImg_lighthouse.png" alt="Card Image" class="card-image">
+                              <p class="badge Gamer">Gamer</p>
+                              <h2 class="card-title">
+                                  Lorem ipsum </h2>
+                              <button class="card-button material-symbols-rounded">
+                                  >
+                              </button>
+                          </a>
+                      </li>
+                  </ul>
+
+                  <div class="modal" id="modal-developer">
+                          <div class="modal-content">
+                              <span class="close-button">&times;</span>
+                              <h2>Developer Info</h2>
+                              <p>This card represents a developer role. Add specific details here.</p>
+                          </div>
+                      </div>
+
+                      <!-- If we need pagination -->
+                      <div class="swiper-pagination"></div>
+
+                      <!-- If we need navigation buttons -->
+                      <div class="swipe-slide-button swiper-button-prev"></div>
+                      <div class="swipe-slide-button swiper-button-next"></div>
+
+
               </div>
-            </div>
 
-            <!-- Slide 2 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_View.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Pacific View Deck</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">View Lover’s Deal</h5>
-                <p>Free coffee from the view deck café from 6–8AM.</p>
-              </div>
+              
             </div>
-
-            <!-- Slide 3 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cove.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Nagsasa Cove</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Student Summer Deal</h5>
-                <p>15% off for students during summer (present ID).</p>
-              </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_View.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Pacific View Deck</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Senior Sightseer Deal</h5>
-                <p>20% off for seniors + free walking stick rental.</p>
-              </div>
-            </div>
-
-            <!-- Slide 5 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cove.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Nagsasa Cove</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Seafood Fiesta</h5>
-                <p>
-                  Partner restaurant offers free grilled squid for groups of 4+.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 6 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_View.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Pacific View Deck</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Sunrise Special</h5>
-                <p>First 10 visitors before 7AM get a free snack basket.</p>
-              </div>
-            </div>
-          </div>
-          <!-- swiper-wrapper -->
-
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
+      
         </div>
+
       </div>
 
-      <h2>Promos and Discounts in Visayas</h2>
-      <div class="container-fluid py-5">
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_lighthouse.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Guisi Lighthouse</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Couples by the Coast</h5>
-                <p>Couples get free photo print at the lighthouse.</p>
-              </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cave.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Linao Cave</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Student Explorer Pass</h5>
-                <p>
-                  <br />
-                  15% off with valid school ID.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_lighthouse.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Guisi Lighthouse</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Lighthouse Lunch Pack</h5>
-                <p>Combo meal & entrance for only P99.</p>
-              </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cave.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Linao Cave</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Family Cave Quest</h5>
-                <p>Families of 5+ get a 25% group discount.</p>
-              </div>
-            </div>
-
-            <!-- Slide 5 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_lighthouse.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Guisi Lighthouse</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Sunset Picnic Promo</h5>
-                <p>Bring your mat, get a free lighthouse postcard.</p>
-              </div>
-            </div>
-
-            <!-- Slide 6 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Cave.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Linao Cave</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Returnee Reward</h5>
-                <p>Show past ticket = 50% off your second visit.</p>
-              </div>
-            </div>
-          </div>
-          <!-- swiper-wrapper -->
-
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-        </div>
-      </div>
-
-      <h2>Promos and Discounts in Mindanao</h2>
-      <div class="container-fluid py-5">
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            <!-- Slide 1 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Falls.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Tinago Falls</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Hidden Paradise Group Pass</h5>
-                <p>10% off for groups of 6 or more.</p>
-              </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Eagle.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Philippine Eagle Center</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">School Group Special</h5>
-                <p>
-                  <br />
-                  Free guide for groups of 10+ students.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Falls.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Tinago Falls</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Splash & Snack Combo</h5>
-                <p><br />Get a local snack with every entrance ticket.</p>
-              </div>
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Eagle.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Philippine Eagle Center</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Birthday Bird-day Promo</h5>
-                <p>Free entrance if it’s your birthday!</p>
-              </div>
-            </div>
-
-            <!-- Slide 5 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Falls.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">Tinago Falls</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Locals’ Day Out</h5>
-                <p>
-                  <br />Iligan residents enjoy 25% off every 15th of the month.
-                </p>
-              </div>
-            </div>
-
-            <!-- Slide 6 -->
-            <div class="swiper-slide">
-              <img
-                src="images/resultImg_Eagle.png"
-                class="card-img-top"
-                alt="touristSpot"
-              />
-              <div class="card-body">
-                <p class="badge">This is a badge</p>
-                <!-- Bootstrap Badge -->
-                <h5 class="card-title">Eco-Warrior Discount</h5>
-                <p><br /><br />Bring recyclables, get 10% off.<br /></p>
-              </div>
-            </div>
-          </div>
-          <!-- swiper-wrapper -->
-
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-        </div>
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="promo.js"></script>
-
+      </main>
+    
+   
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
@@ -659,6 +406,10 @@
     <script src="auth.js"></script>
     <script src="budget.js"></script>
   </body>
+
+      <!-- js script for swiper-->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="promo.js"></script>
   <!-- END OF BODY -->
 </html>
 <!-- END OF HTML -->
