@@ -531,6 +531,40 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
   });
 });
 
+// ========================
+// Get sql to user dashboard
+// ===========================
+
+app.get("/api/users-with-feedback", (req, res) => {
+
+  const query = `
+    SELECT 
+      u.username,
+      u.email,
+      u.role,
+      u.created_at,
+      COUNT(f.id) AS feedback_count
+    FROM users u
+    LEFT JOIN feedback f ON f.user_id = u.id
+    GROUP BY u.id
+  `;
+
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching users with feedback info:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching user data",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      users: results,
+    });
+  });
+});
+
 
 // ==========================
 // 404 Handler

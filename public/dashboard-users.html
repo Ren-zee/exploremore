@@ -104,31 +104,44 @@
         <!-- MAIN CONTENT -->
         <div class="main-content">
           <h1>Users Section</h1>
-          <p>Add need stuff here</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <br>
+          <br>
+
+          <div class="mb-3 d-flex flex-wrap gap-2">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search username or email" />
+            <input type="month" id="monthFilter" class="form-control" />
+   
+            <button id="clearFilters" class="btn btn-secondary">Clear</button>
+          </div>
+
+          <h4>Users List</h4>
+
           
+
+              <div class="table-responsive">
+                <table class="table table-striped">
+                
+                  <thead class="table-dark">
+                    <tr>
+                      <th id="sort-username">Username <span class="sort-arrow" data-col="username">▲▼</span></th>
+                      <th id="sort-email">Email <span class="sort-arrow" data-col="email">▲▼</span></th>
+                      <th id="sort-role">Role <span class="sort-arrow" data-col="role">▲▼</span></th>
+                      <th id="sort-created">Created At <span class="sort-arrow" data-col="created_at">▲▼</span></th>
+                      <th id="sort-feedback">Feedback Count <span class="sort-arrow" data-col="feedback_count">▲▼</span></th>
+                    </tr>
+                  </thead>
+                <tbody id="userTableBody">
+                  <!-- Filled by JS -->
+                </tbody>
+              </table>
+              </div>
 
           
         </div>
+        <br>
+          <br>
+          <br>
+          <br>
 
 
     <!-- END of the contents of the website -->
@@ -224,6 +237,7 @@
 
     <!-- Dashboard -->
     <script src="dashboard.js"></script>
+    <script src="dash-users.js"></script>
 
 
   </body> <!-- END OF BODY -->
