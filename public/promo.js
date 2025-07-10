@@ -39,7 +39,7 @@ new Swiper('.card-wrapper', {
 
 /*-----------------------------------------------*/
 
-// Handle modal open and close
+// OPEN modal
 document.querySelectorAll('.open-modal-button').forEach(button => {
   button.addEventListener('click', e => {
     e.preventDefault();
@@ -47,21 +47,25 @@ document.querySelectorAll('.open-modal-button').forEach(button => {
     const modal = document.getElementById(modalId);
     if (modal) {
       modal.style.display = 'flex';
+      document.body.classList.add('modal-open'); // Disable scroll
     }
   });
 });
 
-// Handle modal close when clicking the "x" or outside the modal
+// CLOSE modal
 document.querySelectorAll('.modal').forEach(modal => {
   const closeBtn = modal.querySelector('.close-button');
 
   closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
+    document.body.classList.remove('modal-open'); // Enable scroll
   });
 
   window.addEventListener('click', e => {
     if (e.target === modal) {
       modal.style.display = 'none';
+      document.body.classList.remove('modal-open'); // Enable scroll
     }
   });
 });
+
