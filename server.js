@@ -565,6 +565,42 @@ app.get("/api/users-with-feedback", (req, res) => {
   });
 });
 
+// ==========================
+// To get sql pricebreak table to dashboard price breakdown section (and vice versa)
+// ==========================
+
+app.post("/api/update-price-breakdown", (req, res) => {
+  const { spotId, category, label, price_min, price_max, notes } = req.body;
+
+  const query = `
+    UPDATE price_breakdown
+    SET price_min = ?, price_max = ?, notes = ?
+    WHERE spot_id = ? AND category = ? AND label = ?
+  `;
+
+  pool.query(
+    query,
+    [price_min, price_max, notes, spotId, category, label],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating price:", err);
+        return res.status(500).json({ success: false, message: "Update failed" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: "No matching record found" });
+      }
+
+      res.status(200).json({ success: true, message: "Update successful" });
+    }
+  );
+});
+
+
+
+
+
+
 
 // ==========================
 // 404 Handler
