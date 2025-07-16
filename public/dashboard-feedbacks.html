@@ -102,33 +102,56 @@
         </div>
 
         <!-- MAIN CONTENT -->
-        <div class="main-content">
-          <h1>Feedbacks Section</h1>
-          <p>Add need stuff here</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          
+    <div class="main-content">
+  <h1>Feedbacks Section</h1>
 
-          
+  <!-- Feedbacks Table (dynamic container) -->
+  <div id="feedbackTableContainer" class="mt-4"></div>
+
+  <!-- Statistics Cards -->
+  <div class="row my-3">
+    <div class="col-md-3">
+      <div class="card text-bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Feedbacks</h5>
+          <p class="card-text" id="statTotal">0</p>
         </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Verified</h5>
+          <p class="card-text" id="statVerified">0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-bg-warning">
+        <div class="card-body">
+          <h5 class="card-title">Unverified</h5>
+          <p class="card-text" id="statUnverified">0</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-bg-danger">
+        <div class="card-body">
+          <h5 class="card-title">Filtered</h5>
+          <p class="card-text" id="statFiltered">0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 d-flex gap-2">
+    <button class="btn btn-outline-success" id="bulkVerifyBtn">Bulk Verify</button>
+    <button class="btn btn-outline-warning" id="bulkUnverifyBtn">Bulk Unverify</button>
+    <button class="btn btn-outline-danger" id="bulkDeleteBtn">Bulk Delete</button>
+  </div>
+</div>
+
+<script src="dash-feedback.js"></script>
 
 
     <!-- END of the contents of the website -->
