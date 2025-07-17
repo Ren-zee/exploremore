@@ -596,36 +596,17 @@ app.post("/api/update-price-breakdown", (req, res) => {
   );
 });
 
-const express = require('express');
-const app = express();
 
-// Middleware (MUST come first)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files
-
-// API Routes (MUST come before catch-all handlers)
-app.get('/api/test', (req, res) => {
-  console.log('✅ Test route hit');
-  res.json({ message: 'Test route working!' });
-});
-
-app.get('/api/feedback', requireAdmin, (req, res) => {
-  console.log('✅ Feedback route hit');
-  
-  const { search, user, status, date } = req.query;
 // ==========================
-// Admin: Get All Feedbacks (with filtered + status)
+// Admin: Get All Feedbacks (with filters)
 // ==========================
-app.get("/api/feedback", requireAdmin, (req, res) => {
+app.get("/api/feedback", (req, res) => {
   const { search, user, status, date } = req.query;
 
-  // Base query
   let query = `
     SELECT 
       f.id, 
       f.feedback, 
-      f.filtered_feedback, 
       f.is_verified, 
       f.created_at, 
       u.username 
@@ -633,11 +614,9 @@ app.get("/api/feedback", requireAdmin, (req, res) => {
     JOIN users u ON f.user_id = u.id
   `;
 
-  // Array to hold query parameters
   const queryParams = [];
-  let conditions = [];
+  const conditions = [];
 
-  // Add filtering conditions based on query parameters
   if (search) {
     conditions.push(`f.feedback LIKE ?`);
     queryParams.push(`%${search}%`);
@@ -648,21 +627,19 @@ app.get("/api/feedback", requireAdmin, (req, res) => {
   }
   if (status) {
     conditions.push(`f.is_verified = ?`);
-    queryParams.push(status === 'verified' ? 1 : 0); // Assuming is_verified is a boolean
+    queryParams.push(status === "verified" ? 1 : 0);
   }
   if (date) {
     conditions.push(`DATE(f.created_at) = ?`);
     queryParams.push(date);
   }
 
-  // Append conditions to the query if any
   if (conditions.length > 0) {
-    query += ' WHERE ' + conditions.join(' AND ');
+    query += " WHERE " + conditions.join(" AND ");
   }
 
-  query += ' ORDER BY f.created_at DESC';
+  query += " ORDER BY f.created_at DESC";
 
-  // Execute the query
   pool.query(query, queryParams, (err, results) => {
     if (err) {
       console.error("Error fetching all feedbacks:", err);
@@ -674,30 +651,25 @@ app.get("/api/feedback", requireAdmin, (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: results, // Return results in a structured format
+      data: results,
     });
   });
 });
 
-const express = require('express');
-const app = express();
-
-// Middleware (MUST come first)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files
-
-// API Routes (MUST come before catch-all handlers)
-app.get('/api/test', (req, res) => {
-  console.log('✅ Test route hit');
-  res.json({ message: 'Test route working!' });
+// ==========================
+// Get current session user
+// ==========================
+app.get("/api/session", (req, res) => {
+  if (req.session && req.session.userId) {
+    res.status(200).json({
+      id: req.session.userId,
+      username: req.session.username,
+      role: req.session.role,
+    });
+  } else {
+    res.status(401).json({ error: "Not logged in" });
+  }
 });
-
-app.get('/api/feedback', requireAdmin, (req, res) => {
-  console.log('✅ Feedback route hit');
-  
-  const { search, user, status, date } = req.query;
-
 
 
 // ==========================

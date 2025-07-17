@@ -312,11 +312,13 @@ async function handleLogin(event) {
 }
 
 // Check authentication status and update UI
+// Check authentication status and update UI
 function checkAuthStatus() {
   const user = JSON.parse(sessionStorage.getItem("user") || "null");
   const loginButton = document.getElementById("loginButton");
   const signupButton = document.getElementById("signupButton");
   const logoutButton = document.getElementById("logoutButton");
+  const dashboardButton = document.getElementById("dashboardButton");
 
   if (user && loginButton && signupButton && logoutButton) {
     // User is logged in
@@ -324,17 +326,23 @@ function checkAuthStatus() {
     signupButton.classList.add("d-none");
     logoutButton.classList.remove("d-none");
     logoutButton.textContent = `Logout`;
+
+    // Show dashboard if user is admin
+    if (user.role === "admin" && dashboardButton) {
+      dashboardButton.classList.remove("d-none");
+    }
   }
 }
+
 
 // Logout function
 function logout() {
   sessionStorage.removeItem("user");
 
-  // Update UI
   const loginButton = document.getElementById("loginButton");
   const signupButton = document.getElementById("signupButton");
   const logoutButton = document.getElementById("logoutButton");
+  const dashboardButton = document.getElementById("dashboardButton");
 
   if (loginButton && signupButton && logoutButton) {
     loginButton.classList.remove("d-none");
@@ -342,15 +350,18 @@ function logout() {
     logoutButton.classList.add("d-none");
   }
 
-  // Hide any auth messages
+  if (dashboardButton) {
+    dashboardButton.classList.add("d-none");
+  }
+
   const authMessage = document.getElementById("authMessage");
   if (authMessage) {
     authMessage.style.display = "none";
   }
 
-  // Redirect to home page
   window.location.href = "index.html";
 }
+
 
 // Utility functions for showing/hiding messages
 function showMessage(elementId, message) {
