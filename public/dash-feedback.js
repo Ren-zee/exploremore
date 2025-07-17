@@ -1,3 +1,6 @@
+// Configuration for API base URL - moved to global scope
+const API_BASE_URL = ''; // Empty for relative URLs when serving from same server
+
 document.addEventListener("DOMContentLoaded", () => {
   loadFeedbackTable();
 
@@ -30,8 +33,6 @@ function loadFeedbackTable() {
   const date = document.getElementById("dateSelect")?.value || "";
 
   const params = new URLSearchParams({ search, user, status, date });
-  // Configuration for API base URL
-  const API_BASE_URL = ''; // Empty for relative URLs when serving from same server
   const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
   
   console.log("Making request to:", url); // Debug log

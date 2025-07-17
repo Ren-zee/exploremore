@@ -607,6 +607,7 @@ app.get("/api/feedback", (req, res) => {
     SELECT 
       f.id, 
       f.feedback, 
+      f.filtered_feedback,
       f.is_verified, 
       f.created_at, 
       u.username 
@@ -671,6 +672,244 @@ app.get("/api/session", (req, res) => {
   }
 });
 
+// ==========================
+// Toggle Feedback Status
+// ==========================
+app.post("/api/feedbacks/toggle/:id", (req, res) => {
+  const feedbackId = req.params.id;
+  
+  // First get current status
+  pool.query(
+    "SELECT is_verified FROM feedback WHERE id = ?",
+    [feedbackId],
+    (err, results) => {
+      if (err) {
+        console.error("Error getting feedback status:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Error getting feedback status",
+        });
+      }
+      
+      if (results.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Feedback not found",
+        });
+      }
+      
+      const currentStatus = results[0].is_verified;
+      const newStatus = currentStatus ? 0 : 1;
+      
+      // Update with opposite status
+      pool.query(
+        "UPDATE feedback SET is_verified = ? WHERE id = ?",
+        [newStatus, feedbackId],
+        (err, result) => {
+          if (err) {
+            console.error("Error toggling feedback status:", err);
+            return res.status(500).json({
+              success: false,
+              message: "Error toggling feedback status",
+            });
+          }
+          
+          res.status(200).json({
+            success: true,
+            message: "Feedback status toggled successfully",
+          });
+        }
+      );
+    }
+  );
+});
+
+// ==========================
+// Delete Single Feedback
+// ==========================
+app.delete("/api/feedbacks/delete/:id", (req, res) => {
+  const feedbackId = req.params.id;
+  
+  pool.query(
+    "DELETE FROM feedback WHERE id = ?",
+    [feedbackId],
+    (err, result) => {
+      if (err) {
+        console.error("Error deleting feedback:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Error deleting feedback",
+        });
+      }
+      
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Feedback not found",
+        });
+      }
+      
+      res.status(200).json({
+        success: true,
+        message: "Feedback deleted successfully",
+      });
+    }
+  );
+});
+
+// ==========================
+// Bulk Verify Feedbacks
+// ==========================
+app.post("/api/feedbacks/bulk-verify", (req, res) => {
+  const { ids } = req.body;
+  
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "No feedback IDs provided",
+    });
+  }
+  
+  const placeholders = ids.map(() => '?').join(',');
+  const query = `UPDATE feedback SET is_verified = 1 WHERE id IN (${placeholders})`;
+  
+  pool.query(query, ids, (err, result) => {
+    if (err) {
+      console.error("Error bulk verifying feedbacks:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error bulk verifying feedbacks",
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: `${result.affectedRows} feedbacks verified successfully`,
+    });
+  });
+});
+
+// ==========================
+// Bulk Unverify Feedbacks
+// ==========================
+app.post("/api/feedbacks/bulk-unverify", (req, res) => {
+  const { ids } = req.body;
+  
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "No feedback IDs provided",
+    });
+  }
+  
+  const placeholders = ids.map(() => '?').join(',');
+  const query = `UPDATE feedback SET is_verified = 0 WHERE id IN (${placeholders})`;
+  
+  pool.query(query, ids, (err, result) => {
+    if (err) {
+      console.error("Error bulk unverifying feedbacks:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error bulk unverifying feedbacks",
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: `${result.affectedRows} feedbacks unverified successfully`,
+    });
+  });
+});
+
+// ==========================
+// Bulk Delete Feedbacks
+// ==========================
+app.post("/api/feedbacks/bulk-delete", (req, res) => {
+  const { ids } = req.body;
+  
+  if (!ids || !Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "No feedback IDs provided",
+    });
+  }
+  
+  const placeholders = ids.map(() => '?').join(',');
+  const query = `DELETE FROM feedback WHERE id IN (${placeholders})`;
+  
+  pool.query(query, ids, (err, result) => {
+    if (err) {
+      console.error("Error bulk deleting feedbacks:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error bulk deleting feedbacks",
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: `${result.affectedRows} feedbacks deleted successfully`,
+    });
+  });
+});
+
+// ==========================
+// Update your existing GET /api/feedback query to include filtered_feedback
+// ==========================
+// Replace your existing query with:
+/*
+let query = `
+  SELECT 
+    f.id, 
+    f.feedback, 
+    f.filtered_feedback,
+    f.is_verified, 
+    f.created_at, 
+    u.username 
+  FROM feedback f
+  JOIN users u ON f.user_id = u.id
+`;
+*/
+
+// ==========================
+// Get Stats
+// ==========================
+app.get("/api/stats", (req, res) => {
+  const queries = [
+    "SELECT COUNT(*) as total FROM feedback",
+    "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
+    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0"
+  ];
+  
+  Promise.all(queries.map(query => 
+    new Promise((resolve, reject) => {
+      pool.query(query, (err, results) => {
+        if (err) reject(err);
+        else resolve(results[0]);
+      });
+    })
+  ))
+  .then(results => {
+    const stats = {
+      total: results[0].total,
+      verified: results[1].verified,
+      unverified: results[2].unverified,
+      filtered: 0 // You can implement this based on your filtering logic
+    };
+    
+    res.status(200).json({
+      success: true,
+      data: stats
+    });
+  })
+  .catch(err => {
+    console.error("Error getting stats:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error getting statistics"
+    });
+  });
+});
 
 // ==========================
 // 404 Handler
