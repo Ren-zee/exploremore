@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:3001", // Adjust based on your frontend URL
+    origin: process.env.FRONTEND_URL || "https://explore-more-ph.vercel.app", // Adjust based on your frontend URL
     credentials: true,
   })
 );
@@ -23,11 +23,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Session configuration
 app.use(
   session({
-    secret: "your-secret-key-change-this-in-production", // Change this in production
+    secret:
+      process.env.SESSION_SECRET || "your-secret-key-change-this-in-production",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Set to false for local development (no HTTPS)
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
@@ -38,6 +39,16 @@ app.use(
 // Serve index.html for the root path
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Health check endpoint for Railway
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "ExploreMore PH API is running",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
 });
 
 // ==========================
@@ -89,7 +100,7 @@ app.post("/signup", signupValidation, async (req, res) => {
     console.log("Signup request received:", { username, email, role });
 
     // Check if username already exists
-    const checkUsernameQuery = "SELECT id FROM users WHERE username = ?";
+    const checkUsernameQuery = "SELECT id FROM users WHERE username = $1";
     pool.query(checkUsernameQuery, [username], async (err, usernameResults) => {
       if (err) {
         console.error("Error checking username:", err);
@@ -99,7 +110,7 @@ app.post("/signup", signupValidation, async (req, res) => {
         });
       }
 
-      if (usernameResults.length > 0) {
+      if (usernameResults.rows.length > 0) {
         return res.status(400).json({
           success: false,
           message: "Username already exists",
@@ -107,7 +118,7 @@ app.post("/signup", signupValidation, async (req, res) => {
       }
 
       // Check if email already exists
-      const checkEmailQuery = "SELECT id FROM users WHERE email = ?";
+      const checkEmailQuery = "SELECT id FROM users WHERE email = $1";
       pool.query(checkEmailQuery, [email], async (err, emailResults) => {
         if (err) {
           console.error("Error checking email:", err);
@@ -117,7 +128,7 @@ app.post("/signup", signupValidation, async (req, res) => {
           });
         }
 
-        if (emailResults.length > 0) {
+        if (emailResults.rows.length > 0) {
           return res.status(400).json({
             success: false,
             message: "Email already exists",
@@ -130,7 +141,7 @@ app.post("/signup", signupValidation, async (req, res) => {
 
           // Insert new user
           const insertQuery =
-            "INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)";
+            "INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id";
           pool.query(
             insertQuery,
             [username, email, hashedPassword, role],
@@ -146,7 +157,7 @@ app.post("/signup", signupValidation, async (req, res) => {
               res.status(201).json({
                 success: true,
                 message: "Account created successfully",
-                userId: result.insertId,
+                userId: result.rows[0].id,
               });
             }
           );
@@ -188,7 +199,7 @@ app.post("/login", loginValidation, (req, res) => {
     console.log("Login attempt for email:", email);
 
     const query =
-      "SELECT id, username, email, password_hash, role FROM users WHERE email = ?";
+      "SELECT id, username, email, password_hash, role FROM users WHERE email = $1";
     pool.query(query, [email], async (err, results) => {
       if (err) {
         console.error("Error querying the database:", err);
@@ -198,14 +209,14 @@ app.post("/login", loginValidation, (req, res) => {
         });
       }
 
-      if (results.length === 0) {
+      if (results.rows.length === 0) {
         return res.status(401).json({
           success: false,
           message: "Invalid email or password",
         });
       }
 
-      const user = results[0];
+      const user = results.rows[0];
 
       try {
         const isValidPassword = await bcrypt.compare(
@@ -305,7 +316,7 @@ const requireAdmin = (req, res, next) => {
 // ==========================
 app.get("/profile", requireAuth, (req, res) => {
   const query =
-    "SELECT id, username, email, role, created_at FROM users WHERE id = ?";
+    "SELECT id, username, email, role, created_at FROM users WHERE id = $1";
   pool.query(query, [req.session.userId], (err, results) => {
     if (err) {
       console.error("Error fetching user profile:", err);
@@ -315,7 +326,7 @@ app.get("/profile", requireAuth, (req, res) => {
       });
     }
 
-    if (results.length === 0) {
+    if (results.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: "User not found",
@@ -324,7 +335,7 @@ app.get("/profile", requireAuth, (req, res) => {
 
     res.status(200).json({
       success: true,
-      user: results[0],
+      user: results.rows[0],
     });
   });
 });
@@ -354,7 +365,8 @@ app.post(
     const { feedback } = req.body;
     const userId = req.session.userId;
 
-    const query = "INSERT INTO feedback (user_id, feedback) VALUES (?, ?)";
+    const query =
+      "INSERT INTO feedback (user_id, feedback) VALUES ($1, $2) RETURNING id";
     pool.query(query, [userId, feedback], (err, result) => {
       if (err) {
         console.error("Error inserting feedback:", err);
@@ -367,7 +379,7 @@ app.post(
       res.status(200).json({
         success: true,
         message: "Feedback submitted successfully",
-        feedbackId: result.insertId,
+        feedbackId: result.rows[0].id,
       });
     });
   }
@@ -397,7 +409,7 @@ app.get("/feedbacks", requireAdmin, (req, res) => {
 
     res.status(200).json({
       success: true,
-      feedbacks: results,
+      feedbacks: results.rows,
     });
   });
 });
@@ -425,7 +437,7 @@ app.post(
 
     const { feedbackId } = req.body;
 
-    const query = "UPDATE feedback SET is_verified = TRUE WHERE id = ?";
+    const query = "UPDATE feedback SET is_verified = TRUE WHERE id = $1";
     pool.query(query, [feedbackId], (err, result) => {
       if (err) {
         console.error("Error verifying feedback:", err);
@@ -435,7 +447,7 @@ app.post(
         });
       }
 
-      if (result.affectedRows === 0) {
+      if (result.rowCount === 0) {
         return res.status(404).json({
           success: false,
           message: "Feedback not found",
@@ -474,12 +486,12 @@ app.get("/get-feedbacks", (req, res) => {
       });
     }
 
-    console.log("Feedbacks query results:", results);
-    console.log("Number of feedbacks found:", results.length);
+    console.log("Feedbacks query results:", results.rows);
+    console.log("Number of feedbacks found:", results.rows.length);
 
     res.status(200).json({
       success: true,
-      feedbacks: results,
+      feedbacks: results.rows,
     });
   });
 });
@@ -494,7 +506,6 @@ app.use((err, req, res, next) => {
     message: "Internal server error",
   });
 });
-
 
 // ==========================
 // Get Price Breakdown
@@ -512,7 +523,7 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
   const query = `
   SELECT category, label, price_min, price_max, notes
   FROM price_breakdown
-  WHERE spot_id = ?
+  WHERE spot_id = $1
 `;
 
   pool.query(query, [spotId], (err, results) => {
@@ -526,7 +537,7 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
 
     res.status(200).json({
       success: true,
-      breakdown: results,
+      breakdown: results.rows,
     });
   });
 });
@@ -536,7 +547,6 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
 // ===========================
 
 app.get("/api/users-with-feedback", (req, res) => {
-
   const query = `
     SELECT 
       u.username,
@@ -560,7 +570,7 @@ app.get("/api/users-with-feedback", (req, res) => {
 
     res.status(200).json({
       success: true,
-      users: results,
+      users: results.rows,
     });
   });
 });
@@ -574,8 +584,8 @@ app.post("/api/update-price-breakdown", (req, res) => {
 
   const query = `
     UPDATE price_breakdown
-    SET price_min = ?, price_max = ?, notes = ?
-    WHERE spot_id = ? AND category = ? AND label = ?
+    SET price_min = $1, price_max = $2, notes = $3
+    WHERE spot_id = $4 AND category = $5 AND label = $6
   `;
 
   pool.query(
@@ -584,18 +594,21 @@ app.post("/api/update-price-breakdown", (req, res) => {
     (err, result) => {
       if (err) {
         console.error("Error updating price:", err);
-        return res.status(500).json({ success: false, message: "Update failed" });
+        return res
+          .status(500)
+          .json({ success: false, message: "Update failed" });
       }
 
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ success: false, message: "No matching record found" });
+      if (result.rowCount === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "No matching record found" });
       }
 
       res.status(200).json({ success: true, message: "Update successful" });
     }
   );
 });
-
 
 // ==========================
 // Admin: Get All Feedbacks (with filters)
@@ -614,24 +627,29 @@ app.get("/api/feedback", (req, res) => {
     JOIN users u ON f.user_id = u.id
   `;
 
+  let paramCounter = 1;
   const queryParams = [];
   const conditions = [];
 
   if (search) {
-    conditions.push(`f.feedback LIKE ?`);
+    conditions.push(`f.feedback ILIKE $${paramCounter}`);
     queryParams.push(`%${search}%`);
+    paramCounter++;
   }
   if (user) {
-    conditions.push(`u.username = ?`);
+    conditions.push(`u.username = $${paramCounter}`);
     queryParams.push(user);
+    paramCounter++;
   }
   if (status) {
-    conditions.push(`f.is_verified = ?`);
-    queryParams.push(status === "verified" ? 1 : 0);
+    conditions.push(`f.is_verified = $${paramCounter}`);
+    queryParams.push(status === "verified");
+    paramCounter++;
   }
   if (date) {
-    conditions.push(`DATE(f.created_at) = ?`);
+    conditions.push(`DATE(f.created_at) = $${paramCounter}`);
     queryParams.push(date);
+    paramCounter++;
   }
 
   if (conditions.length > 0) {
@@ -651,7 +669,7 @@ app.get("/api/feedback", (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: results,
+      data: results.rows,
     });
   });
 });
@@ -671,7 +689,6 @@ app.get("/api/session", (req, res) => {
   }
 });
 
-
 // ==========================
 // 404 Handler
 // ==========================
@@ -688,4 +705,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-

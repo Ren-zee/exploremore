@@ -207,7 +207,7 @@ async function handleSignup(event) {
   submitBtn.textContent = "Creating Account...";
 
   try {
-    const response = await fetch("/signup", {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -277,7 +277,7 @@ async function handleLogin(event) {
   loginBtn.textContent = "Logging in...";
 
   try {
-    const response = await fetch("/login", {
+    const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
