@@ -13,7 +13,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://explore-more-ph.vercel.app", // Adjust based on your frontend URL
+    origin: [
+      process.env.FRONTEND_URL || "http://localhost:3001",
+      "https://explore-more-ph.vercel.app",
+      "https://exploremore-rouge.vercel.app",
+      "http://localhost:3001",
+      "https://localhost:3001",
+    ],
     credentials: true,
   })
 );
@@ -84,10 +90,13 @@ const loginValidation = [
 // Signup Route
 // ==========================
 app.post("/signup", signupValidation, async (req, res) => {
+  console.log("📝 Signup request received:", req.body);
+
   try {
     // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log("❌ Validation errors:", errors.array());
       return res.status(400).json({
         success: false,
         message: "Validation failed",
@@ -101,16 +110,23 @@ app.post("/signup", signupValidation, async (req, res) => {
 
     // Check if username already exists
     const checkUsernameQuery = "SELECT id FROM users WHERE username = $1";
+    console.log("🔍 Checking username with query:", checkUsernameQuery, [
+      username,
+    ]);
+
     pool.query(checkUsernameQuery, [username], async (err, usernameResults) => {
       if (err) {
-        console.error("Error checking username:", err);
+        console.error("❌ Error checking username:", err);
         return res.status(500).json({
           success: false,
           message: "Server error during signup",
         });
       }
 
+      console.log("📊 Username check results:", usernameResults.rows);
+
       if (usernameResults.rows.length > 0) {
+        console.log("⚠️ Username already exists");
         return res.status(400).json({
           success: false,
           message: "Username already exists",
@@ -119,16 +135,21 @@ app.post("/signup", signupValidation, async (req, res) => {
 
       // Check if email already exists
       const checkEmailQuery = "SELECT id FROM users WHERE email = $1";
+      console.log("🔍 Checking email with query:", checkEmailQuery, [email]);
+
       pool.query(checkEmailQuery, [email], async (err, emailResults) => {
         if (err) {
-          console.error("Error checking email:", err);
+          console.error("❌ Error checking email:", err);
           return res.status(500).json({
             success: false,
             message: "Server error during signup",
           });
         }
 
+        console.log("📊 Email check results:", emailResults.rows);
+
         if (emailResults.rows.length > 0) {
+          console.log("⚠️ Email already exists");
           return res.status(400).json({
             success: false,
             message: "Email already exists",
@@ -137,23 +158,33 @@ app.post("/signup", signupValidation, async (req, res) => {
 
         try {
           // Hash password
+          console.log("🔒 Hashing password...");
           const hashedPassword = await bcrypt.hash(password, 12);
+          console.log("✅ Password hashed successfully");
 
           // Insert new user
           const insertQuery =
             "INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id";
+          console.log("🔍 Inserting user with query:", insertQuery, [
+            username,
+            email,
+            "[HIDDEN]",
+            role,
+          ]);
+
           pool.query(
             insertQuery,
             [username, email, hashedPassword, role],
             (err, result) => {
               if (err) {
-                console.error("Error inserting user:", err);
+                console.error("❌ Error inserting user:", err);
                 return res.status(500).json({
                   success: false,
                   message: "Error creating account",
                 });
               }
 
+              console.log("✅ User created successfully:", result.rows[0]);
               res.status(201).json({
                 success: true,
                 message: "Account created successfully",
@@ -162,7 +193,7 @@ app.post("/signup", signupValidation, async (req, res) => {
             }
           );
         } catch (hashError) {
-          console.error("Error hashing password:", hashError);
+          console.error("❌ Error hashing password:", hashError);
           return res.status(500).json({
             success: false,
             message: "Error processing password",
@@ -171,7 +202,7 @@ app.post("/signup", signupValidation, async (req, res) => {
       });
     });
   } catch (error) {
-    console.error("Unexpected error during signup:", error);
+    console.error("❌ Unexpected error during signup:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error",

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Connection Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .test-result {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f1b2b3;
+      }
+      .warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔧 API Connection Diagnostic</h1>
+    <p>Use this page to test your API connection and debug network issues.</p>
+
+    <div>
+      <button onclick="testLocalAPI()">Test Local API (localhost:3001)</button>
+      <button onclick="testProductionAPI()">
+        Test Production API (Railway)
+      </button>
+      <button onclick="testHealth()">Test Health Endpoint</button>
+      <button onclick="testLogin()">Test Login</button>
+      <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+      const LOCAL_API = "http://localhost:3001";
+      const PRODUCTION_API =
+        "https://exploremore-production-c375.up.railway.app";
+
+      function addResult(message, type = "info") {
+        const resultsDiv = document.getElementById("results");
+        const resultDiv = document.createElement("div");
+        resultDiv.className = `test-result ${type}`;
+        resultDiv.innerHTML = message;
+        resultsDiv.appendChild(resultDiv);
+      }
+
+      function clearResults() {
+        document.getElementById("results").innerHTML = "";
+      }
+
+      async function testLocalAPI() {
+        addResult("🧪 Testing Local API...", "warning");
+        try {
+          const response = await fetch(`${LOCAL_API}/health`);
+          if (response.ok) {
+            const data = await response.json();
+            addResult(
+              `✅ Local API is working!<pre>${JSON.stringify(
+                data,
+                null,
+                2
+              )}</pre>`,
+              "success"
+            );
+          } else {
+            addResult(
+              `⚠️ Local API responded with status: ${response.status}`,
+              "warning"
+            );
+          }
+        } catch (error) {
+          addResult(`❌ Local API failed: ${error.message}`, "error");
+        }
+      }
+
+      async function testProductionAPI() {
+        addResult("🧪 Testing Production API...", "warning");
+        try {
+          const response = await fetch(`${PRODUCTION_API}/health`);
+          if (response.ok) {
+            const data = await response.json();
+            addResult(
+              `✅ Production API is working!<pre>${JSON.stringify(
+                data,
+                null,
+                2
+              )}</pre>`,
+              "success"
+            );
+          } else {
+            addResult(
+              `⚠️ Production API responded with status: ${response.status}`,
+              "warning"
+            );
+          }
+        } catch (error) {
+          addResult(
+            `❌ Production API failed: ${error.message}<br>This could be a CORS issue or server is down.`,
+            "error"
+          );
+        }
+      }
+
+      async function testHealth() {
+        addResult("🧪 Testing Health Endpoints...", "warning");
+
+        // Test both APIs
+        const apis = [
+          { name: "Local", url: LOCAL_API },
+          { name: "Production", url: PRODUCTION_API },
+        ];
+
+        for (const api of apis) {
+          try {
+            const response = await fetch(`${api.url}/health`);
+            const data = await response.json();
+            addResult(
+              `✅ ${api.name} Health Check Passed<pre>${JSON.stringify(
+                data,
+                null,
+                2
+              )}</pre>`,
+              "success"
+            );
+          } catch (error) {
+            addResult(
+              `❌ ${api.name} Health Check Failed: ${error.message}`,
+              "error"
+            );
+          }
+        }
+      }
+
+      async function testLogin() {
+        addResult("🧪 Testing Login Endpoint...", "warning");
+
+        const testCredentials = {
+          email: "test@example.com",
+          password: "test123",
+        };
+
+        // Test local first
+        try {
+          const response = await fetch(`${LOCAL_API}/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(testCredentials),
+          });
+
+          const data = await response.json();
+          addResult(
+            `📡 Local Login Response (${response.status}):<pre>${JSON.stringify(
+              data,
+              null,
+              2
+            )}</pre>`,
+            response.ok ? "success" : "warning"
+          );
+        } catch (error) {
+          addResult(`❌ Local Login Test Failed: ${error.message}`, "error");
+        }
+
+        // Test production
+        try {
+          const response = await fetch(`${PRODUCTION_API}/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(testCredentials),
+          });
+
+          const data = await response.json();
+          addResult(
+            `📡 Production Login Response (${
+              response.status
+            }):<pre>${JSON.stringify(data, null, 2)}</pre>`,
+            response.ok ? "success" : "warning"
+          );
+        } catch (error) {
+          addResult(
+            `❌ Production Login Test Failed: ${error.message}`,
+            "error"
+          );
+        }
+      }
+
+      // Auto-run basic tests when page loads
+      window.addEventListener("load", () => {
+        addResult(
+          "🏁 Diagnostic page loaded. Click buttons above to test your API.",
+          "warning"
+        );
+      });
+    </script>
+  </body>
+</html>
