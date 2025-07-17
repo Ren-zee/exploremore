@@ -1,3 +1,7 @@
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+
 let users = [];
 let currentSortColumn = "username";
 let currentSortOrder = "asc";
@@ -10,7 +14,7 @@ let selectedDate = "";
 function renderTable(data) {
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
-  data.forEach(user => {
+  data.forEach((user) => {
     const row = `
       <tr>
         <td>${user.username}</td>
@@ -25,7 +29,7 @@ function renderTable(data) {
 }
 
 function updateSortIndicators() {
-  document.querySelectorAll(".sort-arrow").forEach(span => {
+  document.querySelectorAll(".sort-arrow").forEach((span) => {
     const col = span.dataset.col;
     if (col === currentSortColumn) {
       span.innerText = currentSortOrder === "asc" ? "▲" : "▼";
@@ -50,7 +54,7 @@ function sortTable(column) {
 }
 
 function applyFiltersAndSort() {
-  let filtered = users.filter(user => {
+  let filtered = users.filter((user) => {
     const lowerUsername = user.username.toLowerCase();
     const lowerEmail = user.email.toLowerCase();
     const createdDate = new Date(user.created_at);
@@ -93,9 +97,9 @@ function applyFiltersAndSort() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/users-with-feedback")
-    .then(res => res.json())
-    .then(data => {
+  fetch(`${API_BASE_URL}/api/users-with-feedback`)
+    .then((res) => res.json())
+    .then((data) => {
       if (data.success) {
         users = data.users;
         applyFiltersAndSort(); // initial render
@@ -105,24 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   // Sort arrow click
-  document.querySelectorAll(".sort-arrow").forEach(span => {
+  document.querySelectorAll(".sort-arrow").forEach((span) => {
     span.addEventListener("click", () => sortTable(span.dataset.col));
   });
 
   // Search input
-  document.getElementById("searchInput").addEventListener("input", e => {
+  document.getElementById("searchInput").addEventListener("input", (e) => {
     searchTerm = e.target.value.trim().toLowerCase();
     applyFiltersAndSort();
   });
 
   // Month filter
-  document.getElementById("monthFilter").addEventListener("change", e => {
+  document.getElementById("monthFilter").addEventListener("change", (e) => {
     selectedMonth = e.target.value;
     applyFiltersAndSort();
   });
 
   // Date filter
-  document.getElementById("dateFilter").addEventListener("change", e => {
+  document.getElementById("dateFilter").addEventListener("change", (e) => {
     selectedDate = e.target.value;
     applyFiltersAndSort();
   });

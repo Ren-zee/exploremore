@@ -1,3 +1,9 @@
+// API configuration
+const API_BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://exploremore-production.up.railway.app";
+
 document.addEventListener("DOMContentLoaded", () => {
   loadFeedbackTable();
 
@@ -30,26 +36,26 @@ function loadFeedbackTable() {
   const date = document.getElementById("dateSelect")?.value || "";
 
   const params = new URLSearchParams({ search, user, status, date });
-  // Configuration for API base URL
-  const API_BASE_URL = 'https://exploremore-production-c375.up.railway.app'; // Empty for relative URLs when serving from same server
   const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
-  
+
   console.log("Making request to:", url); // Debug log
   console.log("Current location:", window.location.href); // Debug log
 
   fetch(url)
-    .then(res => {
+    .then((res) => {
       console.log("Response status:", res.status); // Debug log
       console.log("Response ok:", res.ok); // Debug log
-      
+
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status} - ${res.statusText}`);
+        throw new Error(
+          `HTTP error! status: ${res.status} - ${res.statusText}`
+        );
       }
       return res.json();
     })
-    .then(response => {
+    .then((response) => {
       console.log("API Response:", response); // Debug log
-      
+
       // Handle the structured response format
       let feedbacks;
       if (response.success && response.data) {
@@ -61,39 +67,42 @@ function loadFeedbackTable() {
       }
 
       if (feedbacks.length === 0) {
-        document.getElementById("feedbackTableContainer").innerHTML = "<p>No feedbacks found.</p>";
+        document.getElementById("feedbackTableContainer").innerHTML =
+          "<p>No feedbacks found.</p>";
       } else {
         renderFeedbackTable(feedbacks);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error loading feedbacks:", err);
-      document.getElementById("feedbackTableContainer").innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
+      document.getElementById(
+        "feedbackTableContainer"
+      ).innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
     });
 
   // Load stats
   fetch(`${API_BASE_URL}/api/stats`)
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       return res.json();
     })
-    .then(response => {
+    .then((response) => {
       console.log("Stats Response:", response); // Debug log
-      
+
       // Handle both structured and direct response formats
       const stats = response.data || response;
       updateStats(stats);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error loading stats:", err);
       // Set default values on error
       updateStats({
         total: 0,
         verified: 0,
         unverified: 0,
-        filtered: 0
+        filtered: 0,
       });
     });
 }
@@ -121,19 +130,25 @@ function renderFeedbackTable(feedbacks) {
         </tr>
       </thead>
       <tbody>
-        ${feedbacks.map(fb => `
+        ${feedbacks
+          .map(
+            (fb) => `
           <tr data-id="${fb.id}">
             <td><input type="checkbox" class="select-row"></td>
-            <td>${escapeHtml(fb.username || 'N/A')}</td>
-            <td>${escapeHtml(fb.feedback || 'N/A')}</td>
-            <td>${escapeHtml(fb.filtered_feedback || 'N/A')}</td>
-            <td><span class="badge ${fb.is_verified ? 'bg-success' : 'bg-secondary'}">${fb.is_verified ? 'Verified' : 'Unverified'}</span></td>
+            <td>${escapeHtml(fb.username || "N/A")}</td>
+            <td>${escapeHtml(fb.feedback || "N/A")}</td>
+            <td>${escapeHtml(fb.filtered_feedback || "N/A")}</td>
+            <td><span class="badge ${
+              fb.is_verified ? "bg-success" : "bg-secondary"
+            }">${fb.is_verified ? "Verified" : "Unverified"}</span></td>
             <td>${new Date(fb.created_at).toLocaleString()}</td>
             <td>
               <button class="btn btn-sm btn-warning toggle-btn">Toggle</button>
               <button class="btn btn-sm btn-danger delete-btn">Delete</button>
             </td>
-          </tr>`).join("")}
+          </tr>`
+          )
+          .join("")}
       </tbody>
     </table>
   `;
@@ -142,23 +157,25 @@ function renderFeedbackTable(feedbacks) {
   const selectAllCheckbox = document.getElementById("selectAll");
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener("change", (e) => {
-      document.querySelectorAll(".select-row").forEach(cb => cb.checked = e.target.checked);
+      document
+        .querySelectorAll(".select-row")
+        .forEach((cb) => (cb.checked = e.target.checked));
     });
   }
 
   // Toggle button functionality
-  container.querySelectorAll(".toggle-btn").forEach(btn => {
+  container.querySelectorAll(".toggle-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.closest("tr").dataset.id;
       if (!id) {
         console.error("No ID found for toggle action");
         return;
       }
-      
+
       fetch(`${API_BASE_URL}/api/feedbacks/toggle/${id}`, {
-        method: "POST"
+        method: "POST",
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
@@ -167,7 +184,7 @@ function renderFeedbackTable(feedbacks) {
         .then(() => {
           loadFeedbackTable();
         })
-        .catch(err => {
+        .catch((err) => {
           console.error("Error toggling feedback:", err);
           alert("Failed to toggle feedback status");
         });
@@ -175,19 +192,19 @@ function renderFeedbackTable(feedbacks) {
   });
 
   // Delete button functionality
-  container.querySelectorAll(".delete-btn").forEach(btn => {
+  container.querySelectorAll(".delete-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.closest("tr").dataset.id;
       if (!id) {
         console.error("No ID found for delete action");
         return;
       }
-      
+
       if (confirm("Are you sure you want to delete this feedback?")) {
         fetch(`${API_BASE_URL}/api/feedbacks/delete/${id}`, {
-          method: "DELETE"
+          method: "DELETE",
         })
-          .then(res => {
+          .then((res) => {
             if (!res.ok) {
               throw new Error(`HTTP error! status: ${res.status}`);
             }
@@ -196,7 +213,7 @@ function renderFeedbackTable(feedbacks) {
           .then(() => {
             loadFeedbackTable();
           })
-          .catch(err => {
+          .catch((err) => {
             console.error("Error deleting feedback:", err);
             alert("Failed to delete feedback");
           });
@@ -207,26 +224,30 @@ function renderFeedbackTable(feedbacks) {
 
 function bulkAction(action) {
   const selectedIds = [...document.querySelectorAll(".select-row:checked")]
-    .map(cb => cb.closest("tr").dataset.id)
-    .filter(id => id); // Remove any undefined IDs
+    .map((cb) => cb.closest("tr").dataset.id)
+    .filter((id) => id); // Remove any undefined IDs
 
   if (!selectedIds.length) {
     alert("No feedbacks selected.");
     return;
   }
 
-  if (!confirm(`Are you sure you want to ${action} ${selectedIds.length} selected feedback(s)?`)) {
+  if (
+    !confirm(
+      `Are you sure you want to ${action} ${selectedIds.length} selected feedback(s)?`
+    )
+  ) {
     return;
   }
 
   fetch(`${API_BASE_URL}/api/feedbacks/bulk-${action}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ids: selectedIds })
+    body: JSON.stringify({ ids: selectedIds }),
   })
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -235,7 +256,7 @@ function bulkAction(action) {
     .then(() => {
       loadFeedbackTable();
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error performing bulk action:", err);
       alert(`Failed to perform bulk ${action}`);
     });
@@ -246,7 +267,7 @@ function updateStats(stats) {
     statTotal: stats.total || 0,
     statVerified: stats.verified || 0,
     statUnverified: stats.unverified || 0,
-    statFiltered: stats.filtered || 0
+    statFiltered: stats.filtered || 0,
   };
 
   Object.entries(elements).forEach(([id, value]) => {
@@ -261,8 +282,8 @@ function updateStats(stats) {
 
 // Helper function to escape HTML and prevent XSS
 function escapeHtml(text) {
-  if (!text) return '';
-  const div = document.createElement('div');
+  if (!text) return "";
+  const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
 }

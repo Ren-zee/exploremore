@@ -1,29 +1,38 @@
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+
 const spotMap = {
-  "Luzon": {
+  Luzon: {
     "Nagsasa Cove": 1,
     "Pacific View Deck": 2,
-    "Masungi Georeserve": 3
+    "Masungi Georeserve": 3,
   },
-  "Visayas": {
+  Visayas: {
     "Guisi Lighthouse": 4,
     "Linao Cave": 5,
-    "Nova Shell Museum": 6
+    "Nova Shell Museum": 6,
   },
-  "Mindanao": {
+  Mindanao: {
     "Philippine Eagle Center": 7,
     "Tinago Falls": 8,
-    "Mount Hamiguitan Range Wildlife Sanctuary": 9
-  }
+    "Mount Hamiguitan Range Wildlife Sanctuary": 9,
+  },
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".accordion-body button").forEach(button => {
+  document.querySelectorAll(".accordion-body button").forEach((button) => {
     button.addEventListener("click", () => {
-      const region = button.closest(".accordion-item").querySelector(".accordion-button").innerText.trim();
+      const region = button
+        .closest(".accordion-item")
+        .querySelector(".accordion-button")
+        .innerText.trim();
       const spotName = button.innerText.trim();
       const spotId = spotMap[region]?.[spotName];
       if (spotId) {
-        const container = button.closest(".accordion-body").querySelector("div[id^='priceBreakdownTableContainer']");
+        const container = button
+          .closest(".accordion-body")
+          .querySelector("div[id^='priceBreakdownTableContainer']");
         loadPriceTable(spotId, container);
       }
     });
@@ -31,9 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadPriceTable(spotId, container) {
-  fetch(`/api/price-breakdown/${spotId}`)
-    .then(res => res.json())
-    .then(data => {
+  fetch(`${API_BASE_URL}/api/price-breakdown/${spotId}`)
+    .then((res) => res.json())
+    .then((data) => {
       if (data.success) {
         renderEditableTable(data.breakdown, spotId, container);
       } else {
@@ -56,25 +65,39 @@ function renderEditableTable(breakdown, spotId, container) {
         </tr>
       </thead>
       <tbody>
-        ${breakdown.map(row => `
-          <tr data-id="${row.id || ''}">
+        ${breakdown
+          .map(
+            (row) => `
+          <tr data-id="${row.id || ""}">
             <td>${row.category}</td>
             <td>
-                ${["transportation", "fees"].includes(row.category.toLowerCase()) 
-                ? `<input type="text" class="form-control label-input" value="${row.label}">` 
-                : row.label}
+                ${
+                  ["transportation", "fees"].includes(
+                    row.category.toLowerCase()
+                  )
+                    ? `<input type="text" class="form-control label-input" value="${row.label}">`
+                    : row.label
+                }
             </td>
-            <td><input type="number" class="form-control" value="${row.price_min}"></td>
-            <td><input type="number" class="form-control" value="${row.price_max}"></td>
-            <td><input type="text" class="form-control" value="${row.notes || ''}"></td>
+            <td><input type="number" class="form-control" value="${
+              row.price_min
+            }"></td>
+            <td><input type="number" class="form-control" value="${
+              row.price_max
+            }"></td>
+            <td><input type="text" class="form-control" value="${
+              row.notes || ""
+            }"></td>
             <td><button class="btn btn-success btn-sm save-btn">Save</button></td>
           </tr>
-        `).join('')}
+        `
+          )
+          .join("")}
       </tbody>
     </table>
   `;
 
-  container.querySelectorAll(".save-btn").forEach(btn => {
+  container.querySelectorAll(".save-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const row = btn.closest("tr");
       const category = row.children[0].innerText;
@@ -85,7 +108,7 @@ function renderEditableTable(breakdown, spotId, container) {
       const price_max = row.children[3].querySelector("input").value;
       const notes = row.children[4].querySelector("input").value;
 
-      fetch(`/api/update-price-breakdown`, {
+      fetch(`${API_BASE_URL}/api/update-price-breakdown`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -94,17 +117,17 @@ function renderEditableTable(breakdown, spotId, container) {
           label,
           price_min,
           price_max,
-          notes
-        })
+          notes,
+        }),
       })
-      .then(res => res.json())
-      .then(response => {
-        if (response.success) {
-          alert("Updated successfully!");
-        } else {
-          alert("Update failed: " + response.message);
-        }
-      });
+        .then((res) => res.json())
+        .then((response) => {
+          if (response.success) {
+            alert("Updated successfully!");
+          } else {
+            alert("Update failed: " + response.message);
+          }
+        });
     });
   });
 }
