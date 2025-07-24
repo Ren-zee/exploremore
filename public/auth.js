@@ -216,6 +216,7 @@ async function handleSignup(event) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Include credentials for cross-origin requests
       body: JSON.stringify({
         username,
         email,
@@ -288,6 +289,7 @@ async function handleLogin(event) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // Include credentials for cross-origin requests
       body: JSON.stringify({
         email,
         password,
@@ -319,9 +321,7 @@ async function handleLogin(event) {
 
     // More specific error messages
     if (error.name === "TypeError" && error.message.includes("fetch")) {
-      alert(
-        "Cannot connect to server."
-      );
+      alert("Cannot connect to server.");
     } else if (error.name === "SyntaxError") {
       alert("Server returned invalid response. Please try again.");
     } else {

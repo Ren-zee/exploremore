@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -7,16 +8,23 @@ const { body, validationResult } = require("express-validator");
 const pool = require("./config/db");
 const path = require("path");
 const app = express();
-const leoProfanity = require('leo-profanity');
-
+const leoProfanity = require("leo-profanity");
 
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "https://exploremore-rouge.vercel.app/", // Your Vercel deployment URL
+      "http://localhost:3000", // Local development
+      "http://127.0.0.1:3000", // Local development alternative
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,17 +32,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Session configuration
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "fallback-secret-for-development",
     resave: false,
     saveUninitialized: false,
     cookie: {
       secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Allow cross-site cookies in production
     },
   })
 );
-
 
 // Serve index.html for the root path
 app.get("/", (req, res) => {
@@ -496,7 +504,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-
 // ==========================
 // Get Price Breakdown
 // ==========================
@@ -537,7 +544,6 @@ app.get("/api/price-breakdown/:spotId", (req, res) => {
 // ===========================
 
 app.get("/api/users-with-feedback", (req, res) => {
-
   const query = `
     SELECT 
       u.username,
@@ -585,11 +591,15 @@ app.post("/api/update-price-breakdown", (req, res) => {
     (err, result) => {
       if (err) {
         console.error("Error updating price:", err);
-        return res.status(500).json({ success: false, message: "Update failed" });
+        return res
+          .status(500)
+          .json({ success: false, message: "Update failed" });
       }
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ success: false, message: "No matching record found" });
+        return res
+          .status(404)
+          .json({ success: false, message: "No matching record found" });
       }
 
       res.status(200).json({ success: true, message: "Update successful" });
@@ -599,54 +609,57 @@ app.post("/api/update-price-breakdown", (req, res) => {
 
 //initialize  profanity filter
 
-
 // ==========================
 // Enhanced Submit Feedback Endpoint (ADD THIS NEW ENDPOINT)
 // ==========================
 app.post("/api/feedback/submit", (req, res) => {
   const { feedback, user_id } = req.body;
-  
+
   if (!feedback || !user_id) {
     return res.status(400).json({
       success: false,
-      message: "Feedback and user ID are required"
+      message: "Feedback and user ID are required",
     });
   }
-  
+
   // Filter the feedback for profanity
-const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
-  
+  const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
+
   // Check if feedback contains profanity
   const containsProfanity = leoProfanity.isProfane(feedback);
-  
+
   // Insert feedback with both original and filtered versions
   const query = `
     INSERT INTO feedback (user_id, feedback, filtered_feedback, is_verified, created_at) 
     VALUES (?, ?, ?, ?, NOW())
   `;
-  
+
   // Auto-verify if no profanity, otherwise leave unverified for manual review
   const isVerified = !containsProfanity;
-  
-  pool.query(query, [user_id, feedback, filteredFeedback, isVerified], (err, result) => {
-    if (err) {
-      console.error("Error submitting feedback:", err);
-      return res.status(500).json({
-        success: false,
-        message: "Error submitting feedback"
+
+  pool.query(
+    query,
+    [user_id, feedback, filteredFeedback, isVerified],
+    (err, result) => {
+      if (err) {
+        console.error("Error submitting feedback:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Error submitting feedback",
+        });
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Feedback submitted successfully",
+        data: {
+          id: result.insertId,
+          containsProfanity: containsProfanity,
+          isVerified: isVerified,
+        },
       });
     }
-    
-    res.status(201).json({
-      success: true,
-      message: "Feedback submitted successfully",
-      data: {
-        id: result.insertId,
-        containsProfanity: containsProfanity,
-        isVerified: isVerified
-      }
-    });
-  });
+  );
 });
 
 // ==========================
@@ -657,37 +670,40 @@ app.get("/api/stats", (req, res) => {
     "SELECT COUNT(*) as total FROM feedback",
     "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
     "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0",
-    "SELECT COUNT(*) as filtered FROM feedback WHERE feedback != filtered_feedback"
+    "SELECT COUNT(*) as filtered FROM feedback WHERE feedback != filtered_feedback",
   ];
-  
-  Promise.all(queries.map(query => 
-    new Promise((resolve, reject) => {
-      pool.query(query, (err, results) => {
-        if (err) reject(err);
-        else resolve(results[0]);
+
+  Promise.all(
+    queries.map(
+      (query) =>
+        new Promise((resolve, reject) => {
+          pool.query(query, (err, results) => {
+            if (err) reject(err);
+            else resolve(results[0]);
+          });
+        })
+    )
+  )
+    .then((results) => {
+      const stats = {
+        total: results[0].total,
+        verified: results[1].verified,
+        unverified: results[2].unverified,
+        filtered: results[3].filtered,
+      };
+
+      res.status(200).json({
+        success: true,
+        data: stats,
       });
     })
-  ))
-  .then(results => {
-    const stats = {
-      total: results[0].total,
-      verified: results[1].verified,
-      unverified: results[2].unverified,
-      filtered: results[3].filtered
-    };
-    
-    res.status(200).json({
-      success: true,
-      data: stats
+    .catch((err) => {
+      console.error("Error getting stats:", err);
+      res.status(500).json({
+        success: false,
+        message: "Error getting statistics",
+      });
     });
-  })
-  .catch(err => {
-    console.error("Error getting stats:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error getting statistics"
-    });
-  });
 });
 
 // ==========================
@@ -700,44 +716,44 @@ app.post("/api/feedback/refilter", (req, res) => {
       console.error("Error fetching feedbacks for refiltering:", err);
       return res.status(500).json({
         success: false,
-        message: "Error fetching feedbacks"
+        message: "Error fetching feedbacks",
       });
     }
-    
+
     let processed = 0;
     let updated = 0;
-    
+
     if (results.length === 0) {
       return res.status(200).json({
         success: true,
         message: "No feedbacks to refilter",
         processed: 0,
-        updated: 0
+        updated: 0,
       });
     }
-    
-    results.forEach(feedback => {
+
+    results.forEach((feedback) => {
       const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
       const containsProfanity = leoProfanity.check(feedback.feedback);
-      
+
       // Update the feedback with filtered version
       pool.query(
         "UPDATE feedback SET filtered_feedback = ?, is_verified = ? WHERE id = ?",
         [filteredFeedback, !containsProfanity, feedback.id],
         (updateErr, updateResult) => {
           processed++;
-          
+
           if (!updateErr && updateResult.affectedRows > 0) {
             updated++;
           }
-          
+
           // Send response when all feedbacks are processed
           if (processed === results.length) {
             res.status(200).json({
               success: true,
               message: "Refiltering completed",
               processed: processed,
-              updated: updated
+              updated: updated,
             });
           }
         }
@@ -753,36 +769,39 @@ app.get("/api/feedback/profanity-stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != filtered_feedback",
     "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 1",
-    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 0"
+    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 0",
   ];
-  
-  Promise.all(queries.map(query => 
-    new Promise((resolve, reject) => {
-      pool.query(query, (err, results) => {
-        if (err) reject(err);
-        else resolve(results[0]);
+
+  Promise.all(
+    queries.map(
+      (query) =>
+        new Promise((resolve, reject) => {
+          pool.query(query, (err, results) => {
+            if (err) reject(err);
+            else resolve(results[0]);
+          });
+        })
+    )
+  )
+    .then((results) => {
+      const profanityStats = {
+        totalProfane: results[0].totalProfane,
+        verifiedProfane: results[1].verifiedProfane,
+        unverifiedProfane: results[2].unverifiedProfane,
+      };
+
+      res.status(200).json({
+        success: true,
+        data: profanityStats,
       });
     })
-  ))
-  .then(results => {
-    const profanityStats = {
-      totalProfane: results[0].totalProfane,
-      verifiedProfane: results[1].verifiedProfane,
-      unverifiedProfane: results[2].unverifiedProfane
-    };
-    
-    res.status(200).json({
-      success: true,
-      data: profanityStats
+    .catch((err) => {
+      console.error("Error getting profanity stats:", err);
+      res.status(500).json({
+        success: false,
+        message: "Error getting profanity statistics",
+      });
     });
-  })
-  .catch(err => {
-    console.error("Error getting profanity stats:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error getting profanity statistics"
-    });
-  });
 });
 // ==========================
 // Admin: Get All Feedbacks (with filters)
@@ -864,7 +883,7 @@ app.get("/api/session", (req, res) => {
 // ==========================
 app.post("/api/feedbacks/toggle/:id", (req, res) => {
   const feedbackId = req.params.id;
-  
+
   // First get current status
   pool.query(
     "SELECT is_verified FROM feedback WHERE id = ?",
@@ -877,17 +896,17 @@ app.post("/api/feedbacks/toggle/:id", (req, res) => {
           message: "Error getting feedback status",
         });
       }
-      
+
       if (results.length === 0) {
         return res.status(404).json({
           success: false,
           message: "Feedback not found",
         });
       }
-      
+
       const currentStatus = results[0].is_verified;
       const newStatus = currentStatus ? 0 : 1;
-      
+
       // Update with opposite status
       pool.query(
         "UPDATE feedback SET is_verified = ? WHERE id = ?",
@@ -900,7 +919,7 @@ app.post("/api/feedbacks/toggle/:id", (req, res) => {
               message: "Error toggling feedback status",
             });
           }
-          
+
           res.status(200).json({
             success: true,
             message: "Feedback status toggled successfully",
@@ -916,7 +935,7 @@ app.post("/api/feedbacks/toggle/:id", (req, res) => {
 // ==========================
 app.delete("/api/feedbacks/delete/:id", (req, res) => {
   const feedbackId = req.params.id;
-  
+
   pool.query(
     "DELETE FROM feedback WHERE id = ?",
     [feedbackId],
@@ -928,14 +947,14 @@ app.delete("/api/feedbacks/delete/:id", (req, res) => {
           message: "Error deleting feedback",
         });
       }
-      
+
       if (result.affectedRows === 0) {
         return res.status(404).json({
           success: false,
           message: "Feedback not found",
         });
       }
-      
+
       res.status(200).json({
         success: true,
         message: "Feedback deleted successfully",
@@ -949,17 +968,17 @@ app.delete("/api/feedbacks/delete/:id", (req, res) => {
 // ==========================
 app.post("/api/feedbacks/bulk-verify", (req, res) => {
   const { ids } = req.body;
-  
+
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     return res.status(400).json({
       success: false,
       message: "No feedback IDs provided",
     });
   }
-  
-  const placeholders = ids.map(() => '?').join(',');
+
+  const placeholders = ids.map(() => "?").join(",");
   const query = `UPDATE feedback SET is_verified = 1 WHERE id IN (${placeholders})`;
-  
+
   pool.query(query, ids, (err, result) => {
     if (err) {
       console.error("Error bulk verifying feedbacks:", err);
@@ -968,7 +987,7 @@ app.post("/api/feedbacks/bulk-verify", (req, res) => {
         message: "Error bulk verifying feedbacks",
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: `${result.affectedRows} feedbacks verified successfully`,
@@ -981,17 +1000,17 @@ app.post("/api/feedbacks/bulk-verify", (req, res) => {
 // ==========================
 app.post("/api/feedbacks/bulk-unverify", (req, res) => {
   const { ids } = req.body;
-  
+
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     return res.status(400).json({
       success: false,
       message: "No feedback IDs provided",
     });
   }
-  
-  const placeholders = ids.map(() => '?').join(',');
+
+  const placeholders = ids.map(() => "?").join(",");
   const query = `UPDATE feedback SET is_verified = 0 WHERE id IN (${placeholders})`;
-  
+
   pool.query(query, ids, (err, result) => {
     if (err) {
       console.error("Error bulk unverifying feedbacks:", err);
@@ -1000,7 +1019,7 @@ app.post("/api/feedbacks/bulk-unverify", (req, res) => {
         message: "Error bulk unverifying feedbacks",
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: `${result.affectedRows} feedbacks unverified successfully`,
@@ -1013,17 +1032,17 @@ app.post("/api/feedbacks/bulk-unverify", (req, res) => {
 // ==========================
 app.post("/api/feedbacks/bulk-delete", (req, res) => {
   const { ids } = req.body;
-  
+
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
     return res.status(400).json({
       success: false,
       message: "No feedback IDs provided",
     });
   }
-  
-  const placeholders = ids.map(() => '?').join(',');
+
+  const placeholders = ids.map(() => "?").join(",");
   const query = `DELETE FROM feedback WHERE id IN (${placeholders})`;
-  
+
   pool.query(query, ids, (err, result) => {
     if (err) {
       console.error("Error bulk deleting feedbacks:", err);
@@ -1032,7 +1051,7 @@ app.post("/api/feedbacks/bulk-delete", (req, res) => {
         message: "Error bulk deleting feedbacks",
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: `${result.affectedRows} feedbacks deleted successfully`,
@@ -1065,39 +1084,41 @@ app.get("/api/stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as total FROM feedback",
     "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
-    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0"
+    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0",
   ];
-  
-  Promise.all(queries.map(query => 
-    new Promise((resolve, reject) => {
-      pool.query(query, (err, results) => {
-        if (err) reject(err);
-        else resolve(results[0]);
+
+  Promise.all(
+    queries.map(
+      (query) =>
+        new Promise((resolve, reject) => {
+          pool.query(query, (err, results) => {
+            if (err) reject(err);
+            else resolve(results[0]);
+          });
+        })
+    )
+  )
+    .then((results) => {
+      const stats = {
+        total: results[0].total,
+        verified: results[1].verified,
+        unverified: results[2].unverified,
+        filtered: 0, // You can implement this based on your filtering logic
+      };
+
+      res.status(200).json({
+        success: true,
+        data: stats,
       });
     })
-  ))
-  .then(results => {
-    const stats = {
-      total: results[0].total,
-      verified: results[1].verified,
-      unverified: results[2].unverified,
-      filtered: 0 // You can implement this based on your filtering logic
-    };
-    
-    res.status(200).json({
-      success: true,
-      data: stats
+    .catch((err) => {
+      console.error("Error getting stats:", err);
+      res.status(500).json({
+        success: false,
+        message: "Error getting statistics",
+      });
     });
-  })
-  .catch(err => {
-    console.error("Error getting stats:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error getting statistics"
-    });
-  });
 });
-
 
 // ==========================
 // 404 Handler
@@ -1115,4 +1136,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
