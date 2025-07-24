@@ -320,7 +320,7 @@ async function handleLogin(event) {
     // More specific error messages
     if (error.name === "TypeError" && error.message.includes("fetch")) {
       alert(
-        "Cannot connect to server. Please check:\n1. Your internet connection\n2. Server is running\n3. CORS is configured correctly"
+        "Cannot connect to server."
       );
     } else if (error.name === "SyntaxError") {
       alert("Server returned invalid response. Please try again.");
