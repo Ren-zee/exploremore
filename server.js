@@ -13,53 +13,29 @@ const leoProfanity = require("leo-profanity");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware
+const allowedOrigins = [
+  "https://exploremore-rouge.vercel.app",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+];
+
+// Apply CORS globally using official middleware
 app.use(
   cors({
-    origin: [
-      "https://exploremore-rouge.vercel.app", // Your Vercel deployment URL
-      "http://localhost:3000", // Local development
-      "http://127.0.0.1:3000", // Local development alternative
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"],
-    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+    optionsSuccessStatus: 200,
   })
 );
 
-// Handle preflight requests explicitly
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.status(200).send();
-});
-
-// Add CORS headers to all responses
-app.use((req, res, next) => {
-  const allowedOrigins = [
-    "https://exploremore-rouge.vercel.app",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-  ];
-
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Accept"
-  );
-  next();
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
