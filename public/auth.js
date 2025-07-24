@@ -1,4 +1,8 @@
 // Authentication functionality
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+
 document.addEventListener("DOMContentLoaded", function () {
   initializeAuth();
 });
@@ -207,7 +211,7 @@ async function handleSignup(event) {
   submitBtn.textContent = "Creating Account...";
 
   try {
-    const response = await fetch("/signup", {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -277,7 +281,9 @@ async function handleLogin(event) {
   loginBtn.textContent = "Logging in...";
 
   try {
-    const response = await fetch("/login", {
+    console.log("🔄 Attempting login to:", `${API_BASE_URL}/login`);
+
+    const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -288,7 +294,11 @@ async function handleLogin(event) {
       }),
     });
 
+    console.log("📡 Response status:", response.status);
+    console.log("📡 Response ok:", response.ok);
+
     const data = await response.json();
+    console.log("📡 Response data:", data);
 
     if (data.success) {
       // Store user info in sessionStorage
@@ -300,11 +310,23 @@ async function handleLogin(event) {
       // Redirect to home page
       window.location.href = "index.html";
     } else {
-      alert("Account does not exist.");
+      alert(data.message || "Login failed. Please check your credentials.");
     }
   } catch (error) {
-    console.error("Login error:", error);
-    alert("Network error. Please try again.");
+    console.error("Login error details:", error);
+    console.error("Error type:", error.name);
+    console.error("Error message:", error.message);
+
+    // More specific error messages
+    if (error.name === "TypeError" && error.message.includes("fetch")) {
+      alert(
+        "Cannot connect to server. Please check:\n1. Your internet connection\n2. Server is running\n3. CORS is configured correctly"
+      );
+    } else if (error.name === "SyntaxError") {
+      alert("Server returned invalid response. Please try again.");
+    } else {
+      alert("Network error. Please try again.\nError: " + error.message);
+    }
   } finally {
     loginBtn.disabled = false;
     loginBtn.textContent = originalText;
@@ -334,7 +356,6 @@ function checkAuthStatus() {
   }
 }
 
-
 // Logout function
 function logout() {
   sessionStorage.removeItem("user");
@@ -361,7 +382,6 @@ function logout() {
 
   window.location.href = "index.html";
 }
-
 
 // Utility functions for showing/hiding messages
 function showMessage(elementId, message) {

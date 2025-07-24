@@ -1,8 +1,9 @@
 // Enhanced dash-feedback.js with profanity filtering features
 // Add these functions to your existing dash-feedback.js file
 
-// Configuration for API base URL - moved to global scope
-const API_BASE_URL = ''; // Empty for relative URLs when serving from same server
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
 
 document.addEventListener("DOMContentLoaded", () => {
   loadFeedbackTable();

@@ -1,3 +1,7 @@
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+
 // Feedback functionality
 document.addEventListener("DOMContentLoaded", function () {
   initializeFeedback();
@@ -73,7 +77,7 @@ async function handleFeedbackSubmission(event) {
   submitBtn.textContent = "Submitting...";
 
   try {
-    const response = await fetch("/submit-feedback", {
+    const response = await fetch(`${API_BASE_URL}/submit-feedback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,7 +135,7 @@ async function loadFeedbacks() {
   }
 
   try {
-    const response = await fetch("/get-feedbacks", {
+    const response = await fetch(`${API_BASE_URL}/get-feedbacks`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

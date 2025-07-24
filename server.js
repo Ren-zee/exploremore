@@ -13,30 +13,29 @@ const leoProfanity = require('leo-profanity');
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware
-app.use(
-  cors({
-    origin: "http://localhost:3001", // Adjust based on your frontend URL
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Session configuration
 app.use(
   session({
-    secret: "your-secret-key-change-this-in-production", // Change this in production
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Set to false for local development (no HTTPS)
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
   })
 );
 
-// Welcome Route
+
 // Serve index.html for the root path
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

@@ -1,3 +1,7 @@
+// Configuration for API base URL
+const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+
 const spotMap = {
   "Luzon": {
     "Nagsasa Cove": 1,
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loadPriceTable(spotId, container) {
-  fetch(`/api/price-breakdown/${spotId}`)
+  fetch(`${API_BASE_URL}/api/price-breakdown/${spotId}`)
     .then(res => res.json())
     .then(data => {
       if (data.success) {
@@ -85,7 +89,7 @@ function renderEditableTable(breakdown, spotId, container) {
       const price_max = row.children[3].querySelector("input").value;
       const notes = row.children[4].querySelector("input").value;
 
-      fetch(`/api/update-price-breakdown`, {
+      fetch(`${API_BASE_URL}/api/update-price-breakdown`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
