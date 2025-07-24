@@ -16,15 +16,50 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: [
-      "https://exploremore-rouge.vercel.app", // Your Vercel deployment URL (removed trailing slash)
+      "https://exploremore-rouge.vercel.app", // Your Vercel deployment URL
       "http://localhost:3000", // Local development
       "http://127.0.0.1:3000", // Local development alternative
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
   })
 );
+
+// Handle preflight requests explicitly
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.status(200).send();
+});
+
+// Add CORS headers to all responses
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    "https://exploremore-rouge.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ];
+
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Accept"
+  );
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,10 +71,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Allow cross-site cookies in production
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      domain: process.env.NODE_ENV === "production" ? undefined : "localhost", // Don't set domain in production
     },
   })
 );
