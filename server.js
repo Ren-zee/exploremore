@@ -7,6 +7,8 @@ const { body, validationResult } = require("express-validator");
 const pool = require("./config/db");
 const path = require("path");
 const app = express();
+const leoProfanity = require('leo-profanity');
+
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -596,7 +598,193 @@ app.post("/api/update-price-breakdown", (req, res) => {
   );
 });
 
+//initialize  profanity filter
 
+
+// ==========================
+// Enhanced Submit Feedback Endpoint (ADD THIS NEW ENDPOINT)
+// ==========================
+app.post("/api/feedback/submit", (req, res) => {
+  const { feedback, user_id } = req.body;
+  
+  if (!feedback || !user_id) {
+    return res.status(400).json({
+      success: false,
+      message: "Feedback and user ID are required"
+    });
+  }
+  
+  // Filter the feedback for profanity
+  const filteredFeedback = profanityFilter.clean(feedback);
+  
+  // Check if feedback contains profanity
+  const containsProfanity = profanityFilter.isProfane(feedback);
+  
+  // Insert feedback with both original and filtered versions
+  const query = `
+    INSERT INTO feedback (user_id, feedback, filtered_feedback, is_verified, created_at) 
+    VALUES (?, ?, ?, ?, NOW())
+  `;
+  
+  // Auto-verify if no profanity, otherwise leave unverified for manual review
+  const isVerified = !containsProfanity;
+  
+  pool.query(query, [user_id, feedback, filteredFeedback, isVerified], (err, result) => {
+    if (err) {
+      console.error("Error submitting feedback:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error submitting feedback"
+      });
+    }
+    
+    res.status(201).json({
+      success: true,
+      message: "Feedback submitted successfully",
+      data: {
+        id: result.insertId,
+        containsProfanity: containsProfanity,
+        isVerified: isVerified
+      }
+    });
+  });
+});
+
+// ==========================
+// Enhanced Stats Endpoint (REPLACE YOUR EXISTING /api/stats)
+// ==========================
+app.get("/api/stats", (req, res) => {
+  const queries = [
+    "SELECT COUNT(*) as total FROM feedback",
+    "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
+    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0",
+    "SELECT COUNT(*) as filtered FROM feedback WHERE feedback != filtered_feedback"
+  ];
+  
+  Promise.all(queries.map(query => 
+    new Promise((resolve, reject) => {
+      pool.query(query, (err, results) => {
+        if (err) reject(err);
+        else resolve(results[0]);
+      });
+    })
+  ))
+  .then(results => {
+    const stats = {
+      total: results[0].total,
+      verified: results[1].verified,
+      unverified: results[2].unverified,
+      filtered: results[3].filtered
+    };
+    
+    res.status(200).json({
+      success: true,
+      data: stats
+    });
+  })
+  .catch(err => {
+    console.error("Error getting stats:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error getting statistics"
+    });
+  });
+});
+
+// ==========================
+// Re-filter Existing Feedback Endpoint (ADD THIS NEW ENDPOINT)
+// ==========================
+app.post("/api/feedback/refilter", (req, res) => {
+  // Get all existing feedbacks
+  pool.query("SELECT id, feedback FROM feedback", (err, results) => {
+    if (err) {
+      console.error("Error fetching feedbacks for refiltering:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching feedbacks"
+      });
+    }
+    
+    let processed = 0;
+    let updated = 0;
+    
+    if (results.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No feedbacks to refilter",
+        processed: 0,
+        updated: 0
+      });
+    }
+    
+    results.forEach(feedback => {
+      const filteredFeedback = profanityFilter.clean(feedback.feedback);
+      const containsProfanity = profanityFilter.isProfane(feedback.feedback);
+      
+      // Update the feedback with filtered version
+      pool.query(
+        "UPDATE feedback SET filtered_feedback = ?, is_verified = ? WHERE id = ?",
+        [filteredFeedback, !containsProfanity, feedback.id],
+        (updateErr, updateResult) => {
+          processed++;
+          
+          if (!updateErr && updateResult.affectedRows > 0) {
+            updated++;
+          }
+          
+          // Send response when all feedbacks are processed
+          if (processed === results.length) {
+            res.status(200).json({
+              success: true,
+              message: "Refiltering completed",
+              processed: processed,
+              updated: updated
+            });
+          }
+        }
+      );
+    });
+  });
+});
+
+// ==========================
+// Get Profanity Statistics Endpoint (ADD THIS NEW ENDPOINT)
+// ==========================
+app.get("/api/feedback/profanity-stats", (req, res) => {
+  const queries = [
+    "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != filtered_feedback",
+    "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 1",
+    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 0"
+  ];
+  
+  Promise.all(queries.map(query => 
+    new Promise((resolve, reject) => {
+      pool.query(query, (err, results) => {
+        if (err) reject(err);
+        else resolve(results[0]);
+      });
+    })
+  ))
+  .then(results => {
+    const profanityStats = {
+      totalProfane: results[0].totalProfane,
+      verifiedProfane: results[1].verifiedProfane,
+      unverifiedProfane: results[2].unverifiedProfane
+    };
+    
+    res.status(200).json({
+      success: true,
+      data: profanityStats
+    });
+  })
+  .catch(err => {
+    console.error("Error getting profanity stats:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error getting profanity statistics"
+    });
+  });
+});
 // ==========================
 // Admin: Get All Feedbacks (with filters)
 // ==========================
@@ -910,6 +1098,7 @@ app.get("/api/stats", (req, res) => {
     });
   });
 });
+
 
 // ==========================
 // 404 Handler

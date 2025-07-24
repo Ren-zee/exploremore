@@ -1,8 +1,12 @@
+// Enhanced dash-feedback.js with profanity filtering features
+// Add these functions to your existing dash-feedback.js file
+
 // Configuration for API base URL - moved to global scope
 const API_BASE_URL = ''; // Empty for relative URLs when serving from same server
 
 document.addEventListener("DOMContentLoaded", () => {
   loadFeedbackTable();
+  initializeProfanityFeatures();
 
   // Attach filter events
   const applyFiltersBtn = document.getElementById("applyFiltersBtn");
@@ -26,54 +30,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-function loadFeedbackTable() {
-  const search = document.getElementById("searchInput")?.value || "";
-  const user = document.getElementById("userSelect")?.value || "";
-  const status = document.getElementById("statusSelect")?.value || "";
-  const date = document.getElementById("dateSelect")?.value || "";
-
-  const params = new URLSearchParams({ search, user, status, date });
-  const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
+// NEW: Initialize profanity-related features
+function initializeProfanityFeatures() {
+  // Add refilter button functionality if it exists
+  const refilterBtn = document.getElementById("refilterBtn");
+  if (refilterBtn) {
+    refilterBtn.addEventListener("click", refilterAllFeedbacks);
+  }
   
-  console.log("Making request to:", url); // Debug log
-  console.log("Current location:", window.location.href); // Debug log
+  // Add profanity stats refresh functionality
+  const refreshStatsBtn = document.getElementById("refreshStatsBtn");
+  if (refreshStatsBtn) {
+    refreshStatsBtn.addEventListener("click", loadProfanityStats);
+  }
+}
 
-  fetch(url)
-    .then(res => {
-      console.log("Response status:", res.status); // Debug log
-      console.log("Response ok:", res.ok); // Debug log
-      
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status} - ${res.statusText}`);
-      }
-      return res.json();
-    })
-    .then(response => {
-      console.log("API Response:", response); // Debug log
-      
-      // Handle the structured response format
-      let feedbacks;
-      if (response.success && response.data) {
-        feedbacks = response.data;
-      } else if (Array.isArray(response)) {
-        feedbacks = response;
-      } else {
-        throw new Error("Invalid response format");
-      }
-
-      if (feedbacks.length === 0) {
-        document.getElementById("feedbackTableContainer").innerHTML = "<p>No feedbacks found.</p>";
-      } else {
-        renderFeedbackTable(feedbacks);
-      }
-    })
-    .catch(err => {
-      console.error("Error loading feedbacks:", err);
-      document.getElementById("feedbackTableContainer").innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
-    });
-
-  // Load stats
-  fetch(`${API_BASE_URL}/api/stats`)
+// NEW: Refilter all existing feedbacks
+function refilterAllFeedbacks() {
+  if (!confirm("This will refilter all feedbacks for profanity. Continue?")) {
+    return;
+  }
+  
+  const refilterBtn = document.getElementById("refilterBtn");
+  if (refilterBtn) {
+    refilterBtn.disabled = true;
+    refilterBtn.textContent = "Refiltering...";
+  }
+  
+  fetch(`${API_BASE_URL}/api/feedback/refilter`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
     .then(res => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -81,24 +70,56 @@ function loadFeedbackTable() {
       return res.json();
     })
     .then(response => {
-      console.log("Stats Response:", response); // Debug log
-      
-      // Handle both structured and direct response formats
-      const stats = response.data || response;
-      updateStats(stats);
+      alert(`Refiltering completed! Processed: ${response.processed}, Updated: ${response.updated}`);
+      loadFeedbackTable(); // Refresh the table
     })
     .catch(err => {
-      console.error("Error loading stats:", err);
-      // Set default values on error
-      updateStats({
-        total: 0,
-        verified: 0,
-        unverified: 0,
-        filtered: 0
-      });
+      console.error("Error refiltering feedbacks:", err);
+      alert("Failed to refilter feedbacks");
+    })
+    .finally(() => {
+      if (refilterBtn) {
+        refilterBtn.disabled = false;
+        refilterBtn.textContent = "Refilter All";
+      }
     });
 }
 
+// NEW: Load profanity statistics
+function loadProfanityStats() {
+  fetch(`${API_BASE_URL}/api/feedback/profanity-stats`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(response => {
+      const stats = response.data;
+      updateProfanityStats(stats);
+    })
+    .catch(err => {
+      console.error("Error loading profanity stats:", err);
+    });
+}
+
+// NEW: Update profanity statistics in UI
+function updateProfanityStats(stats) {
+  const elements = {
+    statTotalProfane: stats.totalProfane || 0,
+    statVerifiedProfane: stats.verifiedProfane || 0,
+    statUnverifiedProfane: stats.unverifiedProfane || 0
+  };
+
+  Object.entries(elements).forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.innerText = value;
+    }
+  });
+}
+
+// ENHANCED: Updated renderFeedbackTable function with profanity indicators
 function renderFeedbackTable(feedbacks) {
   const container = document.getElementById("feedbackTableContainer");
   if (!container) {
@@ -117,24 +138,29 @@ function renderFeedbackTable(feedbacks) {
           <th>Original</th>
           <th>Filtered</th>
           <th>Status</th>
+          <th>Profanity</th>
           <th>Date</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        ${feedbacks.map(fb => `
-          <tr data-id="${fb.id}">
-            <td><input type="checkbox" class="select-row"></td>
-            <td>${escapeHtml(fb.username || 'N/A')}</td>
-            <td>${escapeHtml(fb.feedback || 'N/A')}</td>
-            <td>${escapeHtml(fb.filtered_feedback || 'N/A')}</td>
-            <td><span class="badge ${fb.is_verified ? 'bg-success' : 'bg-secondary'}">${fb.is_verified ? 'Verified' : 'Unverified'}</span></td>
-            <td>${new Date(fb.created_at).toLocaleString()}</td>
-            <td>
-              <button class="btn btn-sm btn-warning toggle-btn">Toggle</button>
-              <button class="btn btn-sm btn-danger delete-btn">Delete</button>
-            </td>
-          </tr>`).join("")}
+        ${feedbacks.map(fb => {
+          const hasProfanity = fb.feedback !== fb.filtered_feedback;
+          return `
+            <tr data-id="${fb.id}">
+              <td><input type="checkbox" class="select-row"></td>
+              <td>${escapeHtml(fb.username || 'N/A')}</td>
+              <td>${escapeHtml(fb.feedback || 'N/A')}</td>
+              <td>${escapeHtml(fb.filtered_feedback || 'N/A')}</td>
+              <td><span class="badge ${fb.is_verified ? 'bg-success' : 'bg-secondary'}">${fb.is_verified ? 'Verified' : 'Unverified'}</span></td>
+              <td><span class="badge ${hasProfanity ? 'bg-danger' : 'bg-success'}">${hasProfanity ? 'Filtered' : 'Clean'}</span></td>
+              <td>${new Date(fb.created_at).toLocaleString()}</td>
+              <td>
+                <button class="btn btn-sm btn-warning toggle-btn">Toggle</button>
+                <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+              </td>
+            </tr>`;
+        }).join("")}
       </tbody>
     </table>
   `;
@@ -206,10 +232,84 @@ function renderFeedbackTable(feedbacks) {
   });
 }
 
+// Your existing functions remain unchanged:
+// - loadFeedbackTable()
+// - bulkAction()
+// - updateStats()
+// - escapeHtml()
+
+// ENHANCED: Load feedback table with profanity stats
+function loadFeedbackTable() {
+  const search = document.getElementById("searchInput")?.value || "";
+  const user = document.getElementById("userSelect")?.value || "";
+  const status = document.getElementById("statusSelect")?.value || "";
+  const date = document.getElementById("dateSelect")?.value || "";
+
+  const params = new URLSearchParams({ search, user, status, date });
+  const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
+  
+  console.log("Making request to:", url); // Debug log
+
+  fetch(url)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status} - ${res.statusText}`);
+      }
+      return res.json();
+    })
+    .then(response => {
+      console.log("API Response:", response); // Debug log
+      
+      let feedbacks;
+      if (response.success && response.data) {
+        feedbacks = response.data;
+      } else if (Array.isArray(response)) {
+        feedbacks = response;
+      } else {
+        throw new Error("Invalid response format");
+      }
+
+      if (feedbacks.length === 0) {
+        document.getElementById("feedbackTableContainer").innerHTML = "<p>No feedbacks found.</p>";
+      } else {
+        renderFeedbackTable(feedbacks);
+      }
+    })
+    .catch(err => {
+      console.error("Error loading feedbacks:", err);
+      document.getElementById("feedbackTableContainer").innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
+    });
+
+  // Load regular stats
+  fetch(`${API_BASE_URL}/api/stats`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(response => {
+      const stats = response.data || response;
+      updateStats(stats);
+    })
+    .catch(err => {
+      console.error("Error loading stats:", err);
+      updateStats({
+        total: 0,
+        verified: 0,
+        unverified: 0,
+        filtered: 0
+      });
+    });
+  
+  // Load profanity stats
+  loadProfanityStats();
+}
+
 function bulkAction(action) {
   const selectedIds = [...document.querySelectorAll(".select-row:checked")]
     .map(cb => cb.closest("tr").dataset.id)
-    .filter(id => id); // Remove any undefined IDs
+    .filter(id => id);
 
   if (!selectedIds.length) {
     alert("No feedbacks selected.");
@@ -260,7 +360,6 @@ function updateStats(stats) {
   });
 }
 
-// Helper function to escape HTML and prevent XSS
 function escapeHtml(text) {
   if (!text) return '';
   const div = document.createElement('div');

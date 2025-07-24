@@ -103,56 +103,143 @@
 
         <!-- MAIN CONTENT -->
     <div class="main-content">
-  <h1>Feedbacks Section</h1>
-
-  <!-- Feedbacks Table (dynamic container) -->
-  <div id="feedbackTableContainer" class="mt-4"></div>
-
-  <!-- Statistics Cards -->
-  <div class="row my-3">
-    <div class="col-md-3">
-      <div class="card text-bg-primary">
-        <div class="card-body">
-          <h5 class="card-title">Total Feedbacks</h5>
-          <p class="card-text" id="statTotal">0</p>
+ <h1>Feedbacks Section</h1>
+        
+        <!-- Profanity Management Controls -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Profanity Filter Controls</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary" id="refilterBtn">Refilter All Feedbacks</button>
+                        <button class="btn btn-secondary" id="refreshStatsBtn">Refresh Stats</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Profanity Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <strong>Total Profane:</strong>
+                                <span id="statTotalProfane" class="badge bg-danger">0</span>
+                            </div>
+                            <div class="col-4">
+                                <strong>Verified Profane:</strong>
+                                <span id="statVerifiedProfane" class="badge bg-warning">0</span>
+                            </div>
+                            <div class="col-4">
+                                <strong>Unverified Profane:</strong>
+                                <span id="statUnverifiedProfane" class="badge bg-dark">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-bg-success">
-        <div class="card-body">
-          <h5 class="card-title">Verified</h5>
-          <p class="card-text" id="statVerified">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-bg-warning">
-        <div class="card-body">
-          <h5 class="card-title">Unverified</h5>
-          <p class="card-text" id="statUnverified">0</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-bg-danger">
-        <div class="card-body">
-          <h5 class="card-title">Filtered</h5>
-          <p class="card-text" id="statFiltered">0</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="mb-3 d-flex gap-2">
-    <button class="btn btn-outline-success" id="bulkVerifyBtn">Bulk Verify</button>
-    <button class="btn btn-outline-warning" id="bulkUnverifyBtn">Bulk Unverify</button>
-    <button class="btn btn-outline-danger" id="bulkDeleteBtn">Bulk Delete</button>
-  </div>
-</div>
+        <!-- Filters Section -->
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search feedback...">
+            </div>
+            <div class="col-md-2">
+                <select id="userSelect" class="form-select">
+                    <option value="">All Users</option>
+                    <!-- Options will be populated dynamically -->
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="statusSelect" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="verified">Verified</option>
+                    <option value="unverified">Unverified</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="profanitySelect" class="form-select">
+                    <option value="">All Content</option>
+                    <option value="clean">Clean</option>
+                    <option value="filtered">Contains Profanity</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="date" id="dateSelect" class="form-control">
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" id="applyFiltersBtn">Apply</button>
+            </div>
+        </div>
 
-<script src="dash-feedback.js"></script>
+        <!-- Feedbacks Table (dynamic container) -->
+        <div id="feedbackTableContainer" class="mt-4"></div>
 
+        <!-- Statistics Cards -->
+        <div class="row my-3">
+            <div class="col-md-3">
+                <div class="card text-bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Feedbacks</h5>
+                        <p class="card-text" id="statTotal">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Verified</h5>
+                        <p class="card-text" id="statVerified">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Unverified</h5>
+                        <p class="card-text" id="statUnverified">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Filtered</h5>
+                        <p class="card-text" id="statFiltered">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="mb-3 d-flex gap-2">
+            <button class="btn btn-outline-success" id="bulkVerifyBtn">Bulk Verify</button>
+            <button class="btn btn-outline-warning" id="bulkUnverifyBtn">Bulk Unverify</button>
+            <button class="btn btn-outline-danger" id="bulkDeleteBtn">Bulk Delete</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dash-feedback.js"></script>
+ <br>
+          <br>
+          <br>
+           <br>
+          <br>
+          <br>
+           <br>
+          <br>
+          <br>
+           <br>
+          <br>
+          <br>
+           <br>
+          <br>
+          <br>
 
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
