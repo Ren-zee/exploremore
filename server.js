@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: [
-      "https://exploremore-rouge.vercel.app/", // Your Vercel deployment URL
+      "https://exploremore-rouge.vercel.app", // Your Vercel deployment URL (removed trailing slash)
       "http://localhost:3000", // Local development
       "http://127.0.0.1:3000", // Local development alternative
     ],
@@ -47,6 +47,16 @@ app.use(
 // Serve index.html for the root path
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Test endpoint to check if server is working
+app.get("/api/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "Server is working!",
+    timestamp: new Date().toISOString(),
+    cors: req.headers.origin,
+  });
 });
 
 // ==========================
@@ -98,7 +108,7 @@ app.post("/signup", signupValidation, async (req, res) => {
     console.log("Signup request received:", { username, email, role });
 
     // Check if username already exists
-    const checkUsernameQuery = "SELECT id FROM users WHERE username = ?";
+    const checkUsernameQuery = "SELECT id FROM users WHERE username = $1";
     pool.query(checkUsernameQuery, [username], async (err, usernameResults) => {
       if (err) {
         console.error("Error checking username:", err);
@@ -108,7 +118,7 @@ app.post("/signup", signupValidation, async (req, res) => {
         });
       }
 
-      if (usernameResults.length > 0) {
+      if (usernameResults.rows.length > 0) {
         return res.status(400).json({
           success: false,
           message: "Username already exists",
@@ -116,7 +126,7 @@ app.post("/signup", signupValidation, async (req, res) => {
       }
 
       // Check if email already exists
-      const checkEmailQuery = "SELECT id FROM users WHERE email = ?";
+      const checkEmailQuery = "SELECT id FROM users WHERE email = $1";
       pool.query(checkEmailQuery, [email], async (err, emailResults) => {
         if (err) {
           console.error("Error checking email:", err);
@@ -126,7 +136,7 @@ app.post("/signup", signupValidation, async (req, res) => {
           });
         }
 
-        if (emailResults.length > 0) {
+        if (emailResults.rows.length > 0) {
           return res.status(400).json({
             success: false,
             message: "Email already exists",
@@ -139,7 +149,7 @@ app.post("/signup", signupValidation, async (req, res) => {
 
           // Insert new user
           const insertQuery =
-            "INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)";
+            "INSERT INTO users (username, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id";
           pool.query(
             insertQuery,
             [username, email, hashedPassword, role],
@@ -155,7 +165,7 @@ app.post("/signup", signupValidation, async (req, res) => {
               res.status(201).json({
                 success: true,
                 message: "Account created successfully",
-                userId: result.insertId,
+                userId: result.rows[0].id,
               });
             }
           );
@@ -197,7 +207,7 @@ app.post("/login", loginValidation, (req, res) => {
     console.log("Login attempt for email:", email);
 
     const query =
-      "SELECT id, username, email, password_hash, role FROM users WHERE email = ?";
+      "SELECT id, username, email, password_hash, role FROM users WHERE email = $1";
     pool.query(query, [email], async (err, results) => {
       if (err) {
         console.error("Error querying the database:", err);
@@ -207,14 +217,14 @@ app.post("/login", loginValidation, (req, res) => {
         });
       }
 
-      if (results.length === 0) {
+      if (results.rows.length === 0) {
         return res.status(401).json({
           success: false,
           message: "Invalid email or password",
         });
       }
 
-      const user = results[0];
+      const user = results.rows[0];
 
       try {
         const isValidPassword = await bcrypt.compare(
@@ -314,7 +324,7 @@ const requireAdmin = (req, res, next) => {
 // ==========================
 app.get("/profile", requireAuth, (req, res) => {
   const query =
-    "SELECT id, username, email, role, created_at FROM users WHERE id = ?";
+    "SELECT id, username, email, role, created_at FROM users WHERE id = $1";
   pool.query(query, [req.session.userId], (err, results) => {
     if (err) {
       console.error("Error fetching user profile:", err);
@@ -324,7 +334,7 @@ app.get("/profile", requireAuth, (req, res) => {
       });
     }
 
-    if (results.length === 0) {
+    if (results.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: "User not found",
@@ -333,7 +343,7 @@ app.get("/profile", requireAuth, (req, res) => {
 
     res.status(200).json({
       success: true,
-      user: results[0],
+      user: results.rows[0],
     });
   });
 });

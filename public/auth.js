@@ -284,6 +284,19 @@ async function handleLogin(event) {
   try {
     console.log("🔄 Attempting login to:", `${API_BASE_URL}/login`);
 
+    // First test if server is reachable
+    console.log("🧪 Testing server connection...");
+    const testResponse = await fetch(`${API_BASE_URL}/api/test`, {
+      method: "GET",
+      credentials: "include",
+    });
+    console.log("🧪 Test response status:", testResponse.status);
+
+    if (testResponse.ok) {
+      const testData = await testResponse.json();
+      console.log("🧪 Test response data:", testData);
+    }
+
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: "POST",
       headers: {
