@@ -244,8 +244,9 @@ function loadFeedbackTable() {
   const user = document.getElementById("userSelect")?.value || "";
   const status = document.getElementById("statusSelect")?.value || "";
   const date = document.getElementById("dateSelect")?.value || "";
+  const profanity = document.getElementById("profanitySelect")?.value || "";
 
-  const params = new URLSearchParams({ search, user, status, date });
+  const params = new URLSearchParams({ search, user, status, date, profanity});
   const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
   
   console.log("Making request to:", url); // Debug log
@@ -269,6 +270,11 @@ function loadFeedbackTable() {
         throw new Error("Invalid response format");
       }
 
+       if (profanity === "clean") {
+        feedbacks = feedbacks.filter(fb => fb.feedback === fb.filtered_feedback);
+      } else if (profanity === "filtered") {
+        feedbacks = feedbacks.filter(fb => fb.feedback !== fb.filtered_feedback);
+      }
       if (feedbacks.length === 0) {
         document.getElementById("feedbackTableContainer").innerHTML = "<p>No feedbacks found.</p>";
       } else {

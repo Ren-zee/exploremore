@@ -615,10 +615,10 @@ app.post("/api/feedback/submit", (req, res) => {
   }
   
   // Filter the feedback for profanity
-  const filteredFeedback = profanityFilter.clean(feedback);
+const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
   
   // Check if feedback contains profanity
-  const containsProfanity = profanityFilter.isProfane(feedback);
+  const containsProfanity = leoProfanity.isProfane(feedback);
   
   // Insert feedback with both original and filtered versions
   const query = `
@@ -718,8 +718,8 @@ app.post("/api/feedback/refilter", (req, res) => {
     }
     
     results.forEach(feedback => {
-      const filteredFeedback = profanityFilter.clean(feedback.feedback);
-      const containsProfanity = profanityFilter.isProfane(feedback.feedback);
+      const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
+      const containsProfanity = leoProfanity.check(feedback.feedback);
       
       // Update the feedback with filtered version
       pool.query(
