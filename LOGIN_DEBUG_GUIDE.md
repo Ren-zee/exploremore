@@ -1,6 +1,26 @@
-# Login Debug and Fix Guide - CORS ISSUE FIXED! 🎉
+# Login Debug and Fix Guide - PATH-TO-REGEXP ERROR FIXED! 🎉
 
-## **The CORS Problem and Solution:**
+## **NEW ERROR FOUND AND FIXED:**
+
+### **The Error You Just Saw:**
+
+```
+TypeError: Missing parameter name at 1: https://git.new/pathToRegexpError
+    at name (/app/node_modules/path-to-regexp/dist/index.js:73:19)
+```
+
+### **What This Error Meant:**
+
+This is an Express.js route parsing error that occurs when there are **duplicate route definitions** or malformed routes. This prevents the server from starting at all.
+
+### **The Fix Applied:**
+
+1. **Removed duplicate `/api/stats` route** - You had two identical route definitions
+2. **Fixed ALL PostgreSQL query syntax** - Changed from MySQL (`?`) to PostgreSQL (`$1, $2...`)
+3. **Fixed result access patterns** - Changed `results.length` to `results.rows.length` and `results[0]` to `results.rows[0]`
+4. **Fixed rowCount properties** - Changed `affectedRows` to `rowCount` for PostgreSQL
+
+## **CORS Problem (Previously Fixed):**
 
 ### **The Error You Saw:**
 
@@ -97,6 +117,31 @@ NODE_ENV=production
 - Verify cookie settings for cross-origin
 
 ## Next Steps:
+
+### **🚨 CRITICAL - DEPLOY IMMEDIATELY:**
+
+**Your server won't start until you deploy these fixes!**
+
+1. **Push these changes to your repository NOW**:
+
+   ```bash
+   git add .
+   git commit -m "Fix duplicate routes and PostgreSQL syntax"
+   git push
+   ```
+
+2. **Watch Railway logs** for successful deployment
+3. **Test the API endpoint**: `https://exploremore-production-c375.up.railway.app/api/test`
+4. **Try login again** - Both the server startup error AND login should now work!
+
+### **What Was Fixed:**
+
+- ✅ **Duplicate `/api/stats` route removed** (was causing server crash)
+- ✅ **All MySQL syntax converted to PostgreSQL** (`?` → `$1, $2...`)
+- ✅ **All result access fixed** (`results` → `results.rows`)
+- ✅ **All row count properties fixed** (`affectedRows` → `rowCount`)
+- ✅ **CORS preflight requests handled**
+- ✅ **Session cookies configured for cross-origin**
 
 ### **IMMEDIATE TESTING:**
 
