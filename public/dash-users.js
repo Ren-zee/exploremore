@@ -12,9 +12,16 @@ let selectedMonth = "";
 let selectedDate = "";
 
 function renderTable(data) {
+  console.log("🎨 Rendering table with", data.length, "users");
   const tbody = document.getElementById("userTableBody");
+  if (!tbody) {
+    console.error("❌ Table body element not found!");
+    return;
+  }
+  
   tbody.innerHTML = "";
-  data.forEach((user) => {
+  data.forEach((user, index) => {
+    console.log(`👤 Rendering user ${index + 1}:`, user);
     const row = `
       <tr>
         <td>${user.username}</td>
@@ -26,6 +33,7 @@ function renderTable(data) {
     `;
     tbody.insertAdjacentHTML("beforeend", row);
   });
+  console.log("✅ Table rendered successfully");
 }
 
 function updateSortIndicators() {
@@ -54,6 +62,7 @@ function sortTable(column) {
 }
 
 function applyFiltersAndSort() {
+  console.log("🔍 Applying filters and sort to", users.length, "users");
   let filtered = users.filter((user) => {
     const lowerUsername = user.username.toLowerCase();
     const lowerEmail = user.email.toLowerCase();
@@ -76,6 +85,8 @@ function applyFiltersAndSort() {
     return matchesSearch && matchesMonth && matchesDate;
   });
 
+  console.log("📊 Filtered users:", filtered.length);
+
   const sorted = filtered.sort((a, b) => {
     let valA = a[currentSortColumn];
     let valB = b[currentSortColumn];
@@ -93,14 +104,20 @@ function applyFiltersAndSort() {
     return 0;
   });
 
+  console.log("📈 Sorted users:", sorted.length);
   renderTable(sorted);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🔄 Dashboard Users: Starting to load users...");
+  console.log("🌐 API URL:", `${API_BASE_URL}/api/users-with-feedback`);
+  
   fetch(`${API_BASE_URL}/api/users-with-feedback`, {
     credentials: "include", // Include credentials for authentication
   })
     .then((res) => {
+      console.log("📡 Response status:", res.status);
+      console.log("📡 Response headers:", res.headers);
       if (!res.ok) {
         throw new Error(
           `HTTP error! status: ${res.status} - ${res.statusText}`
@@ -109,16 +126,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return res.json();
     })
     .then((data) => {
+      console.log("📦 Received data:", data);
       if (data.success) {
+        console.log("✅ Users loaded successfully:", data.users.length, "users");
         users = data.users;
         applyFiltersAndSort(); // initial render
       } else {
-        console.error("Failed to load users:", data.message);
+        console.error("❌ Failed to load users:", data.message);
         alert("Failed to load users: " + (data.message || "Unknown error"));
       }
     })
     .catch((err) => {
-      console.error("Error loading users:", err);
+      console.error("💥 Error loading users:", err);
       alert("Error loading users: " + err.message);
     });
 
