@@ -99,6 +99,7 @@ function refilterAllFeedbacks() {
 
 // NEW: Load profanity statistics
 function loadProfanityStats() {
+  const API_BASE_URL = getApiBaseUrl();
   fetch(`${API_BASE_URL}/api/feedback/profanity-stats`, {
     credentials: "include", // Include credentials for authentication
   })
@@ -204,6 +205,7 @@ function renderFeedbackTable(feedbacks) {
         return;
       }
 
+      const API_BASE_URL = getApiBaseUrl();
       fetch(`${API_BASE_URL}/api/feedbacks/toggle/${id}`, {
         method: "POST",
         credentials: "include", // Include credentials for authentication
@@ -234,6 +236,7 @@ function renderFeedbackTable(feedbacks) {
       }
 
       if (confirm("Are you sure you want to delete this feedback?")) {
+        const API_BASE_URL = getApiBaseUrl();
         fetch(`${API_BASE_URL}/api/feedbacks/delete/${id}`, {
           method: "DELETE",
           credentials: "include", // Include credentials for authentication
@@ -270,6 +273,7 @@ function loadFeedbackTable() {
   const date = document.getElementById("dateSelect")?.value || "";
   const profanity = document.getElementById("profanitySelect")?.value || "";
 
+  const API_BASE_URL = getApiBaseUrl();
   const params = new URLSearchParams({ search, user, status, date, profanity });
   const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
 
@@ -322,7 +326,8 @@ function loadFeedbackTable() {
     });
 
   // Load regular stats
-  fetch(`${API_BASE_URL}/api/stats`, {
+  const API_BASE_URL_STATS = getApiBaseUrl();
+  fetch(`${API_BASE_URL_STATS}/api/stats`, {
     credentials: "include", // Include credentials for authentication
   })
     .then((res) => {
@@ -367,6 +372,7 @@ function bulkAction(action) {
     return;
   }
 
+  const API_BASE_URL = getApiBaseUrl();
   fetch(`${API_BASE_URL}/api/feedbacks/bulk-${action}`, {
     method: "POST",
     headers: {

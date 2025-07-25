@@ -3,7 +3,7 @@
 
 window.ExploreMoreConfig = {
   API_BASE_URL: "https://exploremore-production-c375.up.railway.app", // For production
-  // API_BASE_URL: 'http://localhost:3001', // For local testing
+  // API_BASE_URL: "http://localhost:3001", // For local testing
 
   // Other global configurations can be added here
   APP_NAME: "ExploreMore PH",

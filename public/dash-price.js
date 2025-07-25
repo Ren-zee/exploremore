@@ -9,39 +9,6 @@ function getApiBaseUrl() {
   );
 }
 
-// Test function for debugging API connection
-function testApiConnection() {
-  const testResult = document.getElementById("testResult");
-  testResult.textContent = "Testing...";
-
-  const apiUrl = `${getApiBaseUrl()}/api/price-breakdown/1`;
-  console.log("Testing API connection to:", apiUrl);
-
-  fetch(apiUrl, {
-    credentials: "include",
-  })
-    .then((res) => {
-      console.log("Test response status:", res.status);
-      console.log("Test response headers:", [...res.headers.entries()]);
-      return res.json();
-    })
-    .then((data) => {
-      console.log("Test response data:", data);
-      if (data.success) {
-        testResult.textContent = `✅ API working! Found ${data.breakdown.length} price items.`;
-        testResult.className = "text-success";
-      } else {
-        testResult.textContent = `❌ API error: ${data.message}`;
-        testResult.className = "text-danger";
-      }
-    })
-    .catch((error) => {
-      console.error("Test API error:", error);
-      testResult.textContent = `❌ Connection error: ${error.message}`;
-      testResult.className = "text-danger";
-    });
-}
-
 const spotMap = {
   Luzon: {
     "Nagsasa Cove": 1,

@@ -100,18 +100,18 @@ async function handleFeedbackSubmission(event) {
 
     if (data.success) {
       showFeedbackMessage(
-        "Thank you! Your feedback has been submitted.",
+        "Thank you! Your feedback has been submitted and is pending admin approval.",
         "success"
       );
       feedbackTextarea.value = ""; // Clear the form
 
-      // Refresh the feedbacks display
-      refreshFeedbacks();
+      // Don't refresh feedbacks display since unverified feedbacks shouldn't show
+      // Only verified feedbacks will be displayed
 
-      // Hide success message after 5 seconds
+      // Hide success message after 8 seconds
       setTimeout(() => {
         hideFeedbackMessage();
-      }, 5000);
+      }, 8000);
     } else {
       if (data.errors && data.errors.length > 0) {
         const errorMessages = data.errors.map((error) => error.msg).join(", ");
@@ -143,12 +143,16 @@ async function loadFeedbacks() {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/get-feedbacks`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const API_BASE_URL = getApiBaseUrl();
+    const response = await fetch(
+      `${API_BASE_URL}/get-feedbacks?verified=true`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -181,8 +185,12 @@ function displayFeedbacks(feedbacks) {
   console.log("Container found:", feedbacksContainer);
 
   if (feedbacks.length === 0) {
-    feedbacksContainer.innerHTML =
-      '<p class="text-center text-muted">No feedbacks available yet.</p>';
+    feedbacksContainer.innerHTML = `
+      <div class="text-center text-muted p-4">
+        <h5>No verified feedbacks available yet.</h5>
+        <p>Feedbacks are reviewed by our admin team before being displayed here.</p>
+      </div>
+    `;
     return;
   }
 
@@ -195,9 +203,10 @@ function displayFeedbacks(feedbacks) {
           feedback.username || "Anonymous"
         )}</strong>
         <span class="feedback-date">${formatDate(feedback.created_at)}</span>
+        <span class="badge bg-success ms-2">Verified</span>
       </div>
       <div class="feedback-content">
-        ${escapeHtml(feedback.feedback)}
+        ${escapeHtml(feedback.filtered_feedback || feedback.feedback)}
       </div>
     </div>
   `

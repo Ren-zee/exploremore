@@ -531,11 +531,22 @@ app.post(
 app.get("/get-feedbacks", (req, res) => {
   console.log("GET /get-feedbacks endpoint called");
 
-  const query = `
-    SELECT f.id, f.feedback, f.created_at,
+  // Check if we want only verified feedbacks
+  const verified = req.query.verified;
+
+  let query = `
+    SELECT f.id, f.feedback, f.filtered_feedback, f.created_at, f.is_verified,
            u.username
     FROM feedback f
     JOIN users u ON f.user_id = u.id
+  `;
+
+  // Add WHERE clause if verified parameter is provided
+  if (verified === "true") {
+    query += ` WHERE f.is_verified = true`;
+  }
+
+  query += `
     ORDER BY f.created_at DESC
     LIMIT 20
   `;
