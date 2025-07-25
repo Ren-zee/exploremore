@@ -377,28 +377,78 @@ function bulkAction(action) {
     .filter((id) => id);
 
   if (!selectedIds.length) {
-    showWarning("No Selection", "No feedbacks selected.");
+    showWarning(
+      "No Selection",
+      "Please select at least one feedback to perform this action."
+    );
     return;
   }
 
-  const actionText = action === "delete" ? "permanently delete" : action;
-  const warningText =
-    action === "delete"
-      ? "This action cannot be undone."
-      : "This will update the status of all selected feedbacks.";
+  let actionText, warningText, confirmTitle;
+
+  switch (action) {
+    case "delete":
+      actionText = "permanently delete";
+      warningText =
+        "This action cannot be undone and will remove all selected feedbacks from the database.";
+      confirmTitle = "Delete Feedbacks";
+      break;
+    case "verify":
+      actionText = "mark as verified";
+      warningText =
+        "This will mark all selected feedbacks as verified and they will be visible to users.";
+      confirmTitle = "Verify Feedbacks";
+      break;
+    case "unverify":
+      actionText = "mark as unverified";
+      warningText =
+        "This will mark all selected feedbacks as unverified and they will be hidden from users.";
+      confirmTitle = "Unverify Feedbacks";
+      break;
+    default:
+      actionText = action;
+      warningText = "This will update the status of all selected feedbacks.";
+      confirmTitle = `${
+        action.charAt(0).toUpperCase() + action.slice(1)
+      } Feedbacks`;
+  }
 
   showConfirmation(
-    `Bulk ${action.charAt(0).toUpperCase() + action.slice(1)}`,
-    `Are you sure you want to ${actionText} ${selectedIds.length} selected feedback(s)? ${warningText}`,
+    confirmTitle,
+    `Are you sure you want to ${actionText} ${selectedIds.length} selected feedback(s)?\n\n${warningText}`,
     () => {
       // User confirmed bulk action
       performBulkAction(action, selectedIds);
+    },
+    () => {
+      // User cancelled
+      showInfo("Action Cancelled", `Bulk ${action} operation was cancelled.`);
     }
   );
 }
 
 function performBulkAction(action, selectedIds) {
   const API_BASE_URL = getApiBaseUrl();
+
+  // Show loading state
+  const bulkButtons = {
+    verify: document.getElementById("bulkVerifyBtn"),
+    unverify: document.getElementById("bulkUnverifyBtn"),
+    delete: document.getElementById("bulkDeleteBtn"),
+  };
+
+  // Disable all bulk buttons during operation
+  Object.values(bulkButtons).forEach((btn) => {
+    if (btn) {
+      btn.disabled = true;
+      if (btn === bulkButtons[action]) {
+        btn.textContent = `${
+          action.charAt(0).toUpperCase() + action.slice(1)
+        }ing...`;
+      }
+    }
+  });
+
   fetch(`${API_BASE_URL}/api/feedbacks/bulk-${action}`, {
     method: "POST",
     headers: {
@@ -413,12 +463,44 @@ function performBulkAction(action, selectedIds) {
       }
       return res.json();
     })
-    .then(() => {
-      loadFeedbackTable();
+    .then((response) => {
+      if (response.success) {
+        const actionText = action === "delete" ? "deleted" : `${action}ed`;
+        showSuccess(
+          "Bulk Action Complete",
+          `${selectedIds.length} feedback(s) ${actionText} successfully`
+        );
+
+        // Clear all checkboxes
+        document
+          .querySelectorAll(".select-row")
+          .forEach((cb) => (cb.checked = false));
+        const selectAllCheckbox = document.getElementById("selectAll");
+        if (selectAllCheckbox) selectAllCheckbox.checked = false;
+
+        // Reload the table
+        loadFeedbackTable();
+      } else {
+        throw new Error(response.message || `Failed to perform bulk ${action}`);
+      }
     })
     .catch((err) => {
       console.error("Error performing bulk action:", err);
-      showError("Bulk Action Failed", `Failed to perform bulk ${action}`);
+      showError(
+        "Bulk Action Failed",
+        `Failed to perform bulk ${action}: ${err.message}`
+      );
+    })
+    .finally(() => {
+      // Re-enable all bulk buttons
+      Object.entries(bulkButtons).forEach(([btnAction, btn]) => {
+        if (btn) {
+          btn.disabled = false;
+          const capitalizedAction =
+            btnAction.charAt(0).toUpperCase() + btnAction.slice(1);
+          btn.textContent = `Bulk ${capitalizedAction}`;
+        }
+      });
     });
 }
 

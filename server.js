@@ -1142,7 +1142,7 @@ app.delete("/api/feedbacks/delete/:id", (req, res) => {
 // ==========================
 // Bulk Verify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-verify", (req, res) => {
+app.post("/api/feedbacks/bulk-verify", requireAuth, (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1164,9 +1164,12 @@ app.post("/api/feedbacks/bulk-verify", (req, res) => {
       });
     }
 
+    const affectedRows =
+      result.affectedRows || result.rowCount || result.changes || 0;
     res.status(200).json({
       success: true,
-      message: `${result.rowCount} feedbacks verified successfully`,
+      message: `${affectedRows} feedbacks verified successfully`,
+      affectedRows: affectedRows,
     });
   });
 });
@@ -1174,7 +1177,7 @@ app.post("/api/feedbacks/bulk-verify", (req, res) => {
 // ==========================
 // Bulk Unverify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-unverify", (req, res) => {
+app.post("/api/feedbacks/bulk-unverify", requireAuth, (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1196,9 +1199,12 @@ app.post("/api/feedbacks/bulk-unverify", (req, res) => {
       });
     }
 
+    const affectedRows =
+      result.affectedRows || result.rowCount || result.changes || 0;
     res.status(200).json({
       success: true,
-      message: `${result.rowCount} feedbacks unverified successfully`,
+      message: `${affectedRows} feedbacks unverified successfully`,
+      affectedRows: affectedRows,
     });
   });
 });
@@ -1206,7 +1212,7 @@ app.post("/api/feedbacks/bulk-unverify", (req, res) => {
 // ==========================
 // Bulk Delete Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-delete", (req, res) => {
+app.post("/api/feedbacks/bulk-delete", requireAuth, (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1228,9 +1234,12 @@ app.post("/api/feedbacks/bulk-delete", (req, res) => {
       });
     }
 
+    const affectedRows =
+      result.affectedRows || result.rowCount || result.changes || 0;
     res.status(200).json({
       success: true,
-      message: `${result.rowCount} feedbacks deleted successfully`,
+      message: `${affectedRows} feedbacks deleted successfully`,
+      affectedRows: affectedRows,
     });
   });
 });
