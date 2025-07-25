@@ -9,7 +9,6 @@ function initializeBudgetCalculator() {
   const resultContainer = document.getElementById("resultContainer");
   const totalBudget = document.getElementById("totalBudget");
 
- 
   let exchangeRates = null;
   let lastFetchTime = null;
   const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
@@ -33,70 +32,85 @@ function initializeBudgetCalculator() {
         return exchangeRates;
       }
 
-      // if (statusElement) {
-      //   statusElement.textContent = "Updating exchange rates...";
-      // }
+      if (statusElement) {
+        statusElement.textContent = "Updating exchange rates...";
+      }
 
-      // Using the new API plugin with PHP as base currency
+      // Try multiple currency API sources in order
       let response;
+      let data;
+
+      // First try: exchangerate-api.com (free tier, reliable)
       try {
-        response = await fetch("https://v1.apiplugin.io/v1/currency/CrTjEDuj");
-      } catch (fetchError) {
-        // If the primary API fails, try alternative format
         response = await fetch(
-          "https://v1.apiplugin.io/v1/currency/CrTjEDuj?base=PHP"
+          "https://api.exchangerate-api.com/v4/latest/USD"
         );
+        if (response.ok) {
+          data = await response.json();
+          console.log("ExchangeRate-API Response:", data);
+        }
+      } catch (error) {
+        console.log("ExchangeRate-API failed:", error.message);
       }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // Second try: Alternative API
+      if (!data || !response || !response.ok) {
+        try {
+          response = await fetch(
+            "https://api.freeforexapi.com/api/live?pairs=USDPHP,USDEUR,USDJPY,USDGBP,USDAUD,USDCAD,USDSGD,USDHKD,USDKRW,USDCNY,USDTHB,USDMYR,USDIDR,USDVND"
+          );
+          if (response.ok) {
+            const freeForexData = await response.json();
+            console.log("FreeForex-API Response:", freeForexData);
+
+            // Convert to our expected format
+            if (freeForexData.rates) {
+              data = {
+                rates: {},
+              };
+              Object.keys(freeForexData.rates).forEach((pair) => {
+                const currency = pair.replace("USD", "");
+                data.rates[currency] = freeForexData.rates[pair].rate;
+              });
+              data.rates.USD = 1; // Base currency
+            }
+          }
+        } catch (error) {
+          console.log("FreeForex-API failed:", error.message);
+        }
       }
 
-      const data = await response.json();
-      console.log("API Response:", data);
+      if (!data || !data.rates) {
+        throw new Error("All currency APIs failed or returned invalid data");
+      }
 
       // Handle different possible response formats
-      let rates = null;
+      let rates = data.rates;
 
-      if (data.rates) {
-        rates = data.rates;
-      } else if (data.data && data.data.rates) {
-        rates = data.data.rates;
-      } else if (data.conversion_rates) {
-        rates = data.conversion_rates;
-      } else if (
-        data.result &&
-        data.result === "success" &&
-        data.conversion_rates
-      ) {
-        rates = data.conversion_rates;
-      }
-
-      // If we have rates data, process it
+      // Convert all rates to PHP as base currency
       let phpRates;
       if (rates) {
-        // Convert all rates to PHP as base currency
-        const phpToBase = rates.PHP ? 1 / rates.PHP : 1;
+        // If USD is base, convert to PHP base
+        const usdToPhp = rates.PHP || 56.0; // Fallback rate if PHP not available
 
         phpRates = {
           PHP: 1,
-          USD: rates.USD ? rates.USD * phpToBase : 0.018,
-          EUR: rates.EUR ? rates.EUR * phpToBase : 0.016,
-          JPY: rates.JPY ? rates.JPY * phpToBase : 2.5,
-          GBP: rates.GBP ? rates.GBP * phpToBase : 0.014,
-          AUD: rates.AUD ? rates.AUD * phpToBase : 0.026,
-          CAD: rates.CAD ? rates.CAD * phpToBase : 0.024,
-          SGD: rates.SGD ? rates.SGD * phpToBase : 0.024,
-          HKD: rates.HKD ? rates.HKD * phpToBase : 0.14,
-          KRW: rates.KRW ? rates.KRW * phpToBase : 23.5,
-          CNY: rates.CNY ? rates.CNY * phpToBase : 0.13,
-          THB: rates.THB ? rates.THB * phpToBase : 0.64,
-          MYR: rates.MYR ? rates.MYR * phpToBase : 0.083,
-          IDR: rates.IDR ? rates.IDR * phpToBase : 270,
-          VND: rates.VND ? rates.VND * phpToBase : 430,
+          USD: 1 / usdToPhp,
+          EUR: rates.EUR ? rates.EUR / usdToPhp : 0.016,
+          JPY: rates.JPY ? rates.JPY / usdToPhp : 2.5,
+          GBP: rates.GBP ? rates.GBP / usdToPhp : 0.014,
+          AUD: rates.AUD ? rates.AUD / usdToPhp : 0.026,
+          CAD: rates.CAD ? rates.CAD / usdToPhp : 0.024,
+          SGD: rates.SGD ? rates.SGD / usdToPhp : 0.024,
+          HKD: rates.HKD ? rates.HKD / usdToPhp : 0.14,
+          KRW: rates.KRW ? rates.KRW / usdToPhp : 23.5,
+          CNY: rates.CNY ? rates.CNY / usdToPhp : 0.13,
+          THB: rates.THB ? rates.THB / usdToPhp : 0.64,
+          MYR: rates.MYR ? rates.MYR / usdToPhp : 0.083,
+          IDR: rates.IDR ? rates.IDR / usdToPhp : 270,
+          VND: rates.VND ? rates.VND / usdToPhp : 430,
         };
       } else {
-
         throw new Error("No rates data found in API response");
       }
 
@@ -117,12 +131,12 @@ function initializeBudgetCalculator() {
     } catch (error) {
       console.error("Error fetching exchange rates:", error);
 
-      // if (statusElement) {
-      //   statusElement.textContent = "Using fallback rates (API unavailable)";
-      // }
+      if (statusElement) {
+        statusElement.textContent = "Using fallback rates (API unavailable)";
+      }
 
       // Fallback to static rates if API fails
-      return {
+      exchangeRates = {
         PHP: 1,
         USD: 0.018,
         EUR: 0.016,
@@ -139,6 +153,9 @@ function initializeBudgetCalculator() {
         IDR: 270,
         VND: 430,
       };
+
+      lastFetchTime = Date.now();
+      return exchangeRates;
     }
   }
 
@@ -151,47 +168,67 @@ function initializeBudgetCalculator() {
       loadingIndicator.style.display = "block";
     }
 
-    const duration =
-      parseFloat(document.getElementById("stayDuration").value) || 0;
-    const accommodation =
-      parseFloat(document.getElementById("accommodationCost").value) || 0;
-    const transportation =
-      parseFloat(document.getElementById("transportationBudget").value) || 0;
-    const food = parseFloat(document.getElementById("foodBudget").value) || 0;
-    const other = parseFloat(document.getElementById("otherCosts").value) || 0;
-    const currency = currencySelect ? currencySelect.value : "PHP";
+    try {
+      const duration =
+        parseFloat(document.getElementById("stayDuration").value) || 0;
+      const accommodation =
+        parseFloat(document.getElementById("accommodationCost").value) || 0;
+      const transportation =
+        parseFloat(document.getElementById("transportationBudget").value) || 0;
+      const food = parseFloat(document.getElementById("foodBudget").value) || 0;
+      const other =
+        parseFloat(document.getElementById("otherCosts").value) || 0;
+      const currency = currencySelect ? currencySelect.value : "PHP";
 
-    const totalInPeso =
-      duration * accommodation + transportation + food + other;
+      const totalInPeso =
+        duration * accommodation + transportation + food + other;
 
-    const conversionRates = await fetchExchangeRates();
+      const conversionRates = await fetchExchangeRates();
 
-    const convertedTotal = totalInPeso * conversionRates[currency];
-    const formattedTotal = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: currency,
-    }).format(convertedTotal);
+      if (!conversionRates || !conversionRates[currency]) {
+        throw new Error(`Currency ${currency} not available in exchange rates`);
+      }
 
-    if (loadingIndicator) {
-      loadingIndicator.style.display = "none";
+      const convertedTotal = totalInPeso * conversionRates[currency];
+      const formattedTotal = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency,
+      }).format(convertedTotal);
+
+      if (loadingIndicator) {
+        loadingIndicator.style.display = "none";
+      }
+
+      if (resultContainer && totalBudget) {
+        totalBudget.textContent = formattedTotal;
+        resultContainer.style.display = "block";
+      }
+
+      console.log("Calculation:", {
+        duration,
+        accommodation,
+        transportation,
+        food,
+        other,
+        totalInPeso,
+        convertedTotal,
+        formattedTotal,
+        exchangeRates: conversionRates,
+      });
+    } catch (error) {
+      console.error("Error in calculateTotal:", error);
+
+      // Hide loading indicator
+      if (loadingIndicator) {
+        loadingIndicator.style.display = "none";
+      }
+
+      // Show error message to user
+      if (resultContainer && totalBudget) {
+        totalBudget.textContent = "Error calculating budget. Please try again.";
+        resultContainer.style.display = "block";
+      }
     }
-
-    if (resultContainer && totalBudget) {
-      totalBudget.textContent = formattedTotal;
-      resultContainer.style.display = "block";
-    }
-
-    console.log("Calculation:", {
-      duration,
-      accommodation,
-      transportation,
-      food,
-      other,
-      totalInPeso,
-      convertedTotal,
-      formattedTotal,
-      exchangeRates: conversionRates,
-    });
   }
   // Handle form submission
   if (budgetForm) {
