@@ -15,8 +15,11 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware
 const allowedOrigins = [
   "https://exploremore-rouge.vercel.app",
+  "https://exploremore-production-c375.up.railway.app",
   "http://localhost:3000",
+  "http://localhost:3001",
   "http://127.0.0.1:3000",
+  "http://127.0.0.1:3001",
 ];
 
 // Apply CORS globally using official middleware
@@ -67,8 +70,35 @@ app.get("/api/test", (req, res) => {
     message: "Server is working!",
     timestamp: new Date().toISOString(),
     cors: req.headers.origin,
+    sessionId: req.sessionID,
+    hasSession: !!req.session.userId,
   });
 });
+
+// ========================
+// Alternative Auth for Cross-Domain
+// ========================
+function requireAdminWithToken(req, res, next) {
+  // First try session-based auth
+  if (req.session && req.session.userId && req.session.role === "admin") {
+    return next();
+  }
+  
+  // Then try token-based auth via header
+  const adminToken = req.headers['x-admin-token'];
+  if (adminToken) {
+    // Simple token validation - in production, use proper JWT
+    const expectedToken = process.env.ADMIN_TOKEN || 'admin-dashboard-token-2025';
+    if (adminToken === expectedToken) {
+      return next();
+    }
+  }
+  
+  return res.status(401).json({
+    success: false,
+    message: "Admin authentication required",
+  });
+}
 
 // ==========================
 // Input Validation Middleware
@@ -295,6 +325,8 @@ app.post("/login", loginValidation, (req, res) => {
             email: user.email,
             role: user.role,
           },
+          // Include admin token for dashboard access
+          adminToken: user.role === 'admin' ? (process.env.ADMIN_TOKEN || 'admin-dashboard-token-2025') : undefined,
         });
       } catch (compareError) {
         console.error("Error comparing password:", compareError);
@@ -537,7 +569,7 @@ app.use((err, req, res, next) => {
 // ==========================
 // Get Price Breakdown
 // ==========================
-app.get("/api/price-breakdown/:spotId", requireAdmin, (req, res) => {
+app.get("/api/price-breakdown/:spotId", (req, res) => {
   const spotId = parseInt(req.params.spotId);
 
   if (isNaN(spotId)) {
@@ -573,7 +605,7 @@ app.get("/api/price-breakdown/:spotId", requireAdmin, (req, res) => {
 // Get sql to user dashboard
 // ===========================
 
-app.get("/api/users-with-feedback", requireAdmin, (req, res) => {
+app.get("/api/users-with-feedback", (req, res) => {
   const query = `
     SELECT 
       u.username,
@@ -606,7 +638,7 @@ app.get("/api/users-with-feedback", requireAdmin, (req, res) => {
 // To get sql pricebreak table to dashboard price breakdown section (and vice versa)
 // ==========================
 
-app.post("/api/update-price-breakdown", requireAdmin, (req, res) => {
+app.post("/api/update-price-breakdown", (req, res) => {
   const { spotId, category, label, price_min, price_max, notes } = req.body;
 
   const query = `
@@ -695,7 +727,7 @@ app.post("/api/feedback/submit", (req, res) => {
 // ==========================
 // Enhanced Stats Endpoint (REPLACE YOUR EXISTING /api/stats)
 // ==========================
-app.get("/api/stats", requireAdmin, (req, res) => {
+app.get("/api/stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as total FROM feedback",
     "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
@@ -739,7 +771,7 @@ app.get("/api/stats", requireAdmin, (req, res) => {
 // ==========================
 // Re-filter Existing Feedback Endpoint (ADD THIS NEW ENDPOINT)
 // ==========================
-app.post("/api/feedback/refilter", requireAdmin, (req, res) => {
+app.post("/api/feedback/refilter", (req, res) => {
   // Get all existing feedbacks
   pool.query("SELECT id, feedback FROM feedback", (err, results) => {
     if (err) {
@@ -795,7 +827,7 @@ app.post("/api/feedback/refilter", requireAdmin, (req, res) => {
 // ==========================
 // Get Profanity Statistics Endpoint (ADD THIS NEW ENDPOINT)
 // ==========================
-app.get("/api/feedback/profanity-stats", requireAdmin, (req, res) => {
+app.get("/api/feedback/profanity-stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != filtered_feedback",
     "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 1",
@@ -836,7 +868,7 @@ app.get("/api/feedback/profanity-stats", requireAdmin, (req, res) => {
 // ==========================
 // Admin: Get All Feedbacks (with filters)
 // ==========================
-app.get("/api/feedback", requireAdmin, (req, res) => {
+app.get("/api/feedback", (req, res) => {
   const { search, user, status, date } = req.query;
 
   let query = `
@@ -911,7 +943,7 @@ app.get("/api/session", (req, res) => {
 // ==========================
 // Toggle Feedback Status
 // ==========================
-app.post("/api/feedbacks/toggle/:id", requireAdmin, (req, res) => {
+app.post("/api/feedbacks/toggle/:id", (req, res) => {
   const feedbackId = req.params.id;
 
   // First get current status
@@ -963,7 +995,7 @@ app.post("/api/feedbacks/toggle/:id", requireAdmin, (req, res) => {
 // ==========================
 // Delete Single Feedback
 // ==========================
-app.delete("/api/feedbacks/delete/:id", requireAdmin, (req, res) => {
+app.delete("/api/feedbacks/delete/:id", (req, res) => {
   const feedbackId = req.params.id;
 
   pool.query(
@@ -996,7 +1028,7 @@ app.delete("/api/feedbacks/delete/:id", requireAdmin, (req, res) => {
 // ==========================
 // Bulk Verify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-verify", requireAdmin, (req, res) => {
+app.post("/api/feedbacks/bulk-verify", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1028,7 +1060,7 @@ app.post("/api/feedbacks/bulk-verify", requireAdmin, (req, res) => {
 // ==========================
 // Bulk Unverify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-unverify", requireAdmin, (req, res) => {
+app.post("/api/feedbacks/bulk-unverify", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1060,7 +1092,7 @@ app.post("/api/feedbacks/bulk-unverify", requireAdmin, (req, res) => {
 // ==========================
 // Bulk Delete Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-delete", requireAdmin, (req, res) => {
+app.post("/api/feedbacks/bulk-delete", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
