@@ -34,7 +34,13 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "X-User-Id",
+      "X-User-Email",
+    ],
     optionsSuccessStatus: 200,
   })
 );
