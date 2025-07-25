@@ -50,7 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
         loadPriceTable(spotId, container);
       } else {
         console.error("Spot ID not found for:", { region, spotName });
-        alert(`Spot ID not found for ${spotName} in ${region}`);
+        showError(
+          "Configuration Error",
+          `Spot ID not found for ${spotName} in ${region}`
+        );
       }
     });
   });
@@ -75,12 +78,18 @@ function loadPriceTable(spotId, container) {
         renderEditableTable(data.breakdown, spotId, container);
       } else {
         console.error("API returned error:", data.message);
-        alert("Failed to fetch data: " + (data.message || "Unknown error"));
+        showError(
+          "Data Load Failed",
+          `Failed to fetch data: ${data.message || "Unknown error"}`
+        );
       }
     })
     .catch((error) => {
       console.error("Error fetching price breakdown:", error);
-      alert("Error fetching price data: " + error.message);
+      showError(
+        "Connection Error",
+        `Error fetching price data: ${error.message}`
+      );
     });
 }
 
@@ -166,14 +175,17 @@ function renderEditableTable(breakdown, spotId, container) {
         .then((res) => res.json())
         .then((response) => {
           if (response.success) {
-            alert("Updated successfully!");
+            showSuccess("Update Complete", "Price data updated successfully!");
           } else {
-            alert("Update failed: " + response.message);
+            showError("Update Failed", `Update failed: ${response.message}`);
           }
         })
         .catch((error) => {
           console.error("Error updating price breakdown:", error);
-          alert("Error updating price data: " + error.message);
+          showError(
+            "Update Error",
+            `Error updating price data: ${error.message}`
+          );
         });
     });
   });

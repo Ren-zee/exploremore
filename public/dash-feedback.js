@@ -80,14 +80,15 @@ function refilterAllFeedbacks() {
       return res.json();
     })
     .then((response) => {
-      alert(
-        `Refiltering completed! Processed: ${response.processed}, Updated: ${response.updated}`
+      showSuccess(
+        "Refiltering Complete",
+        `Processed: ${response.processed}, Updated: ${response.updated}`
       );
       loadFeedbackTable(); // Refresh the table
     })
     .catch((err) => {
       console.error("Error refiltering feedbacks:", err);
-      alert("Failed to refilter feedbacks");
+      showError("Refiltering Failed", "Failed to refilter feedbacks");
     })
     .finally(() => {
       if (refilterBtn) {
@@ -221,7 +222,7 @@ function renderFeedbackTable(feedbacks) {
         })
         .catch((err) => {
           console.error("Error toggling feedback:", err);
-          alert("Failed to toggle feedback status");
+          showError("Toggle Failed", "Failed to toggle feedback status");
         });
     });
   });
@@ -252,7 +253,7 @@ function renderFeedbackTable(feedbacks) {
           })
           .catch((err) => {
             console.error("Error deleting feedback:", err);
-            alert("Failed to delete feedback");
+            showError("Delete Failed", "Failed to delete feedback");
           });
       }
     });
@@ -360,7 +361,7 @@ function bulkAction(action) {
     .filter((id) => id);
 
   if (!selectedIds.length) {
-    alert("No feedbacks selected.");
+    showWarning("No Selection", "No feedbacks selected.");
     return;
   }
 
@@ -392,7 +393,7 @@ function bulkAction(action) {
     })
     .catch((err) => {
       console.error("Error performing bulk action:", err);
-      alert(`Failed to perform bulk ${action}`);
+      showError("Bulk Action Failed", `Failed to perform bulk ${action}`);
     });
 }
 

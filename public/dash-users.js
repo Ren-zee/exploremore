@@ -105,6 +105,18 @@ function applyFiltersAndSort() {
 
   console.log("📈 Sorted users:", sorted.length);
   renderTable(sorted);
+
+  // Show helpful notification if no results found due to filters
+  if (
+    users.length > 0 &&
+    sorted.length === 0 &&
+    (searchTerm || selectedMonth || selectedDate)
+  ) {
+    showWarning(
+      "No Results Found",
+      "No users match the current filters. Try adjusting your search criteria."
+    );
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -137,14 +149,21 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         users = data.users;
         applyFiltersAndSort(); // initial render
+        showSuccess(
+          "Users Loaded",
+          `Successfully loaded ${data.users.length} users`
+        );
       } else {
         console.error("❌ Failed to load users:", data.message);
-        alert("Failed to load users: " + (data.message || "Unknown error"));
+        showError(
+          "Loading Failed",
+          `Failed to load users: ${data.message || "Unknown error"}`
+        );
       }
     })
     .catch((err) => {
       console.error("💥 Error loading users:", err);
-      alert("Error loading users: " + err.message);
+      showError("Connection Error", `Error loading users: ${err.message}`);
     });
 
   // Sort arrow click
@@ -172,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clear filters
   document.getElementById("clearFilters").addEventListener("click", () => {
+    const hadFilters = searchTerm || selectedMonth || selectedDate;
     searchTerm = "";
     selectedMonth = "";
     selectedDate = "";
@@ -179,5 +199,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("monthFilter").value = "";
     document.getElementById("dateFilter").value = "";
     applyFiltersAndSort();
+
+    if (hadFilters) {
+      showInfo("Filters Cleared", "All filters have been reset");
+    }
   });
 });
