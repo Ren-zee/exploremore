@@ -85,18 +85,57 @@ async function handleFeedbackSubmission(event) {
 
   try {
     const API_BASE_URL = getApiBaseUrl();
+
+    // Debug: Log the current user and authentication status
+    console.log("🔍 Current user from sessionStorage:", user);
+    console.log("🔍 API_BASE_URL:", API_BASE_URL);
+
+    // First, check auth status with the server
+    try {
+      const authCheck = await fetch(`${API_BASE_URL}/api/auth-status`, {
+        method: "GET",
+        credentials: "include",
+      });
+      const authData = await authCheck.json();
+      console.log("🔍 Server auth status:", authData);
+    } catch (authError) {
+      console.log("🔍 Auth status check failed:", authError);
+    }
+
     const response = await fetch(`${API_BASE_URL}/submit-feedback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // Add user info to headers as a fallback for cross-domain issues
+        "X-User-Id": user.id,
+        "X-User-Email": user.email,
       },
       body: JSON.stringify({
         feedback: feedbackText,
+        userId: user.id, // Include user ID in body as well
+        userEmail: user.email, // Include user email as fallback
       }),
       credentials: "include", // Include session cookies
     });
 
+    console.log("🔍 Response status:", response.status);
+    console.log("🔍 Response ok:", response.ok);
+
     const data = await response.json();
+    console.log("🔍 Response data:", data);
+
+    if (response.status === 401) {
+      // Clear potentially invalid session data and redirect to login
+      sessionStorage.removeItem("user");
+      showFeedbackMessage(
+        "Your session has expired. Please log in again to submit feedback.",
+        "warning"
+      );
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 3000);
+      return;
+    }
 
     if (data.success) {
       showFeedbackMessage(

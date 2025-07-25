@@ -72,6 +72,24 @@ app.get("/api/test", (req, res) => {
     cors: req.headers.origin,
     sessionId: req.sessionID,
     hasSession: !!req.session.userId,
+    userId: req.session.userId,
+    userRole: req.session.role,
+  });
+});
+
+// Debug endpoint to check authentication status
+app.get("/api/auth-status", (req, res) => {
+  res.json({
+    success: true,
+    sessionId: req.sessionID,
+    userId: req.session?.userId || null,
+    role: req.session?.role || null,
+    hasSession: !!req.session?.userId,
+    headers: {
+      origin: req.headers.origin,
+      userAgent: req.headers["user-agent"],
+      cookie: req.headers.cookie ? "present" : "absent",
+    },
   });
 });
 
@@ -134,13 +152,81 @@ const loginValidation = [
 // Admin Authentication Middleware
 // ==========================
 function requireAuth(req, res, next) {
-  if (!req.session.userId) {
-    return res.status(401).json({
-      success: false,
-      message: "Authentication required",
-    });
+  console.log("🔍 requireAuth - Session:", {
+    sessionId: req.sessionID,
+    userId: req.session?.userId,
+    hasSession: !!req.session,
+  });
+  console.log("🔍 requireAuth - Headers:", {
+    "x-user-id": req.headers["x-user-id"],
+    "x-user-email": req.headers["x-user-email"],
+    origin: req.headers.origin,
+  });
+  console.log("🔍 requireAuth - Body:", {
+    userId: req.body?.userId,
+    userEmail: req.body?.userEmail,
+  });
+
+  // First try session-based authentication
+  if (req.session && req.session.userId) {
+    console.log("✅ Session-based auth successful");
+    return next();
   }
-  next();
+
+  // Fallback: Try to authenticate using headers and body for cross-domain scenarios
+  const userIdFromHeader = req.headers["x-user-id"];
+  const userEmailFromHeader = req.headers["x-user-email"];
+  const userIdFromBody = req.body.userId;
+  const userEmailFromBody = req.body.userEmail;
+
+  const userId = userIdFromHeader || userIdFromBody;
+  const userEmail = userEmailFromHeader || userEmailFromBody;
+
+  if (userId && userEmail) {
+    console.log(
+      "🔄 Trying fallback auth with userId:",
+      userId,
+      "email:",
+      userEmail
+    );
+    // Verify the user exists in the database
+    const query =
+      "SELECT id, email, username, role FROM users WHERE id = $1 AND email = $2";
+    pool.query(query, [userId, userEmail], (err, result) => {
+      if (err) {
+        console.error("❌ Error verifying user:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Authentication verification failed",
+        });
+      }
+
+      if (result.rows.length === 0) {
+        console.log("❌ User not found in database");
+        return res.status(401).json({
+          success: false,
+          message: "Invalid user credentials",
+        });
+      }
+
+      console.log(
+        "✅ Fallback auth successful for user:",
+        result.rows[0].username
+      );
+      // Set the user info in req for use in the route handler
+      req.user = result.rows[0];
+      req.session.userId = result.rows[0].id; // Update session as well
+      req.session.role = result.rows[0].role;
+      return next();
+    });
+    return; // Don't continue execution here, wait for the database query
+  }
+
+  console.log("❌ No valid authentication found");
+  return res.status(401).json({
+    success: false,
+    message: "Authentication required",
+  });
 }
 
 function requireAdmin(req, res, next) {
@@ -426,7 +512,14 @@ app.post(
     }
 
     const { feedback } = req.body;
-    const userId = req.session.userId;
+    const userId = req.session.userId || (req.user && req.user.id);
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "User ID not found in session or request",
+      });
+    }
 
     const query =
       "INSERT INTO feedback (user_id, feedback) VALUES ($1, $2) RETURNING id";
