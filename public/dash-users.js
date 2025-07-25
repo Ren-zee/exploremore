@@ -14,7 +14,7 @@ let selectedDate = "";
 function renderTable(data) {
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
-  data.forEach(user => {
+  data.forEach((user) => {
     const row = `
       <tr>
         <td>${user.username}</td>
@@ -29,7 +29,7 @@ function renderTable(data) {
 }
 
 function updateSortIndicators() {
-  document.querySelectorAll(".sort-arrow").forEach(span => {
+  document.querySelectorAll(".sort-arrow").forEach((span) => {
     const col = span.dataset.col;
     if (col === currentSortColumn) {
       span.innerText = currentSortOrder === "asc" ? "▲" : "▼";
@@ -54,7 +54,7 @@ function sortTable(column) {
 }
 
 function applyFiltersAndSort() {
-  let filtered = users.filter(user => {
+  let filtered = users.filter((user) => {
     const lowerUsername = user.username.toLowerCase();
     const lowerEmail = user.email.toLowerCase();
     const createdDate = new Date(user.created_at);
@@ -97,36 +97,50 @@ function applyFiltersAndSort() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetch(`${API_BASE_URL}/api/users-with-feedback`)
-    .then(res => res.json())
-    .then(data => {
+  fetch(`${API_BASE_URL}/api/users-with-feedback`, {
+    credentials: "include", // Include credentials for authentication
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(
+          `HTTP error! status: ${res.status} - ${res.statusText}`
+        );
+      }
+      return res.json();
+    })
+    .then((data) => {
       if (data.success) {
         users = data.users;
         applyFiltersAndSort(); // initial render
       } else {
         console.error("Failed to load users:", data.message);
+        alert("Failed to load users: " + (data.message || "Unknown error"));
       }
+    })
+    .catch((err) => {
+      console.error("Error loading users:", err);
+      alert("Error loading users: " + err.message);
     });
 
   // Sort arrow click
-  document.querySelectorAll(".sort-arrow").forEach(span => {
+  document.querySelectorAll(".sort-arrow").forEach((span) => {
     span.addEventListener("click", () => sortTable(span.dataset.col));
   });
 
   // Search input
-  document.getElementById("searchInput").addEventListener("input", e => {
+  document.getElementById("searchInput").addEventListener("input", (e) => {
     searchTerm = e.target.value.trim().toLowerCase();
     applyFiltersAndSort();
   });
 
   // Month filter
-  document.getElementById("monthFilter").addEventListener("change", e => {
+  document.getElementById("monthFilter").addEventListener("change", (e) => {
     selectedMonth = e.target.value;
     applyFiltersAndSort();
   });
 
   // Date filter
-  document.getElementById("dateFilter").addEventListener("change", e => {
+  document.getElementById("dateFilter").addEventListener("change", (e) => {
     selectedDate = e.target.value;
     applyFiltersAndSort();
   });

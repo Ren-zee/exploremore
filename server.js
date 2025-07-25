@@ -537,7 +537,7 @@ app.use((err, req, res, next) => {
 // ==========================
 // Get Price Breakdown
 // ==========================
-app.get("/api/price-breakdown/:spotId", (req, res) => {
+app.get("/api/price-breakdown/:spotId", requireAdmin, (req, res) => {
   const spotId = parseInt(req.params.spotId);
 
   if (isNaN(spotId)) {

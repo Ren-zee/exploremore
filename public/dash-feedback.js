@@ -38,7 +38,7 @@ function initializeProfanityFeatures() {
   if (refilterBtn) {
     refilterBtn.addEventListener("click", refilterAllFeedbacks);
   }
-  
+
   // Add profanity stats refresh functionality
   const refreshStatsBtn = document.getElementById("refreshStatsBtn");
   if (refreshStatsBtn) {
@@ -51,30 +51,33 @@ function refilterAllFeedbacks() {
   if (!confirm("This will refilter all feedbacks for profanity. Continue?")) {
     return;
   }
-  
+
   const refilterBtn = document.getElementById("refilterBtn");
   if (refilterBtn) {
     refilterBtn.disabled = true;
     refilterBtn.textContent = "Refiltering...";
   }
-  
+
   fetch(`${API_BASE_URL}/api/feedback/refilter`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Include credentials for authentication
   })
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       return res.json();
     })
-    .then(response => {
-      alert(`Refiltering completed! Processed: ${response.processed}, Updated: ${response.updated}`);
+    .then((response) => {
+      alert(
+        `Refiltering completed! Processed: ${response.processed}, Updated: ${response.updated}`
+      );
       loadFeedbackTable(); // Refresh the table
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error refiltering feedbacks:", err);
       alert("Failed to refilter feedbacks");
     })
@@ -88,18 +91,20 @@ function refilterAllFeedbacks() {
 
 // NEW: Load profanity statistics
 function loadProfanityStats() {
-  fetch(`${API_BASE_URL}/api/feedback/profanity-stats`)
-    .then(res => {
+  fetch(`${API_BASE_URL}/api/feedback/profanity-stats`, {
+    credentials: "include", // Include credentials for authentication
+  })
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       return res.json();
     })
-    .then(response => {
+    .then((response) => {
       const stats = response.data;
       updateProfanityStats(stats);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error loading profanity stats:", err);
     });
 }
@@ -109,7 +114,7 @@ function updateProfanityStats(stats) {
   const elements = {
     statTotalProfane: stats.totalProfane || 0,
     statVerifiedProfane: stats.verifiedProfane || 0,
-    statUnverifiedProfane: stats.unverifiedProfane || 0
+    statUnverifiedProfane: stats.unverifiedProfane || 0,
   };
 
   Object.entries(elements).forEach(([id, value]) => {
@@ -145,23 +150,29 @@ function renderFeedbackTable(feedbacks) {
         </tr>
       </thead>
       <tbody>
-        ${feedbacks.map(fb => {
-          const hasProfanity = fb.feedback !== fb.filtered_feedback;
-          return `
+        ${feedbacks
+          .map((fb) => {
+            const hasProfanity = fb.feedback !== fb.filtered_feedback;
+            return `
             <tr data-id="${fb.id}">
               <td><input type="checkbox" class="select-row"></td>
-              <td>${escapeHtml(fb.username || 'N/A')}</td>
-              <td>${escapeHtml(fb.feedback || 'N/A')}</td>
-              <td>${escapeHtml(fb.filtered_feedback || 'N/A')}</td>
-              <td><span class="badge ${fb.is_verified ? 'bg-success' : 'bg-secondary'}">${fb.is_verified ? 'Verified' : 'Unverified'}</span></td>
-              <td><span class="badge ${hasProfanity ? 'bg-danger' : 'bg-success'}">${hasProfanity ? 'Filtered' : 'Clean'}</span></td>
+              <td>${escapeHtml(fb.username || "N/A")}</td>
+              <td>${escapeHtml(fb.feedback || "N/A")}</td>
+              <td>${escapeHtml(fb.filtered_feedback || "N/A")}</td>
+              <td><span class="badge ${
+                fb.is_verified ? "bg-success" : "bg-secondary"
+              }">${fb.is_verified ? "Verified" : "Unverified"}</span></td>
+              <td><span class="badge ${
+                hasProfanity ? "bg-danger" : "bg-success"
+              }">${hasProfanity ? "Filtered" : "Clean"}</span></td>
               <td>${new Date(fb.created_at).toLocaleString()}</td>
               <td>
                 <button class="btn btn-sm btn-warning toggle-btn">Toggle</button>
                 <button class="btn btn-sm btn-danger delete-btn">Delete</button>
               </td>
             </tr>`;
-        }).join("")}
+          })
+          .join("")}
       </tbody>
     </table>
   `;
@@ -170,23 +181,26 @@ function renderFeedbackTable(feedbacks) {
   const selectAllCheckbox = document.getElementById("selectAll");
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener("change", (e) => {
-      document.querySelectorAll(".select-row").forEach(cb => cb.checked = e.target.checked);
+      document
+        .querySelectorAll(".select-row")
+        .forEach((cb) => (cb.checked = e.target.checked));
     });
   }
 
   // Toggle button functionality
-  container.querySelectorAll(".toggle-btn").forEach(btn => {
+  container.querySelectorAll(".toggle-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.closest("tr").dataset.id;
       if (!id) {
         console.error("No ID found for toggle action");
         return;
       }
-      
+
       fetch(`${API_BASE_URL}/api/feedbacks/toggle/${id}`, {
-        method: "POST"
+        method: "POST",
+        credentials: "include", // Include credentials for authentication
       })
-        .then(res => {
+        .then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
           }
@@ -195,7 +209,7 @@ function renderFeedbackTable(feedbacks) {
         .then(() => {
           loadFeedbackTable();
         })
-        .catch(err => {
+        .catch((err) => {
           console.error("Error toggling feedback:", err);
           alert("Failed to toggle feedback status");
         });
@@ -203,19 +217,20 @@ function renderFeedbackTable(feedbacks) {
   });
 
   // Delete button functionality
-  container.querySelectorAll(".delete-btn").forEach(btn => {
+  container.querySelectorAll(".delete-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.closest("tr").dataset.id;
       if (!id) {
         console.error("No ID found for delete action");
         return;
       }
-      
+
       if (confirm("Are you sure you want to delete this feedback?")) {
         fetch(`${API_BASE_URL}/api/feedbacks/delete/${id}`, {
-          method: "DELETE"
+          method: "DELETE",
+          credentials: "include", // Include credentials for authentication
         })
-          .then(res => {
+          .then((res) => {
             if (!res.ok) {
               throw new Error(`HTTP error! status: ${res.status}`);
             }
@@ -224,7 +239,7 @@ function renderFeedbackTable(feedbacks) {
           .then(() => {
             loadFeedbackTable();
           })
-          .catch(err => {
+          .catch((err) => {
             console.error("Error deleting feedback:", err);
             alert("Failed to delete feedback");
           });
@@ -247,21 +262,25 @@ function loadFeedbackTable() {
   const date = document.getElementById("dateSelect")?.value || "";
   const profanity = document.getElementById("profanitySelect")?.value || "";
 
-  const params = new URLSearchParams({ search, user, status, date, profanity});
+  const params = new URLSearchParams({ search, user, status, date, profanity });
   const url = `${API_BASE_URL}/api/feedback?${params.toString()}`;
-  
+
   console.log("Making request to:", url); // Debug log
 
-  fetch(url)
-    .then(res => {
+  fetch(url, {
+    credentials: "include", // Include credentials for authentication
+  })
+    .then((res) => {
       if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status} - ${res.statusText}`);
+        throw new Error(
+          `HTTP error! status: ${res.status} - ${res.statusText}`
+        );
       }
       return res.json();
     })
-    .then(response => {
+    .then((response) => {
       console.log("API Response:", response); // Debug log
-      
+
       let feedbacks;
       if (response.success && response.data) {
         feedbacks = response.data;
@@ -271,70 +290,84 @@ function loadFeedbackTable() {
         throw new Error("Invalid response format");
       }
 
-       if (profanity === "clean") {
-        feedbacks = feedbacks.filter(fb => fb.feedback === fb.filtered_feedback);
+      if (profanity === "clean") {
+        feedbacks = feedbacks.filter(
+          (fb) => fb.feedback === fb.filtered_feedback
+        );
       } else if (profanity === "filtered") {
-        feedbacks = feedbacks.filter(fb => fb.feedback !== fb.filtered_feedback);
+        feedbacks = feedbacks.filter(
+          (fb) => fb.feedback !== fb.filtered_feedback
+        );
       }
       if (feedbacks.length === 0) {
-        document.getElementById("feedbackTableContainer").innerHTML = "<p>No feedbacks found.</p>";
+        document.getElementById("feedbackTableContainer").innerHTML =
+          "<p>No feedbacks found.</p>";
       } else {
         renderFeedbackTable(feedbacks);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error loading feedbacks:", err);
-      document.getElementById("feedbackTableContainer").innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
+      document.getElementById(
+        "feedbackTableContainer"
+      ).innerHTML = `<p class="text-danger">Error loading feedbacks: ${err.message}</p>`;
     });
 
   // Load regular stats
-  fetch(`${API_BASE_URL}/api/stats`)
-    .then(res => {
+  fetch(`${API_BASE_URL}/api/stats`, {
+    credentials: "include", // Include credentials for authentication
+  })
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       return res.json();
     })
-    .then(response => {
+    .then((response) => {
       const stats = response.data || response;
       updateStats(stats);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error loading stats:", err);
       updateStats({
         total: 0,
         verified: 0,
         unverified: 0,
-        filtered: 0
+        filtered: 0,
       });
     });
-  
+
   // Load profanity stats
   loadProfanityStats();
 }
 
 function bulkAction(action) {
   const selectedIds = [...document.querySelectorAll(".select-row:checked")]
-    .map(cb => cb.closest("tr").dataset.id)
-    .filter(id => id);
+    .map((cb) => cb.closest("tr").dataset.id)
+    .filter((id) => id);
 
   if (!selectedIds.length) {
     alert("No feedbacks selected.");
     return;
   }
 
-  if (!confirm(`Are you sure you want to ${action} ${selectedIds.length} selected feedback(s)?`)) {
+  if (
+    !confirm(
+      `Are you sure you want to ${action} ${selectedIds.length} selected feedback(s)?`
+    )
+  ) {
     return;
   }
 
   fetch(`${API_BASE_URL}/api/feedbacks/bulk-${action}`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ids: selectedIds })
+    body: JSON.stringify({ ids: selectedIds }),
+    credentials: "include", // Include credentials for authentication
   })
-    .then(res => {
+    .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -343,7 +376,7 @@ function bulkAction(action) {
     .then(() => {
       loadFeedbackTable();
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Error performing bulk action:", err);
       alert(`Failed to perform bulk ${action}`);
     });
@@ -354,7 +387,7 @@ function updateStats(stats) {
     statTotal: stats.total || 0,
     statVerified: stats.verified || 0,
     statUnverified: stats.unverified || 0,
-    statFiltered: stats.filtered || 0
+    statFiltered: stats.filtered || 0,
   };
 
   Object.entries(elements).forEach(([id, value]) => {
@@ -368,8 +401,8 @@ function updateStats(stats) {
 }
 
 function escapeHtml(text) {
-  if (!text) return '';
-  const div = document.createElement('div');
+  if (!text) return "";
+  const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
 }
