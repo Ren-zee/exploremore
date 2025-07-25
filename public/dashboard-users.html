@@ -28,12 +28,32 @@
     <script>
       // Check admin access immediately when page loads
       document.addEventListener("DOMContentLoaded", function () {
+        console.log("🔐 Checking admin access...");
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
+        console.log("👤 User from sessionStorage:", user);
+
         if (!user || user.role !== "admin") {
-          alert("Access denied. Admin privileges required.");
-          window.location.href = "index.html";
+          console.warn("❌ Access denied. Admin privileges required.");
+          console.log("Redirecting to index.html in 3 seconds...");
+
+          // Add a visible warning instead of immediate redirect
+          document.body.innerHTML =
+            '<div style="padding: 20px; text-align: center; color: red; font-size: 18px;">' +
+            "❌ Access denied. Admin privileges required.<br>" +
+            "You will be redirected to the home page in 3 seconds...<br>" +
+            "Current user: " +
+            (user
+              ? user.username + " (Role: " + user.role + ")"
+              : "Not logged in") +
+            "</div>";
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 3000);
           return;
         }
+
+        console.log("✅ Admin access granted for:", user.username);
       });
     </script>
 
