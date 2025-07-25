@@ -1,98 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API Test</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .test-result {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      pre {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 3px;
+        overflow-x: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>API Connectivity Test</h1>
-    
+
     <button onclick="testAPI()">Test Users API</button>
     <button onclick="checkSessionStorage()">Check Session Storage</button>
     <button onclick="testCORS()">Test CORS</button>
-    
+
     <div id="results"></div>
 
     <script>
-        const API_BASE_URL = "https://exploremore-production-c375.up.railway.app";
-        
-        function log(message, type = 'info') {
-            const results = document.getElementById('results');
-            const div = document.createElement('div');
-            div.className = `test-result ${type}`;
-            div.innerHTML = message;
-            results.appendChild(div);
-            console.log(message);
-        }
-        
-        function testAPI() {
-            log('🔄 Testing Users API...', 'info');
-            
-            fetch(`${API_BASE_URL}/api/users-with-feedback`, {
-                credentials: "include"
-            })
-            .then(response => {
-                log(`📡 Status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
-                log(`📡 Headers: ${JSON.stringify([...response.headers.entries()])}`, 'info');
-                return response.json();
-            })
-            .then(data => {
-                log(`📦 Response: <pre>${JSON.stringify(data, null, 2)}</pre>`, 'success');
-                if (data.success && data.users) {
-                    log(`✅ Found ${data.users.length} users in database`, 'success');
-                }
-            })
-            .catch(error => {
-                log(`❌ Error: ${error.message}`, 'error');
-            });
-        }
-        
-        function checkSessionStorage() {
-            log('🔍 Checking Session Storage...', 'info');
-            const user = sessionStorage.getItem('user');
-            if (user) {
-                const userData = JSON.parse(user);
-                log(`👤 User: <pre>${JSON.stringify(userData, null, 2)}</pre>`, 'success');
-                log(`🔑 Role: ${userData.role}`, userData.role === 'admin' ? 'success' : 'error');
-            } else {
-                log(`❌ No user found in session storage`, 'error');
+      const API_BASE_URL = "https://exploremore-production-c375.up.railway.app";
+
+      function log(message, type = "info") {
+        const results = document.getElementById("results");
+        const div = document.createElement("div");
+        div.className = `test-result ${type}`;
+        div.innerHTML = message;
+        results.appendChild(div);
+        console.log(message);
+      }
+
+      function testAPI() {
+        log("🔄 Testing Users API...", "info");
+
+        fetch(`${API_BASE_URL}/api/users-with-feedback`, {
+          credentials: "include",
+        })
+          .then((response) => {
+            log(
+              `📡 Status: ${response.status} ${response.statusText}`,
+              response.ok ? "success" : "error"
+            );
+            log(
+              `📡 Headers: ${JSON.stringify([...response.headers.entries()])}`,
+              "info"
+            );
+            return response.json();
+          })
+          .then((data) => {
+            log(
+              `📦 Response: <pre>${JSON.stringify(data, null, 2)}</pre>`,
+              "success"
+            );
+            if (data.success && data.users) {
+              log(`✅ Found ${data.users.length} users in database`, "success");
             }
+          })
+          .catch((error) => {
+            log(`❌ Error: ${error.message}`, "error");
+          });
+      }
+
+      function checkSessionStorage() {
+        log("🔍 Checking Session Storage...", "info");
+        const user = sessionStorage.getItem("user");
+        if (user) {
+          const userData = JSON.parse(user);
+          log(
+            `👤 User: <pre>${JSON.stringify(userData, null, 2)}</pre>`,
+            "success"
+          );
+          log(
+            `🔑 Role: ${userData.role}`,
+            userData.role === "admin" ? "success" : "error"
+          );
+        } else {
+          log(`❌ No user found in session storage`, "error");
         }
-        
-        function testCORS() {
-            log('🌐 Testing CORS with test endpoint...', 'info');
-            
-            fetch(`${API_BASE_URL}/api/test`, {
-                credentials: "include"
-            })
-            .then(response => {
-                log(`📡 CORS Test Status: ${response.status}`, response.ok ? 'success' : 'error');
-                return response.json();
-            })
-            .then(data => {
-                log(`🌐 CORS Test Response: <pre>${JSON.stringify(data, null, 2)}</pre>`, 'success');
-            })
-            .catch(error => {
-                log(`❌ CORS Error: ${error.message}`, 'error');
-            });
-        }
-        
-        // Auto-run tests on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            log('🚀 Page loaded, running automatic tests...', 'info');
-            checkSessionStorage();
-            setTimeout(testCORS, 500);
-            setTimeout(testAPI, 1000);
-        });
+      }
+
+      function testCORS() {
+        log("🌐 Testing CORS with test endpoint...", "info");
+
+        fetch(`${API_BASE_URL}/api/test`, {
+          credentials: "include",
+        })
+          .then((response) => {
+            log(
+              `📡 CORS Test Status: ${response.status}`,
+              response.ok ? "success" : "error"
+            );
+            return response.json();
+          })
+          .then((data) => {
+            log(
+              `🌐 CORS Test Response: <pre>${JSON.stringify(
+                data,
+                null,
+                2
+              )}</pre>`,
+              "success"
+            );
+          })
+          .catch((error) => {
+            log(`❌ CORS Error: ${error.message}`, "error");
+          });
+      }
+
+      // Auto-run tests on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        log("🚀 Page loaded, running automatic tests...", "info");
+        checkSessionStorage();
+        setTimeout(testCORS, 500);
+        setTimeout(testAPI, 1000);
+      });
     </script>
-</body>
+  </body>
 </html>

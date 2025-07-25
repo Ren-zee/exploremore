@@ -18,7 +18,7 @@ function renderTable(data) {
     console.error("❌ Table body element not found!");
     return;
   }
-  
+
   tbody.innerHTML = "";
   data.forEach((user, index) => {
     console.log(`👤 Rendering user ${index + 1}:`, user);
@@ -111,7 +111,7 @@ function applyFiltersAndSort() {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🔄 Dashboard Users: Starting to load users...");
   console.log("🌐 API URL:", `${API_BASE_URL}/api/users-with-feedback`);
-  
+
   fetch(`${API_BASE_URL}/api/users-with-feedback`, {
     credentials: "include", // Include credentials for authentication
   })
@@ -128,7 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((data) => {
       console.log("📦 Received data:", data);
       if (data.success) {
-        console.log("✅ Users loaded successfully:", data.users.length, "users");
+        console.log(
+          "✅ Users loaded successfully:",
+          data.users.length,
+          "users"
+        );
         users = data.users;
         applyFiltersAndSort(); // initial render
       } else {
