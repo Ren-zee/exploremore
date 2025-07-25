@@ -1,7 +1,13 @@
 // Configuration for API base URL (using global config)
-const API_BASE_URL =
-  window.ExploreMoreConfig?.API_BASE_URL ||
-  "https://exploremore-production-c375.up.railway.app";
+// Note: API_BASE_URL is now available globally through window.ExploreMoreConfig.API_BASE_URL
+
+// Helper function to get API base URL
+function getApiBaseUrl() {
+  return (
+    window.ExploreMoreConfig?.API_BASE_URL ||
+    "https://exploremore-production-c375.up.railway.app"
+  );
+}
 
 // Feedback functionality
 document.addEventListener("DOMContentLoaded", function () {
@@ -78,6 +84,7 @@ async function handleFeedbackSubmission(event) {
   submitBtn.textContent = "Submitting...";
 
   try {
+    const API_BASE_URL = getApiBaseUrl();
     const response = await fetch(`${API_BASE_URL}/submit-feedback`, {
       method: "POST",
       headers: {

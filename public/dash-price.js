@@ -1,6 +1,13 @@
-// Configuration for API base URL
-const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
-// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+// Configuration for API base URL (using global config)
+// Note: API_BASE_URL is now available globally through window.ExploreMoreConfig.API_BASE_URL
+
+// Helper function to get API base URL
+function getApiBaseUrl() {
+  return (
+    window.ExploreMoreConfig?.API_BASE_URL ||
+    "https://exploremore-production-c375.up.railway.app"
+  );
+}
 
 const spotMap = {
   Luzon: {

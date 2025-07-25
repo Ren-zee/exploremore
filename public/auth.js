@@ -1,8 +1,6 @@
 // Authentication functionality
 // Configuration for API base URL (using global config)
-const API_BASE_URL =
-  window.ExploreMoreConfig?.API_BASE_URL ||
-  "https://exploremore-production-c375.up.railway.app";
+// Note: API_BASE_URL is now available globally through window.ExploreMoreConfig.API_BASE_URL
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeAuth();
@@ -212,6 +210,9 @@ async function handleSignup(event) {
   submitBtn.textContent = "Creating Account...";
 
   try {
+    const API_BASE_URL =
+      window.ExploreMoreConfig?.API_BASE_URL ||
+      "https://exploremore-production-c375.up.railway.app";
     const response = await fetch(`${API_BASE_URL}/signup`, {
       method: "POST",
       headers: {
@@ -283,6 +284,9 @@ async function handleLogin(event) {
   loginBtn.textContent = "Logging in...";
 
   try {
+    const API_BASE_URL =
+      window.ExploreMoreConfig?.API_BASE_URL ||
+      "https://exploremore-production-c375.up.railway.app";
     console.log("🔄 Attempting login to:", `${API_BASE_URL}/login`);
 
     // First test if server is reachable

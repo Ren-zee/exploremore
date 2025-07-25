@@ -1,7 +1,5 @@
 // Configuration for API base URL (using global config)
-const API_BASE_URL =
-  window.ExploreMoreConfig?.API_BASE_URL ||
-  "https://exploremore-production-c375.up.railway.app";
+// Note: API_BASE_URL is now available globally through window.ExploreMoreConfig.API_BASE_URL
 
 let users = [];
 let currentSortColumn = "username";
@@ -111,6 +109,9 @@ function applyFiltersAndSort() {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🔄 Dashboard Users: Starting to load users...");
+  const API_BASE_URL =
+    window.ExploreMoreConfig?.API_BASE_URL ||
+    "https://exploremore-production-c375.up.railway.app";
   console.log("🌐 API URL:", `${API_BASE_URL}/api/users-with-feedback`);
 
   fetch(`${API_BASE_URL}/api/users-with-feedback`, {
