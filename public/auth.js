@@ -1,7 +1,8 @@
 // Authentication functionality
-// Configuration for API base URL
-const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
-// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+// Configuration for API base URL (using global config)
+const API_BASE_URL =
+  window.ExploreMoreConfig?.API_BASE_URL ||
+  "https://exploremore-production-c375.up.railway.app";
 
 document.addEventListener("DOMContentLoaded", function () {
   initializeAuth();
