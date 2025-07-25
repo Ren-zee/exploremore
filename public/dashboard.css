@@ -209,3 +209,46 @@ body {
     transform: translateY(-100px);
   }
 }
+
+/* Confirmation Dialog Styles */
+.notification-confirm {
+  background-color: #fbbf24;
+  color: #1f2937;
+  border-left: 4px solid #f59e0b;
+  min-width: 350px;
+  max-width: 450px;
+}
+
+.notification-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirm-yes {
+  background-color: #059669;
+  color: white;
+}
+
+.confirm-yes:hover {
+  background-color: #047857;
+}
+
+.confirm-no {
+  background-color: #6b7280;
+  color: white;
+}
+
+.confirm-no:hover {
+  background-color: #4b5563;
+}

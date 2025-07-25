@@ -87,6 +87,58 @@ function fallbackAlert(type, title, message) {
   alert(`${type.toUpperCase()}: ${title}\n${message}`);
 }
 
+// Modern Confirmation Dialog
+function showConfirmation(title, message, onConfirm, onCancel = null) {
+  // Create container if it doesn't exist
+  let container = document.getElementById("notification-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "notification-container";
+    container.className = "notification-container";
+    document.body.appendChild(container);
+  }
+
+  // Create confirmation element
+  const confirmation = document.createElement("div");
+  confirmation.className = "notification notification-confirm";
+
+  confirmation.innerHTML = `
+    <span class="notification-icon">?</span>
+    <div class="notification-content">
+      <div class="notification-title">${title}</div>
+      <div class="notification-message">${message}</div>
+      <div class="notification-buttons">
+        <button class="confirm-btn confirm-yes">Yes, Continue</button>
+        <button class="confirm-btn confirm-no">Cancel</button>
+      </div>
+    </div>
+  `;
+
+  // Add to container
+  container.appendChild(confirmation);
+
+  // Show with animation
+  setTimeout(() => {
+    confirmation.classList.add("show");
+  }, 10);
+
+  // Handle button clicks
+  const yesBtn = confirmation.querySelector(".confirm-yes");
+  const noBtn = confirmation.querySelector(".confirm-no");
+
+  yesBtn.addEventListener("click", () => {
+    hideNotification(confirmation);
+    if (onConfirm) onConfirm();
+  });
+
+  noBtn.addEventListener("click", () => {
+    hideNotification(confirmation);
+    if (onCancel) onCancel();
+  });
+
+  return confirmation;
+}
+
 // Initialize notification system
 document.addEventListener("DOMContentLoaded", function () {
   // Ensure container exists

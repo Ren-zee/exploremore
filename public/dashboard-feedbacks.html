@@ -33,8 +33,20 @@
       document.addEventListener("DOMContentLoaded", function () {
         const user = JSON.parse(sessionStorage.getItem("user") || "null");
         if (!user || user.role !== "admin") {
-          alert("Access denied. Admin privileges required.");
-          window.location.href = "index.html";
+          // Wait for notification system to load
+          setTimeout(() => {
+            if (typeof showError === "function") {
+              showError(
+                "Access Denied",
+                "Admin privileges required to access this page."
+              );
+            } else {
+              alert("Access denied. Admin privileges required.");
+            }
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 2000);
+          }, 100);
           return;
         }
       });

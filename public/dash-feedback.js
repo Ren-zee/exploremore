@@ -55,47 +55,54 @@ function initializeProfanityFeatures() {
 
 // NEW: Refilter all existing feedbacks
 function refilterAllFeedbacks() {
-  if (!confirm("This will refilter all feedbacks for profanity. Continue?")) {
-    return;
-  }
-
-  const refilterBtn = document.getElementById("refilterBtn");
-  if (refilterBtn) {
-    refilterBtn.disabled = true;
-    refilterBtn.textContent = "Refiltering...";
-  }
-
-  const API_BASE_URL = getApiBaseUrl();
-  fetch(`${API_BASE_URL}/api/feedback/refilter`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Include credentials for authentication
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((response) => {
-      showSuccess(
-        "Refiltering Complete",
-        `Processed: ${response.processed}, Updated: ${response.updated}`
-      );
-      loadFeedbackTable(); // Refresh the table
-    })
-    .catch((err) => {
-      console.error("Error refiltering feedbacks:", err);
-      showError("Refiltering Failed", "Failed to refilter feedbacks");
-    })
-    .finally(() => {
+  showConfirmation(
+    "Refilter All Feedbacks",
+    "This will refilter all feedbacks for profanity detection. This process may take a few moments. Do you want to continue?",
+    () => {
+      // User confirmed - proceed with refiltering
+      const refilterBtn = document.getElementById("refilterBtn");
       if (refilterBtn) {
-        refilterBtn.disabled = false;
-        refilterBtn.textContent = "Refilter All";
+        refilterBtn.disabled = true;
+        refilterBtn.textContent = "Refiltering...";
       }
-    });
+
+      const API_BASE_URL = getApiBaseUrl();
+      fetch(`${API_BASE_URL}/api/feedback/refilter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include credentials for authentication
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((response) => {
+          showSuccess(
+            "Refiltering Complete",
+            `Processed: ${response.processed}, Updated: ${response.updated}`
+          );
+          loadFeedbackTable(); // Refresh the table
+        })
+        .catch((err) => {
+          console.error("Error refiltering feedbacks:", err);
+          showError("Refiltering Failed", "Failed to refilter feedbacks");
+        })
+        .finally(() => {
+          if (refilterBtn) {
+            refilterBtn.disabled = false;
+            refilterBtn.textContent = "Refilter All";
+          }
+        });
+    },
+    () => {
+      // User cancelled
+      showInfo("Operation Cancelled", "Feedback refiltering was cancelled");
+    }
+  );
 }
 
 // NEW: Load profanity statistics
@@ -236,26 +243,35 @@ function renderFeedbackTable(feedbacks) {
         return;
       }
 
-      if (confirm("Are you sure you want to delete this feedback?")) {
-        const API_BASE_URL = getApiBaseUrl();
-        fetch(`${API_BASE_URL}/api/feedbacks/delete/${id}`, {
-          method: "DELETE",
-          credentials: "include", // Include credentials for authentication
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
+      showConfirmation(
+        "Delete Feedback",
+        "Are you sure you want to permanently delete this feedback? This action cannot be undone.",
+        () => {
+          // User confirmed deletion
+          const API_BASE_URL = getApiBaseUrl();
+          fetch(`${API_BASE_URL}/api/feedbacks/delete/${id}`, {
+            method: "DELETE",
+            credentials: "include", // Include credentials for authentication
           })
-          .then(() => {
-            loadFeedbackTable();
-          })
-          .catch((err) => {
-            console.error("Error deleting feedback:", err);
-            showError("Delete Failed", "Failed to delete feedback");
-          });
-      }
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+              }
+              return res.json();
+            })
+            .then(() => {
+              showSuccess(
+                "Feedback Deleted",
+                "The feedback has been successfully removed"
+              );
+              loadFeedbackTable();
+            })
+            .catch((err) => {
+              console.error("Error deleting feedback:", err);
+              showError("Delete Failed", "Failed to delete feedback");
+            });
+        }
+      );
     });
   });
 }
@@ -365,14 +381,23 @@ function bulkAction(action) {
     return;
   }
 
-  if (
-    !confirm(
-      `Are you sure you want to ${action} ${selectedIds.length} selected feedback(s)?`
-    )
-  ) {
-    return;
-  }
+  const actionText = action === "delete" ? "permanently delete" : action;
+  const warningText =
+    action === "delete"
+      ? "This action cannot be undone."
+      : "This will update the status of all selected feedbacks.";
 
+  showConfirmation(
+    `Bulk ${action.charAt(0).toUpperCase() + action.slice(1)}`,
+    `Are you sure you want to ${actionText} ${selectedIds.length} selected feedback(s)? ${warningText}`,
+    () => {
+      // User confirmed bulk action
+      performBulkAction(action, selectedIds);
+    }
+  );
+}
+
+function performBulkAction(action, selectedIds) {
   const API_BASE_URL = getApiBaseUrl();
   fetch(`${API_BASE_URL}/api/feedbacks/bulk-${action}`, {
     method: "POST",
