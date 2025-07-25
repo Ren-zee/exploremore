@@ -9,6 +9,39 @@ function getApiBaseUrl() {
   );
 }
 
+// Test function for debugging API connection
+function testApiConnection() {
+  const testResult = document.getElementById("testResult");
+  testResult.textContent = "Testing...";
+
+  const apiUrl = `${getApiBaseUrl()}/api/price-breakdown/1`;
+  console.log("Testing API connection to:", apiUrl);
+
+  fetch(apiUrl, {
+    credentials: "include",
+  })
+    .then((res) => {
+      console.log("Test response status:", res.status);
+      console.log("Test response headers:", [...res.headers.entries()]);
+      return res.json();
+    })
+    .then((data) => {
+      console.log("Test response data:", data);
+      if (data.success) {
+        testResult.textContent = `✅ API working! Found ${data.breakdown.length} price items.`;
+        testResult.className = "text-success";
+      } else {
+        testResult.textContent = `❌ API error: ${data.message}`;
+        testResult.className = "text-danger";
+      }
+    })
+    .catch((error) => {
+      console.error("Test API error:", error);
+      testResult.textContent = `❌ Connection error: ${error.message}`;
+      testResult.className = "text-danger";
+    });
+}
+
 const spotMap = {
   Luzon: {
     "Nagsasa Cove": 1,
@@ -28,6 +61,9 @@ const spotMap = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("Price breakdown dashboard loaded");
+  console.log("API Base URL:", getApiBaseUrl());
+
   document.querySelectorAll(".accordion-body button").forEach((button) => {
     button.addEventListener("click", () => {
       const region = button
@@ -36,31 +72,61 @@ document.addEventListener("DOMContentLoaded", () => {
         .innerText.trim();
       const spotName = button.innerText.trim();
       const spotId = spotMap[region]?.[spotName];
+
+      console.log("Button clicked:", { region, spotName, spotId });
+
       if (spotId) {
         const container = button
           .closest(".accordion-body")
           .querySelector("div[id^='priceBreakdownTableContainer']");
+        console.log("Container found:", container);
         loadPriceTable(spotId, container);
+      } else {
+        console.error("Spot ID not found for:", { region, spotName });
+        alert(`Spot ID not found for ${spotName} in ${region}`);
       }
     });
   });
 });
 
 function loadPriceTable(spotId, container) {
-  fetch(`${API_BASE_URL}/api/price-breakdown/${spotId}`, {
+  console.log("Loading price table for spot ID:", spotId);
+  const apiUrl = `${getApiBaseUrl()}/api/price-breakdown/${spotId}`;
+  console.log("Fetching from URL:", apiUrl);
+
+  fetch(apiUrl, {
     credentials: "include", // Include credentials for authentication
   })
-    .then((res) => res.json())
+    .then((res) => {
+      console.log("Response status:", res.status);
+      console.log("Response ok:", res.ok);
+      return res.json();
+    })
     .then((data) => {
+      console.log("Response data:", data);
       if (data.success) {
         renderEditableTable(data.breakdown, spotId, container);
       } else {
-        alert("Failed to fetch data.");
+        console.error("API returned error:", data.message);
+        alert("Failed to fetch data: " + (data.message || "Unknown error"));
       }
+    })
+    .catch((error) => {
+      console.error("Error fetching price breakdown:", error);
+      alert("Error fetching price data: " + error.message);
     });
 }
 
 function renderEditableTable(breakdown, spotId, container) {
+  console.log("Rendering table with breakdown:", breakdown);
+  console.log("Container element:", container);
+
+  if (!breakdown || breakdown.length === 0) {
+    container.innerHTML =
+      '<p class="alert alert-warning">No price data available for this spot.</p>';
+    return;
+  }
+
   container.innerHTML = `
     <table class="table table-bordered table-striped">
       <thead class="table-dark">
@@ -117,7 +183,7 @@ function renderEditableTable(breakdown, spotId, container) {
       const price_max = row.children[3].querySelector("input").value;
       const notes = row.children[4].querySelector("input").value;
 
-      fetch(`${API_BASE_URL}/api/update-price-breakdown`, {
+      fetch(`${getApiBaseUrl()}/api/update-price-breakdown`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -137,6 +203,10 @@ function renderEditableTable(breakdown, spotId, container) {
           } else {
             alert("Update failed: " + response.message);
           }
+        })
+        .catch((error) => {
+          console.error("Error updating price breakdown:", error);
+          alert("Error updating price data: " + error.message);
         });
     });
   });
