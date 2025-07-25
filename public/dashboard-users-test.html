@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Users Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .loading { color: #666; font-style: italic; }
+        .error { color: red; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Users - Simplified Test</h1>
+    
+    <div id="status" class="loading">Loading users...</div>
+    
+    <table id="usersTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created At</th>
+                <th>Feedback Count</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        const API_BASE_URL = "https://exploremore-production-c375.up.railway.app";
+        
+        // Check admin access
+        const user = JSON.parse(sessionStorage.getItem("user") || "null");
+        if (!user || user.role !== "admin") {
+            document.getElementById('status').innerHTML = '<span class="error">❌ Not logged in as admin. Please login first.</span>';
+        } else {
+            document.getElementById('status').innerHTML = '<span class="success">✅ Logged in as: ' + user.username + ' (Role: ' + user.role + ')</span>';
+            loadUsers();
+        }
+        
+        function loadUsers() {
+            console.log("🔄 Loading users from API...");
+            document.getElementById('status').innerHTML += '<br><span class="loading">📡 Fetching users from database...</span>';
+            
+            fetch(`${API_BASE_URL}/api/users-with-feedback`, {
+                credentials: "include"
+            })
+            .then(response => {
+                console.log("📡 Response status:", response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("📦 Received data:", data);
+                
+                if (data.success && data.users) {
+                    document.getElementById('status').innerHTML += '<br><span class="success">✅ Successfully loaded ' + data.users.length + ' users</span>';
+                    renderUsers(data.users);
+                } else {
+                    throw new Error(data.message || "Invalid response format");
+                }
+            })
+            .catch(error => {
+                console.error("💥 Error:", error);
+                document.getElementById('status').innerHTML += '<br><span class="error">❌ Error loading users: ' + error.message + '</span>';
+            });
+        }
+        
+        function renderUsers(users) {
+            console.log("🎨 Rendering", users.length, "users");
+            
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            
+            users.forEach((user, index) => {
+                console.log(`👤 Rendering user ${index + 1}:`, user);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td><strong>${user.role}</strong></td>
+                    <td>${new Date(user.created_at).toLocaleString()}</td>
+                    <td>${user.feedback_count}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('usersTable').style.display = 'table';
+            console.log("✅ Table rendered successfully");
+        }
+    </script>
+</body>
+</html>
