@@ -123,6 +123,13 @@ function loadProfanityStats() {
     })
     .catch((err) => {
       console.error("Error loading profanity stats:", err);
+      // Provide fallback profanity stats
+      updateProfanityStats({
+        totalProfane: 0,
+        verifiedProfane: 0,
+        unverifiedProfane: 0,
+      });
+      // Don't show error for profanity stats as it's secondary information
     });
 }
 
@@ -359,12 +366,18 @@ function loadFeedbackTable() {
     })
     .catch((err) => {
       console.error("Error loading stats:", err);
+      // Provide fallback stats instead of completely failing
       updateStats({
         total: 0,
         verified: 0,
         unverified: 0,
         filtered: 0,
       });
+      // Show a subtle error notification
+      showWarning(
+        "Stats Unavailable",
+        "Could not load feedback statistics. Please refresh the page."
+      );
     });
 
   // Load profanity stats

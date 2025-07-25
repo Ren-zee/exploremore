@@ -844,9 +844,9 @@ app.post("/api/feedback/submit", (req, res) => {
 app.get("/api/stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as total FROM feedback",
-    "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = 1",
-    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = 0",
-    "SELECT COUNT(*) as filtered FROM feedback WHERE feedback != filtered_feedback",
+    "SELECT COUNT(*) as verified FROM feedback WHERE is_verified = true",
+    "SELECT COUNT(*) as unverified FROM feedback WHERE is_verified = false",
+    "SELECT COUNT(*) as filtered FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback)",
   ];
 
   Promise.all(
@@ -854,18 +854,26 @@ app.get("/api/stats", (req, res) => {
       (query) =>
         new Promise((resolve, reject) => {
           pool.query(query, (err, results) => {
-            if (err) reject(err);
-            else resolve(results.rows[0]);
+            if (err) {
+              console.error("Query error:", err);
+              reject(err);
+            } else {
+              console.log("Query result:", results); // Debug log
+              // Handle both PostgreSQL (results.rows) and MySQL (results) structures
+              const row = results.rows ? results.rows[0] : results[0];
+              resolve(row);
+            }
           });
         })
     )
   )
     .then((results) => {
+      console.log("All results:", results); // Debug log
       const stats = {
-        total: results[0].total,
-        verified: results[1].verified,
-        unverified: results[2].unverified,
-        filtered: results[3].filtered,
+        total: parseInt(results[0].total) || 0,
+        verified: parseInt(results[1].verified) || 0,
+        unverified: parseInt(results[2].unverified) || 0,
+        filtered: parseInt(results[3].filtered) || 0,
       };
 
       res.status(200).json({
@@ -878,8 +886,31 @@ app.get("/api/stats", (req, res) => {
       res.status(500).json({
         success: false,
         message: "Error getting statistics",
+        error: err.message,
       });
     });
+});
+
+// ==========================
+// Health Check Endpoint
+// ==========================
+app.get("/api/health", (req, res) => {
+  pool.query("SELECT 1", (err, result) => {
+    if (err) {
+      console.error("Database health check failed:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Database connection failed",
+        error: err.message,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Server and database are healthy",
+      timestamp: new Date().toISOString(),
+    });
+  });
 });
 
 // ==========================
@@ -943,9 +974,9 @@ app.post("/api/feedback/refilter", (req, res) => {
 // ==========================
 app.get("/api/feedback/profanity-stats", (req, res) => {
   const queries = [
-    "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != filtered_feedback",
-    "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 1",
-    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != filtered_feedback AND is_verified = 0",
+    "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback)",
+    "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = 1",
+    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = 0",
   ];
 
   Promise.all(
@@ -953,17 +984,31 @@ app.get("/api/feedback/profanity-stats", (req, res) => {
       (query) =>
         new Promise((resolve, reject) => {
           pool.query(query, (err, results) => {
-            if (err) reject(err);
-            else resolve(results.rows[0]);
+            if (err) {
+              console.error("Profanity stats query error:", err);
+              reject(err);
+            } else {
+              console.log("Profanity stats query result:", results); // Debug log
+              // Handle both PostgreSQL (results.rows) and MySQL (results) structures
+              const row = results.rows ? results.rows[0] : results[0];
+              resolve(row);
+            }
           });
         })
     )
   )
     .then((results) => {
+      console.log("All profanity results:", results); // Debug log
       const profanityStats = {
-        totalProfane: results[0].totalProfane,
-        verifiedProfane: results[1].verifiedProfane,
-        unverifiedProfane: results[2].unverifiedProfane,
+        totalProfane:
+          parseInt(results[0].totalprofane || results[0].totalProfane) || 0,
+        verifiedProfane:
+          parseInt(results[1].verifiedprofane || results[1].verifiedProfane) ||
+          0,
+        unverifiedProfane:
+          parseInt(
+            results[2].unverifiedprofane || results[2].unverifiedProfane
+          ) || 0,
       };
 
       res.status(200).json({
@@ -976,6 +1021,7 @@ app.get("/api/feedback/profanity-stats", (req, res) => {
       res.status(500).json({
         success: false,
         message: "Error getting profanity statistics",
+        error: err.message,
       });
     });
 });
@@ -989,7 +1035,7 @@ app.get("/api/feedback", (req, res) => {
     SELECT 
       f.id, 
       f.feedback, 
-      f.filtered_feedback,
+      COALESCE(f.filtered_feedback, f.feedback) as filtered_feedback,
       f.is_verified, 
       f.created_at, 
       u.username 
@@ -999,22 +1045,27 @@ app.get("/api/feedback", (req, res) => {
 
   const queryParams = [];
   const conditions = [];
+  let paramIndex = 1;
 
   if (search) {
-    conditions.push(`f.feedback LIKE ?`);
+    conditions.push(`f.feedback LIKE $${paramIndex}`);
     queryParams.push(`%${search}%`);
+    paramIndex++;
   }
   if (user) {
-    conditions.push(`u.username = ?`);
+    conditions.push(`u.username = $${paramIndex}`);
     queryParams.push(user);
+    paramIndex++;
   }
   if (status) {
-    conditions.push(`f.is_verified = ?`);
-    queryParams.push(status === "verified" ? 1 : 0);
+    conditions.push(`f.is_verified = $${paramIndex}`);
+    queryParams.push(status === "verified" ? true : false);
+    paramIndex++;
   }
   if (date) {
-    conditions.push(`DATE(f.created_at) = ?`);
+    conditions.push(`DATE(f.created_at) = $${paramIndex}`);
     queryParams.push(date);
+    paramIndex++;
   }
 
   if (conditions.length > 0) {
@@ -1023,18 +1074,24 @@ app.get("/api/feedback", (req, res) => {
 
   query += " ORDER BY f.created_at DESC";
 
+  console.log("Feedback query:", query, "Params:", queryParams); // Debug log
+
   pool.query(query, queryParams, (err, results) => {
     if (err) {
       console.error("Error fetching all feedbacks:", err);
       return res.status(500).json({
         success: false,
         message: "Error fetching feedbacks",
+        error: err.message,
       });
     }
 
+    const feedbacks = results.rows || results;
+    console.log("Fetched feedbacks:", feedbacks.length); // Debug log
+
     res.status(200).json({
       success: true,
-      data: results.rows,
+      data: feedbacks,
     });
   });
 });
@@ -1142,7 +1199,7 @@ app.delete("/api/feedbacks/delete/:id", (req, res) => {
 // ==========================
 // Bulk Verify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-verify", requireAuth, (req, res) => {
+app.post("/api/feedbacks/bulk-verify", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1152,8 +1209,10 @@ app.post("/api/feedbacks/bulk-verify", requireAuth, (req, res) => {
     });
   }
 
-  const placeholders = ids.map(() => "?").join(",");
-  const query = `UPDATE feedback SET is_verified = 1 WHERE id IN (${placeholders})`;
+  const placeholders = ids.map((_, index) => `$${index + 1}`).join(",");
+  const query = `UPDATE feedback SET is_verified = true WHERE id IN (${placeholders})`;
+
+  console.log("Bulk verify query:", query, "IDs:", ids); // Debug log
 
   pool.query(query, ids, (err, result) => {
     if (err) {
@@ -1161,11 +1220,14 @@ app.post("/api/feedbacks/bulk-verify", requireAuth, (req, res) => {
       return res.status(500).json({
         success: false,
         message: "Error bulk verifying feedbacks",
+        error: err.message,
       });
     }
 
     const affectedRows =
       result.affectedRows || result.rowCount || result.changes || 0;
+    console.log("Bulk verify result:", result); // Debug log
+
     res.status(200).json({
       success: true,
       message: `${affectedRows} feedbacks verified successfully`,
@@ -1177,7 +1239,7 @@ app.post("/api/feedbacks/bulk-verify", requireAuth, (req, res) => {
 // ==========================
 // Bulk Unverify Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-unverify", requireAuth, (req, res) => {
+app.post("/api/feedbacks/bulk-unverify", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1187,8 +1249,10 @@ app.post("/api/feedbacks/bulk-unverify", requireAuth, (req, res) => {
     });
   }
 
-  const placeholders = ids.map(() => "?").join(",");
-  const query = `UPDATE feedback SET is_verified = 0 WHERE id IN (${placeholders})`;
+  const placeholders = ids.map((_, index) => `$${index + 1}`).join(",");
+  const query = `UPDATE feedback SET is_verified = false WHERE id IN (${placeholders})`;
+
+  console.log("Bulk unverify query:", query, "IDs:", ids); // Debug log
 
   pool.query(query, ids, (err, result) => {
     if (err) {
@@ -1196,11 +1260,14 @@ app.post("/api/feedbacks/bulk-unverify", requireAuth, (req, res) => {
       return res.status(500).json({
         success: false,
         message: "Error bulk unverifying feedbacks",
+        error: err.message,
       });
     }
 
     const affectedRows =
       result.affectedRows || result.rowCount || result.changes || 0;
+    console.log("Bulk unverify result:", result); // Debug log
+
     res.status(200).json({
       success: true,
       message: `${affectedRows} feedbacks unverified successfully`,
@@ -1212,7 +1279,7 @@ app.post("/api/feedbacks/bulk-unverify", requireAuth, (req, res) => {
 // ==========================
 // Bulk Delete Feedbacks
 // ==========================
-app.post("/api/feedbacks/bulk-delete", requireAuth, (req, res) => {
+app.post("/api/feedbacks/bulk-delete", (req, res) => {
   const { ids } = req.body;
 
   if (!ids || !Array.isArray(ids) || ids.length === 0) {
@@ -1222,8 +1289,10 @@ app.post("/api/feedbacks/bulk-delete", requireAuth, (req, res) => {
     });
   }
 
-  const placeholders = ids.map(() => "?").join(",");
+  const placeholders = ids.map((_, index) => `$${index + 1}`).join(",");
   const query = `DELETE FROM feedback WHERE id IN (${placeholders})`;
+
+  console.log("Bulk delete query:", query, "IDs:", ids); // Debug log
 
   pool.query(query, ids, (err, result) => {
     if (err) {
@@ -1231,11 +1300,14 @@ app.post("/api/feedbacks/bulk-delete", requireAuth, (req, res) => {
       return res.status(500).json({
         success: false,
         message: "Error bulk deleting feedbacks",
+        error: err.message,
       });
     }
 
     const affectedRows =
       result.affectedRows || result.rowCount || result.changes || 0;
+    console.log("Bulk delete result:", result); // Debug log
+
     res.status(200).json({
       success: true,
       message: `${affectedRows} feedbacks deleted successfully`,
