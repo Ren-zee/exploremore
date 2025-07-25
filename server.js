@@ -799,10 +799,17 @@ app.post("/api/feedback/submit", (req, res) => {
   }
 
   // Filter the feedback for profanity
-  const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
+  const filteredFeedback = leoProfanity.clean(feedback);
 
   // Check if feedback contains profanity
-  const containsProfanity = leoProfanity.isProfane(feedback);
+  const containsProfanity = leoProfanity.check(feedback);
+
+  console.log("Feedback processing:", {
+    original: feedback,
+    filtered: filteredFeedback,
+    containsProfanity: containsProfanity,
+    isDifferent: feedback !== filteredFeedback,
+  }); // Debug log
 
   // Insert feedback with both original and filtered versions
   const query = `
@@ -914,6 +921,133 @@ app.get("/api/health", (req, res) => {
 });
 
 // ==========================
+// Debug Endpoint for Profanity Testing
+// ==========================
+app.get("/api/debug/profanity-data", (req, res) => {
+  const query = `
+    SELECT 
+      id,
+      feedback,
+      filtered_feedback,
+      is_verified,
+      (feedback != COALESCE(filtered_feedback, feedback)) as has_profanity,
+      created_at
+    FROM feedback 
+    ORDER BY created_at DESC 
+    LIMIT 10
+  `;
+
+  pool.query(query, (err, results) => {
+    if (err) {
+      console.error("Error fetching debug profanity data:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error fetching debug data",
+        error: err.message,
+      });
+    }
+
+    const feedbacks = results.rows || results;
+
+    // Test the profanity filter with some sample text
+    const testProfanity = {
+      clean: leoProfanity.clean("This is a damn good test"),
+      check: leoProfanity.check("This is a damn good test"),
+      list: leoProfanity.list(),
+    };
+
+    res.status(200).json({
+      success: true,
+      data: {
+        feedbacks: feedbacks,
+        profanityTest: testProfanity,
+        totalFeedbacks: feedbacks.length,
+        feedbacksWithProfanity: feedbacks.filter((f) => f.has_profanity).length,
+      },
+    });
+  });
+});
+
+// ==========================
+// Test Endpoint to Create Sample Feedback with Profanity
+// ==========================
+app.post("/api/debug/create-test-feedback", (req, res) => {
+  // First, check if there are any users in the database
+  pool.query("SELECT id FROM users LIMIT 1", (err, userResults) => {
+    if (err) {
+      console.error("Error checking for users:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Error checking users",
+        error: err.message,
+      });
+    }
+
+    if (userResults.rows.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No users found in database. Please create a user first.",
+      });
+    }
+
+    const userId = userResults.rows[0].id;
+
+    // Create test feedbacks with and without profanity
+    const testFeedbacks = [
+      "This is a clean feedback message",
+      "This is a damn frustrating experience",
+      "What the hell is going on here?",
+      "This sucks so bad",
+      "Great service and wonderful experience!",
+      "This is absolute crap and bullshit",
+    ];
+
+    let processed = 0;
+    const results = [];
+
+    testFeedbacks.forEach((feedbackText, index) => {
+      const filteredFeedback = leoProfanity.clean(feedbackText);
+      const containsProfanity = leoProfanity.check(feedbackText);
+      const isVerified = !containsProfanity;
+
+      const query = `
+        INSERT INTO feedback (user_id, feedback, filtered_feedback, is_verified, created_at) 
+        VALUES ($1, $2, $3, $4, NOW()) RETURNING id
+      `;
+
+      pool.query(
+        query,
+        [userId, feedbackText, filteredFeedback, isVerified],
+        (err, result) => {
+          processed++;
+
+          if (err) {
+            console.error(`Error inserting test feedback ${index}:`, err);
+          } else {
+            results.push({
+              id: result.rows[0].id,
+              original: feedbackText,
+              filtered: filteredFeedback,
+              containsProfanity: containsProfanity,
+              isVerified: isVerified,
+            });
+          }
+
+          // Send response when all feedbacks are processed
+          if (processed === testFeedbacks.length) {
+            res.status(200).json({
+              success: true,
+              message: `Created ${results.length} test feedbacks`,
+              data: results,
+            });
+          }
+        }
+      );
+    });
+  });
+});
+
+// ==========================
 // Re-filter Existing Feedback Endpoint (ADD THIS NEW ENDPOINT)
 // ==========================
 app.post("/api/feedback/refilter", (req, res) => {
@@ -939,9 +1073,20 @@ app.post("/api/feedback/refilter", (req, res) => {
       });
     }
 
+    console.log(
+      `Starting refilter process for ${results.rows.length} feedbacks`
+    );
+
     results.rows.forEach((feedback) => {
-      const filteredFeedback = leoProfanity.clean(feedback.feedback); // ✅ CORRECT
+      const filteredFeedback = leoProfanity.clean(feedback.feedback);
       const containsProfanity = leoProfanity.check(feedback.feedback);
+
+      console.log(`Processing feedback ${feedback.id}:`, {
+        original: feedback.feedback,
+        filtered: filteredFeedback,
+        containsProfanity: containsProfanity,
+        isDifferent: feedback.feedback !== filteredFeedback,
+      });
 
       // Update the feedback with filtered version
       pool.query(
@@ -956,6 +1101,9 @@ app.post("/api/feedback/refilter", (req, res) => {
 
           // Send response when all feedbacks are processed
           if (processed === results.rows.length) {
+            console.log(
+              `Refiltering completed: ${processed} processed, ${updated} updated`
+            );
             res.status(200).json({
               success: true,
               message: "Refiltering completed",
@@ -975,8 +1123,8 @@ app.post("/api/feedback/refilter", (req, res) => {
 app.get("/api/feedback/profanity-stats", (req, res) => {
   const queries = [
     "SELECT COUNT(*) as totalProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback)",
-    "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = 1",
-    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = 0",
+    "SELECT COUNT(*) as verifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = true",
+    "SELECT COUNT(*) as unverifiedProfane FROM feedback WHERE feedback != COALESCE(filtered_feedback, feedback) AND is_verified = false",
   ];
 
   Promise.all(
