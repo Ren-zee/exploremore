@@ -229,9 +229,9 @@ async function handleSignup(event) {
     const data = await response.json();
 
     if (data.success) {
-      showMessage(
-        "successMessage",
-        "Account created successfully! You can now log in."
+      showSuccess(
+        "Account Created Successfully!",
+        "Welcome to ExploreMore PH! Redirecting to login page..."
       );
       document.getElementById("signupForm").reset();
 
@@ -241,24 +241,27 @@ async function handleSignup(event) {
         input.classList.remove("error", "success");
       });
 
-      // Redirect to login page after 2 seconds
+      // Redirect to login page after 3 seconds
       setTimeout(() => {
         window.location.href = "login.html";
-      }, 2000);
+      }, 3000);
     } else {
       if (data.errors && data.errors.length > 0) {
         const errorMessages = data.errors.map((error) => error.msg).join(", ");
-        showMessage("errorMessages", errorMessages);
+        showError("Registration Failed", errorMessages);
       } else {
-        showMessage(
-          "errorMessages",
+        showError(
+          "Registration Failed",
           data.message || "An error occurred during signup."
         );
       }
     }
   } catch (error) {
     console.error("Signup error:", error);
-    showMessage("errorMessages", "Network error. Please try again.");
+    showError(
+      "Network Error",
+      "Unable to create account. Please check your connection and try again."
+    );
   } finally {
     // Re-enable submit button
     submitBtn.disabled = false;
@@ -276,7 +279,7 @@ async function handleLogin(event) {
   const originalText = loginBtn.textContent;
 
   if (!email || !password) {
-    alert("Please fill in all fields.");
+    showError("Missing Information", "Please fill in all fields.");
     return;
   }
 
@@ -325,12 +328,17 @@ async function handleLogin(event) {
       sessionStorage.setItem("user", JSON.stringify(data.user));
 
       // Show success message
-      alert("Login successful! Welcome " + data.user.username);
+      showSuccess("Login Successful", `Welcome back, ${data.user.username}!`);
 
-      // Redirect to home page
-      window.location.href = "index.html";
+      // Redirect to home page after a brief delay
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
     } else {
-      alert(data.message || "Login failed. Please check your credentials.");
+      showError(
+        "Login Failed",
+        data.message || "Please check your credentials and try again."
+      );
     }
   } catch (error) {
     console.error("Login error details:", error);
@@ -339,11 +347,17 @@ async function handleLogin(event) {
 
     // More specific error messages
     if (error.name === "TypeError" && error.message.includes("fetch")) {
-      alert("Cannot connect to server.");
+      showError(
+        "Connection Error",
+        "Cannot connect to server. Please check your internet connection."
+      );
     } else if (error.name === "SyntaxError") {
-      alert("Server returned invalid response. Please try again.");
+      showError(
+        "Server Error",
+        "Server returned invalid response. Please try again."
+      );
     } else {
-      alert("Network error. Please try again.\nError: " + error.message);
+      showError("Network Error", `Please try again. ${error.message}`);
     }
   } finally {
     loginBtn.disabled = false;
@@ -379,8 +393,13 @@ function checkAuthStatus() {
 
   if (isDashboardPage && (!user || user.role !== "admin")) {
     // Redirect non-admin users away from dashboard pages
-    alert("Access denied. Admin privileges required.");
-    window.location.href = "index.html";
+    showError(
+      "Access Denied",
+      "Admin privileges required to access dashboard pages."
+    );
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2000);
     return;
   }
 }
@@ -437,8 +456,13 @@ function isAdmin() {
 // Function to redirect non-admin users
 function requireAdmin() {
   if (!isAdmin()) {
-    alert("Access denied. Admin privileges required.");
-    window.location.href = "index.html";
+    showError(
+      "Access Denied",
+      "Admin privileges required to access this page."
+    );
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2000);
     return false;
   }
   return true;
