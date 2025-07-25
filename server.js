@@ -83,17 +83,18 @@ function requireAdminWithToken(req, res, next) {
   if (req.session && req.session.userId && req.session.role === "admin") {
     return next();
   }
-  
+
   // Then try token-based auth via header
-  const adminToken = req.headers['x-admin-token'];
+  const adminToken = req.headers["x-admin-token"];
   if (adminToken) {
     // Simple token validation - in production, use proper JWT
-    const expectedToken = process.env.ADMIN_TOKEN || 'admin-dashboard-token-2025';
+    const expectedToken =
+      process.env.ADMIN_TOKEN || "admin-dashboard-token-2025";
     if (adminToken === expectedToken) {
       return next();
     }
   }
-  
+
   return res.status(401).json({
     success: false,
     message: "Admin authentication required",
@@ -326,7 +327,10 @@ app.post("/login", loginValidation, (req, res) => {
             role: user.role,
           },
           // Include admin token for dashboard access
-          adminToken: user.role === 'admin' ? (process.env.ADMIN_TOKEN || 'admin-dashboard-token-2025') : undefined,
+          adminToken:
+            user.role === "admin"
+              ? process.env.ADMIN_TOKEN || "admin-dashboard-token-2025"
+              : undefined,
         });
       } catch (compareError) {
         console.error("Error comparing password:", compareError);
