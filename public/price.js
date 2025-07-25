@@ -1,11 +1,11 @@
 // Configuration for API base URL
-const API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
-// const API_BASE_URL = 'http://localhost:3001'; // For local testing
+const PRICE_API_BASE_URL = "https://exploremore-production-c375.up.railway.app"; // For production
+// const PRICE_API_BASE_URL = 'http://localhost:3001'; // For local testing
 
 document.querySelectorAll(".priceBreakdownContainer").forEach((container) => {
   const spotId = container.dataset.id;
 
-  fetch(`${API_BASE_URL}/api/price-breakdown/${spotId}`)
+  fetch(`${PRICE_API_BASE_URL}/api/price-breakdown/${spotId}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Failed to fetch price data");
