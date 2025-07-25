@@ -367,6 +367,17 @@ function checkAuthStatus() {
       dashboardButton.classList.remove("d-none");
     }
   }
+
+  // Check if current page is a dashboard page and user is not admin
+  const currentPage = window.location.pathname;
+  const isDashboardPage = currentPage.includes("dashboard");
+
+  if (isDashboardPage && (!user || user.role !== "admin")) {
+    // Redirect non-admin users away from dashboard pages
+    alert("Access denied. Admin privileges required.");
+    window.location.href = "index.html";
+    return;
+  }
 }
 
 // Logout function
@@ -410,4 +421,20 @@ function hideMessage(elementId) {
   if (element) {
     element.style.display = "none";
   }
+}
+
+// Function to check if current user is admin
+function isAdmin() {
+  const user = JSON.parse(sessionStorage.getItem("user") || "null");
+  return user && user.role === "admin";
+}
+
+// Function to redirect non-admin users
+function requireAdmin() {
+  if (!isAdmin()) {
+    alert("Access denied. Admin privileges required.");
+    window.location.href = "index.html";
+    return false;
+  }
+  return true;
 }

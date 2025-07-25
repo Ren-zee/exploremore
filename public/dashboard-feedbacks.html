@@ -1,330 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="nav_footer.css">
-    <link rel="stylesheet" href="touristSpotInfo.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="nav_footer.css" />
+    <link rel="stylesheet" href="touristSpotInfo.css" />
     <link rel="stylesheet" href="dashboard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  </head> <!-- END OF HEAD -->
+  </head>
+  <!-- END OF HEAD -->
 
   <body>
-    <div class="navbar-section">
-        <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #FFF9F1; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">
-          <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-              <img src="images\logo_nav.png" 
-                   alt="ExploreMore PH Logo" 
-                   class="me-2"
-                   style="height: 40px;">
-              <span class="d-none d-sm-inline" style="font-family: 'Cardo', serif; font-weight: 800;">ExploreMore PH</span>
-            </a>
+    <!-- Admin Access Check -->
+    <script>
+      // Check admin access immediately when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(sessionStorage.getItem("user") || "null");
+        if (!user || user.role !== "admin") {
+          alert("Access denied. Admin privileges required.");
+          window.location.href = "index.html";
+          return;
+        }
+      });
+    </script>
 
-            <div class="d-flex align-items-center gap-2 ms-auto">
-                <!--Log In and Sign In Buttons-->
-                <a href="login.html" class="btn custom-btn" id="loginButton">Log In</a>
-                <a href="signup.html" class="btn custom-btn" id="signupButton">Sign Up</a>
-                <button
-                  class="btn custom-btn d-none"
-                  id="logoutButton"
-                  onclick="logout()"
-                >
-                  Logout
-                </button>
-                
-                <!--Menu Button -->
-                <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#sidebarMenu"
-                    aria-controls="sidebarMenu"
-                    style="border: none; font-size: 1.5rem;">
-                  ☰
-                </button>
-              </div>
-      
-            
-          </div>
-        </nav>  
-      
-        <!-- Offcanvas Sidebar ( Menu) -->
-        <div class="offcanvas offcanvas-end" 
-             tabindex="-1" 
-             id="sidebarMenu"
-             style="width: 250px; background-color: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);">
-          <div class="offcanvas-header justify-content-end">
-            <button type="button" 
-                    class="btn-close" 
-                    data-bs-dismiss="offcanvas" 
-                    aria-label="Close"
-                    style="font-size: 24px; font-weight: bold; background: none; line-height: 1;">×</button>
-          </div>
-          <div class="offcanvas-body p-0">
-            <ul class="list-unstyled">
-              <li><a class="dropdown-item" href="index.html">Home</a></li>
-              <li><a class="dropdown-item" href="luzon.html">Luzon</a></li>
-              <li><a class="dropdown-item" href="visayas.html">Visayas</a></li>
-              <li><a class="dropdown-item" href="mindanao.html">Mindanao</a></li>
-              <li><a class="dropdown-item" href="budget.html">Budget Estimator</a></li>
-              <li><a class="dropdown-item" href="promos.html">Promo and Discounts</a></li>
-              <li><a class="dropdown-item" href="aboutus.html">About us</a></li>
-            </ul>
+    <div class="navbar-section">
+      <nav
+        class="navbar navbar-expand-lg fixed-top"
+        style="
+          background-color: #fff9f1;
+          box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div class="container-fluid">
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img
+              src="images\logo_nav.png"
+              alt="ExploreMore PH Logo"
+              class="me-2"
+              style="height: 40px"
+            />
+            <span
+              class="d-none d-sm-inline"
+              style="font-family: 'Cardo', serif; font-weight: 800"
+              >ExploreMore PH</span
+            >
+          </a>
+
+          <div class="d-flex align-items-center gap-2 ms-auto">
+            <!--Dashboard Button for Admin-->
+            <a
+              href="dashboard.html"
+              class="btn custom-btn d-none"
+              id="dashboardButton"
+              >Dashboard</a
+            >
+
+            <!--Log In and Sign In Buttons-->
+            <a href="login.html" class="btn custom-btn" id="loginButton"
+              >Log In</a
+            >
+            <a href="signup.html" class="btn custom-btn" id="signupButton"
+              >Sign Up</a
+            >
+            <button
+              class="btn custom-btn d-none"
+              id="logoutButton"
+              onclick="logout()"
+            >
+              Logout
+            </button>
+
+            <!--Menu Button -->
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#sidebarMenu"
+              aria-controls="sidebarMenu"
+              style="border: none; font-size: 1.5rem"
+            >
+              ☰
+            </button>
           </div>
         </div>
-      </div> <!-- END OF NAV -->
+      </nav>
+
+      <!-- Offcanvas Sidebar ( Menu) -->
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="sidebarMenu"
+        style="
+          width: 250px;
+          background-color: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(12px);
+        "
+      >
+        <div class="offcanvas-header justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            style="
+              font-size: 24px;
+              font-weight: bold;
+              background: none;
+              line-height: 1;
+            "
+          >
+            ×
+          </button>
+        </div>
+        <div class="offcanvas-body p-0">
+          <ul class="list-unstyled">
+            <li><a class="dropdown-item" href="index.html">Home</a></li>
+            <li><a class="dropdown-item" href="luzon.html">Luzon</a></li>
+            <li><a class="dropdown-item" href="visayas.html">Visayas</a></li>
+            <li><a class="dropdown-item" href="mindanao.html">Mindanao</a></li>
+            <li>
+              <a class="dropdown-item" href="budget.html">Budget Estimator</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="promos.html"
+                >Promo and Discounts</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="aboutus.html">About us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- END OF NAV -->
 
     <!-- ------------------------------------------------------------------------------------------------ -->
-     <!-- Start of the contents of the webiste -->
+    <!-- Start of the contents of the webiste -->
 
-     <!-- Mobile Sidebar Toggle Button -->
-      <button id="mobileSidebarToggle" class="mobile-toggle-btn">
-        <
-      </button>
+    <!-- Mobile Sidebar Toggle Button -->
+    <button id="mobileSidebarToggle" class="mobile-toggle-btn"><</button>
 
-      <!-- SIDEBAR -->
-        <div class="sidebar">
-          <a href="dashboard.html">Dashboard</a>
-          <a href="dashboard-users.html">Users</a>
-          <a href="dashboard-feedbacks.html">Feedbacks</a>
-          <a href="dashboard-price.html">Price Breakdown</a>
-        </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="dashboard-users.html">Users</a>
+      <a href="dashboard-feedbacks.html">Feedbacks</a>
+      <a href="dashboard-price.html">Price Breakdown</a>
+    </div>
 
-        <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT -->
     <div class="main-content">
- <h1>Feedbacks Section</h1>
-        
-        <!-- Profanity Management Controls -->
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Profanity Filter Controls</h5>
-                    </div>
-                    <div class="card-body">
-                        <button class="btn btn-primary" id="refilterBtn">Refilter All Feedbacks</button>
-                        <button class="btn btn-secondary" id="refreshStatsBtn">Refresh Stats</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Profanity Statistics</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-4">
-                                <strong>Total Profane:</strong>
-                                <span id="statTotalProfane" class="badge bg-danger">0</span>
-                            </div>
-                            <div class="col-4">
-                                <strong>Verified Profane:</strong>
-                                <span id="statVerifiedProfane" class="badge bg-warning">0</span>
-                            </div>
-                            <div class="col-4">
-                                <strong>Unverified Profane:</strong>
-                                <span id="statUnverifiedProfane" class="badge bg-dark">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <h1>Feedbacks Section</h1>
 
-        <!-- Filters Section -->
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search feedback...">
+      <!-- Profanity Management Controls -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Profanity Filter Controls</h5>
             </div>
-            <div class="col-md-2">
-                <select id="userSelect" class="form-select">
-                    <option value="">All Users</option>
-                    <!-- Options will be populated dynamically -->
-                </select>
+            <div class="card-body">
+              <button class="btn btn-primary" id="refilterBtn">
+                Refilter All Feedbacks
+              </button>
+              <button class="btn btn-secondary" id="refreshStatsBtn">
+                Refresh Stats
+              </button>
             </div>
-            <div class="col-md-2">
-                <select id="statusSelect" class="form-select">
-                    <option value="">All Status</option>
-                    <option value="verified">Verified</option>
-                    <option value="unverified">Unverified</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select id="profanitySelect" class="form-select">
-                    <option value="">All Content</option>
-                    <option value="clean">Clean</option>
-                    <option value="filtered">Contains Profanity</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <input type="date" id="dateSelect" class="form-control">
-            </div>
-            <div class="col-md-1">
-                <button class="btn btn-primary" id="applyFiltersBtn">Apply</button>
-            </div>
+          </div>
         </div>
-
-        <!-- Feedbacks Table (dynamic container) -->
-        <div id="feedbackTableContainer" class="mt-4"></div>
-
-        <!-- Statistics Cards -->
-        <div class="row my-3">
-            <div class="col-md-3">
-                <div class="card text-bg-primary">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Feedbacks</h5>
-                        <p class="card-text" id="statTotal">0</p>
-                    </div>
-                </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5>Profanity Statistics</h5>
             </div>
-            <div class="col-md-3">
-                <div class="card text-bg-success">
-                    <div class="card-body">
-                        <h5 class="card-title">Verified</h5>
-                        <p class="card-text" id="statVerified">0</p>
-                    </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <strong>Total Profane:</strong>
+                  <span id="statTotalProfane" class="badge bg-danger">0</span>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-bg-warning">
-                    <div class="card-body">
-                        <h5 class="card-title">Unverified</h5>
-                        <p class="card-text" id="statUnverified">0</p>
-                    </div>
+                <div class="col-4">
+                  <strong>Verified Profane:</strong>
+                  <span id="statVerifiedProfane" class="badge bg-warning"
+                    >0</span
+                  >
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-bg-danger">
-                    <div class="card-body">
-                        <h5 class="card-title">Filtered</h5>
-                        <p class="card-text" id="statFiltered">0</p>
-                    </div>
+                <div class="col-4">
+                  <strong>Unverified Profane:</strong>
+                  <span id="statUnverifiedProfane" class="badge bg-dark"
+                    >0</span
+                  >
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Bulk Actions -->
-        <div class="mb-3 d-flex gap-2">
-            <button class="btn btn-outline-success" id="bulkVerifyBtn">Bulk Verify</button>
-            <button class="btn btn-outline-warning" id="bulkUnverifyBtn">Bulk Unverify</button>
-            <button class="btn btn-outline-danger" id="bulkDeleteBtn">Bulk Delete</button>
+      <!-- Filters Section -->
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Search feedback..."
+          />
         </div>
+        <div class="col-md-2">
+          <select id="userSelect" class="form-select">
+            <option value="">All Users</option>
+            <!-- Options will be populated dynamically -->
+          </select>
+        </div>
+        <div class="col-md-2">
+          <select id="statusSelect" class="form-select">
+            <option value="">All Status</option>
+            <option value="verified">Verified</option>
+            <option value="unverified">Unverified</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <select id="profanitySelect" class="form-select">
+            <option value="">All Content</option>
+            <option value="clean">Clean</option>
+            <option value="filtered">Contains Profanity</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <input type="date" id="dateSelect" class="form-control" />
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-primary" id="applyFiltersBtn">Apply</button>
+        </div>
+      </div>
+
+      <!-- Feedbacks Table (dynamic container) -->
+      <div id="feedbackTableContainer" class="mt-4"></div>
+
+      <!-- Statistics Cards -->
+      <div class="row my-3">
+        <div class="col-md-3">
+          <div class="card text-bg-primary">
+            <div class="card-body">
+              <h5 class="card-title">Total Feedbacks</h5>
+              <p class="card-text" id="statTotal">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-success">
+            <div class="card-body">
+              <h5 class="card-title">Verified</h5>
+              <p class="card-text" id="statVerified">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-warning">
+            <div class="card-body">
+              <h5 class="card-title">Unverified</h5>
+              <p class="card-text" id="statUnverified">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-bg-danger">
+            <div class="card-body">
+              <h5 class="card-title">Filtered</h5>
+              <p class="card-text" id="statFiltered">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk Actions -->
+      <div class="mb-3 d-flex gap-2">
+        <button class="btn btn-outline-success" id="bulkVerifyBtn">
+          Bulk Verify
+        </button>
+        <button class="btn btn-outline-warning" id="bulkUnverifyBtn">
+          Bulk Unverify
+        </button>
+        <button class="btn btn-outline-danger" id="bulkDeleteBtn">
+          Bulk Delete
+        </button>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="dash-feedback.js"></script>
- <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
-    <footer class="container-fluid px-4 py-4" >
-        <div class="row">
-          <!--logo with tagline-->
-          <div class="footer-col col-md-4 mb-4">
-            <div style="display: flex; align-items: center;">
-              <a href="index.html">
-                <img src="images/logo_footer.png" alt="ExploreMore PH Logo" style="height: 80px; margin-right: 10px;">
+    <footer class="container-fluid px-4 py-4">
+      <div class="row">
+        <!--logo with tagline-->
+        <div class="footer-col col-md-4 mb-4">
+          <div style="display: flex; align-items: center">
+            <a href="index.html">
+              <img
+                src="images/logo_footer.png"
+                alt="ExploreMore PH Logo"
+                style="height: 80px; margin-right: 10px"
+              />
+            </a>
+            <h1>More to See, <br />More to Explore</h1>
+          </div>
+          <br />
+          <p>© 2025 ExploreMore PH. All rights reserved.</p>
+          <p>Developed by Group1-CSS151L-AC1</p>
+        </div>
+
+        <!--quick nav-->
+        <div class="footer-col nav-col col-md-4 mb-4">
+          <h4>Quick Navigation</h4>
+          <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="budget.html">Budget Estimator</a></li>
+            <li><a href="luzon.html">Luzon</a></li>
+            <li><a href="promos.html">Promo & Discounts</a></li>
+            <li><a href="visayas.html">Visayas</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="mindanao.html">Mindanao</a></li>
+          </ul>
+        </div>
+
+        <!--contact and feedback-->
+        <div class="footer-col pad-left-col col-md-4 mb-4">
+          <h4>Contact us at</h4>
+          <ul>
+            <li>
+              <a href="mailto:Group1_CSS151L@mymail.mapua.edu.ph">
+                <svg
+                  class="email-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="1 0 32 32"
+                  width="30"
+                  height="30"
+                  style="margin-right: 8px"
+                >
+                  <g
+                    data-name="mail email e-mail letter"
+                    id="mail_email_e-mail_letter"
+                  >
+                    <path
+                      d="M28,13a1,1,0,0,0-1,1v8a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,0-2,0v8a3,3,0,0,0,.88,2.12A3,3,0,0,0,6,25H26a3,3,0,0,0,2.12-.88A3,3,0,0,0,29,22V14A1,1,0,0,0,28,13Z"
+                    />
+                    <path
+                      d="M15.4,18.8a1,1,0,0,0,1.2,0L28.41,9.94a1,1,0,0,0,.3-1.23,3.06,3.06,0,0,0-.59-.83A3,3,0,0,0,26,7H6a3,3,0,0,0-2.12.88,3.06,3.06,0,0,0-.59.83,1,1,0,0,0,.3,1.23ZM6,9H26a.9.9,0,0,1,.28,0L16,16.75,5.72,9A.9.9,0,0,1,6,9Z"
+                    />
+                  </g>
+                </svg>
+                Group1_CSS151L@mymail.mapua.edu.ph
               </a>
-              <h1 >
-                More to See, <br>More to Explore
-              </h1>
-            </div>
-            <br>
-            <p >© 2025 ExploreMore PH. All rights reserved.</p>
-            <p >Developed by Group1-CSS151L-AC1</p>
-          </div>
-
-          <!--quick nav-->
-          <div class="footer-col nav-col col-md-4 mb-4">
-            <h4>Quick Navigation</h4>
-            <ul class="nav-list">
-              <li><a href="index.html">Home</a></li>        
-              <li><a href="budget.html">Budget Estimator</a></li>
-              <li><a href="luzon.html">Luzon</a></li>
-              <li><a href="promos.html">Promo & Discounts</a></li>
-              <li><a href="visayas.html">Visayas</a></li>
-              <li><a href="aboutus.html">About</a></li>
-              <li><a href="mindanao.html">Mindanao</a></li>
-            </ul>
-          </div>
-
-          <!--contact and feedback-->
-          <div class="footer-col pad-left-col col-md-4 mb-4">
-            <h4>Contact us at</h4>
-            <ul>
-              <li>
-                <a href="mailto:Group1_CSS151L@mymail.mapua.edu.ph">
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" viewBox="1 0 32 32" width="30" height="30" style="margin-right: 8px;">
-                        <g data-name="mail email e-mail letter" id="mail_email_e-mail_letter">
-                            <path d="M28,13a1,1,0,0,0-1,1v8a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,0-2,0v8a3,3,0,0,0,.88,2.12A3,3,0,0,0,6,25H26a3,3,0,0,0,2.12-.88A3,3,0,0,0,29,22V14A1,1,0,0,0,28,13Z"/>
-                            <path d="M15.4,18.8a1,1,0,0,0,1.2,0L28.41,9.94a1,1,0,0,0,.3-1.23,3.06,3.06,0,0,0-.59-.83A3,3,0,0,0,26,7H6a3,3,0,0,0-2.12.88,3.06,3.06,0,0,0-.59.83,1,1,0,0,0,.3,1.23ZM6,9H26a.9.9,0,0,1,.28,0L16,16.75,5.72,9A.9.9,0,0,1,6,9Z"/>
-                        </g>
-                    </svg>
-                  Group1_CSS151L@mymail.mapua.edu.ph
-                </a>
-              </li>
-            </ul>
-            <br>
-            <h4>Feedback</h4>
-            <ul>
-              <li>
-                <a href="aboutus.html">
-                    <svg class="feedback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="20" height="20" style="margin-right: 16px;">
-                        <rect fill="none" height="50" width="50"/>
-                        <path d="M47,24c0,10.493-9.85,19-22,19  
+            </li>
+          </ul>
+          <br />
+          <h4>Feedback</h4>
+          <ul>
+            <li>
+              <a href="aboutus.html">
+                <svg
+                  class="feedback-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 50 50"
+                  width="20"
+                  height="20"
+                  style="margin-right: 16px"
+                >
+                  <rect fill="none" height="50" width="50" />
+                  <path
+                    d="M47,24c0,10.493-9.85,19-22,19  
                           c-2.076,0-4.085-0.248-5.99-0.712c0,0-3.807,4.739-10.01,4.712c3.001-4.258,2.996-7.673,2.996-7.673C6.541,35.869,3,30.292,3,24  
                           C3,13.507,12.849,5,25,5C37.15,5,47,13.507,47,24z"
-                          fill="none"/>
-                      </svg>
-                  Send Feedback
-                </a>
-              </li>
-            </ul>
-          </div>
-      
+                    fill="none"
+                  />
+                </svg>
+                Send Feedback
+              </a>
+            </li>
+          </ul>
         </div>
-      </footer>  <!-- END of footer -->
-      
- 
+      </div>
+    </footer>
+    <!-- END of footer -->
 
-    <script> 
-
-      function showSidebar(){
-        const sidebar = document.querySelector('.sidebar')
-        sidebar.style.display = 'flex'
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "flex";
       }
-      function hideSidebar(){
-        const sidebar = document.querySelector('.sidebar')
-        sidebar.style.display = 'none'
+      function hideSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "none";
       }
-    </script> <!-- END OF SCRIPT (this is for the nav /menu part)-->
+    </script>
+    <!-- END OF SCRIPT (this is for the nav /menu part)-->
 
     <script src="auth.js"></script>
     <script src="budget.js"></script>
@@ -334,8 +437,7 @@
 
     <!-- Dashboard -->
     <script src="dashboard.js"></script>
-
-
-  </body> <!-- END OF BODY -->
-
-</html> <!-- END OF HTML -->
+  </body>
+  <!-- END OF BODY -->
+</html>
+<!-- END OF HTML -->

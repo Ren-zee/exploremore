@@ -1,275 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="nav_footer.css">
-    <link rel="stylesheet" href="touristSpotInfo.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="nav_footer.css" />
+    <link rel="stylesheet" href="touristSpotInfo.css" />
     <link rel="stylesheet" href="dashboard.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-  </head> <!-- END OF HEAD -->
+  </head>
+  <!-- END OF HEAD -->
 
   <body>
-    <div class="navbar-section">
-        <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #FFF9F1; box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">
-          <div class="container-fluid">
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-              <img src="images\logo_nav.png" 
-                   alt="ExploreMore PH Logo" 
-                   class="me-2"
-                   style="height: 40px;">
-              <span class="d-none d-sm-inline" style="font-family: 'Cardo', serif; font-weight: 800;">ExploreMore PH</span>
-            </a>
+    <!-- Admin Access Check -->
+    <script>
+      // Check admin access immediately when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(sessionStorage.getItem("user") || "null");
+        if (!user || user.role !== "admin") {
+          alert("Access denied. Admin privileges required.");
+          window.location.href = "index.html";
+          return;
+        }
+      });
+    </script>
 
-            <div class="d-flex align-items-center gap-2 ms-auto">
-                <!--Log In and Sign In Buttons-->
-                <a href="login.html" class="btn custom-btn" id="loginButton">Log In</a>
-                <a href="signup.html" class="btn custom-btn" id="signupButton">Sign Up</a>
-                <button
-                  class="btn custom-btn d-none"
-                  id="logoutButton"
-                  onclick="logout()"
-                >
-                  Logout
-                </button>
-                
-                <!--Menu Button -->
-                <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#sidebarMenu"
-                    aria-controls="sidebarMenu"
-                    style="border: none; font-size: 1.5rem;">
-                  ☰
-                </button>
-              </div>
-      
-            
-          </div>
-        </nav>  
-      
-        <!-- Offcanvas Sidebar ( Menu) -->
-        <div class="offcanvas offcanvas-end" 
-             tabindex="-1" 
-             id="sidebarMenu"
-             style="width: 250px; background-color: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);">
-          <div class="offcanvas-header justify-content-end">
-            <button type="button" 
-                    class="btn-close" 
-                    data-bs-dismiss="offcanvas" 
-                    aria-label="Close"
-                    style="font-size: 24px; font-weight: bold; background: none; line-height: 1;">×</button>
-          </div>
-          <div class="offcanvas-body p-0">
-            <ul class="list-unstyled">
-              <li><a class="dropdown-item" href="index.html">Home</a></li>
-              <li><a class="dropdown-item" href="luzon.html">Luzon</a></li>
-              <li><a class="dropdown-item" href="visayas.html">Visayas</a></li>
-              <li><a class="dropdown-item" href="mindanao.html">Mindanao</a></li>
-              <li><a class="dropdown-item" href="budget.html">Budget Estimator</a></li>
-              <li><a class="dropdown-item" href="promos.html">Promo and Discounts</a></li>
-              <li><a class="dropdown-item" href="aboutus.html">About us</a></li>
-            </ul>
+    <div class="navbar-section">
+      <nav
+        class="navbar navbar-expand-lg fixed-top"
+        style="
+          background-color: #fff9f1;
+          box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div class="container-fluid">
+          <!-- Logo -->
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img
+              src="images\logo_nav.png"
+              alt="ExploreMore PH Logo"
+              class="me-2"
+              style="height: 40px"
+            />
+            <span
+              class="d-none d-sm-inline"
+              style="font-family: 'Cardo', serif; font-weight: 800"
+              >ExploreMore PH</span
+            >
+          </a>
+
+          <div class="d-flex align-items-center gap-2 ms-auto">
+            <!--Dashboard Button for Admin-->
+            <a
+              href="dashboard.html"
+              class="btn custom-btn d-none"
+              id="dashboardButton"
+              >Dashboard</a
+            >
+
+            <!--Log In and Sign In Buttons-->
+            <a href="login.html" class="btn custom-btn" id="loginButton"
+              >Log In</a
+            >
+            <a href="signup.html" class="btn custom-btn" id="signupButton"
+              >Sign Up</a
+            >
+            <button
+              class="btn custom-btn d-none"
+              id="logoutButton"
+              onclick="logout()"
+            >
+              Logout
+            </button>
+
+            <!--Menu Button -->
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#sidebarMenu"
+              aria-controls="sidebarMenu"
+              style="border: none; font-size: 1.5rem"
+            >
+              ☰
+            </button>
           </div>
         </div>
-      </div> <!-- END OF NAV -->
+      </nav>
+
+      <!-- Offcanvas Sidebar ( Menu) -->
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="sidebarMenu"
+        style="
+          width: 250px;
+          background-color: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(12px);
+        "
+      >
+        <div class="offcanvas-header justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+            style="
+              font-size: 24px;
+              font-weight: bold;
+              background: none;
+              line-height: 1;
+            "
+          >
+            ×
+          </button>
+        </div>
+        <div class="offcanvas-body p-0">
+          <ul class="list-unstyled">
+            <li><a class="dropdown-item" href="index.html">Home</a></li>
+            <li><a class="dropdown-item" href="luzon.html">Luzon</a></li>
+            <li><a class="dropdown-item" href="visayas.html">Visayas</a></li>
+            <li><a class="dropdown-item" href="mindanao.html">Mindanao</a></li>
+            <li>
+              <a class="dropdown-item" href="budget.html">Budget Estimator</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="promos.html"
+                >Promo and Discounts</a
+              >
+            </li>
+            <li><a class="dropdown-item" href="aboutus.html">About us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- END OF NAV -->
 
     <!-- ------------------------------------------------------------------------------------------------ -->
-     <!-- Start of the contents of the webiste -->
+    <!-- Start of the contents of the webiste -->
 
-     <!-- Mobile Sidebar Toggle Button -->
-      <button id="mobileSidebarToggle" class="mobile-toggle-btn">
-        <
-      </button>
+    <!-- Mobile Sidebar Toggle Button -->
+    <button id="mobileSidebarToggle" class="mobile-toggle-btn"><</button>
 
-      <!-- SIDEBAR -->
-        <div class="sidebar">
-          <a href="dashboard.html">Dashboard</a>
-          <a href="dashboard-users.html">Users</a>
-          <a href="dashboard-feedbacks.html">Feedbacks</a>
-          <a href="dashboard-price.html">Price Breakdown</a>
-        </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="dashboard-users.html">Users</a>
+      <a href="dashboard-feedbacks.html">Feedbacks</a>
+      <a href="dashboard-price.html">Price Breakdown</a>
+    </div>
 
-        <!-- MAIN CONTENT -->
-        <div class="main-content">
-          <h1>Price Breakdown Section</h1>
-          <div class="accordion" id="region">
-
-              <!-- Luzon -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingLuzon">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLuzon" aria-expanded="true" aria-controls="collapseLuzon">
-                    Luzon
-                  </button>
-                </h2>
-                <div id="collapseLuzon" class="accordion-collapse collapse show" aria-labelledby="headingLuzon" data-bs-parent="#region">
-                  <div class="accordion-body">
-                    <button class="btn btn-outline-primary mb-2">Nagsasa Cove</button>
-                    <button class="btn btn-outline-primary mb-1">Pacific View Deck</button>
-                    <button class="btn btn-outline-primary mb-1">Masungi Georeserve</button>
-                    <div id="priceBreakdownTableContainerLuzon" class="mt-4"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Visayas -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingVisayas">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVisayas" aria-expanded="false" aria-controls="collapseVisayas">
-                    Visayas
-                  </button>
-                </h2>
-                <div id="collapseVisayas" class="accordion-collapse collapse" aria-labelledby="headingVisayas" data-bs-parent="#region">
-                  <div class="accordion-body">
-                    <button class="btn btn-outline-success mb-1">Guisi Lighthouse</button>
-                    <button class="btn btn-outline-success mb-1">Linao Cave</button>
-                    <button class="btn btn-outline-success mb-1">Nova Shell Museum</button>
-                    <div id="priceBreakdownTableContainerVisayas" class="mt-4"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Mindanao -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingMindanao">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMindanao" aria-expanded="false" aria-controls="collapseMindanao">
-                    Mindanao
-                  </button>
-                </h2>
-                <div id="collapseMindanao" class="accordion-collapse collapse" aria-labelledby="headingMindanao" data-bs-parent="#region">
-                  <div class="accordion-body">
-                    <button class="btn btn-outline-danger mb-1">Philippine Eagle Center</button>
-                    <button class="btn btn-outline-danger mb-1">Tinago Falls</button>
-                    <button class="btn btn-outline-danger mb-1">Mount Hamiguitan Range Wildlife Sanctuary</button>
-                    <div id="priceBreakdownTableContainerMindanao" class="mt-4"></div>
-                  </div>
-                </div>
-              </div>
-
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      <h1>Price Breakdown Section</h1>
+      <div class="accordion" id="region">
+        <!-- Luzon -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingLuzon">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseLuzon"
+              aria-expanded="true"
+              aria-controls="collapseLuzon"
+            >
+              Luzon
+            </button>
+          </h2>
+          <div
+            id="collapseLuzon"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingLuzon"
+            data-bs-parent="#region"
+          >
+            <div class="accordion-body">
+              <button class="btn btn-outline-primary mb-2">Nagsasa Cove</button>
+              <button class="btn btn-outline-primary mb-1">
+                Pacific View Deck
+              </button>
+              <button class="btn btn-outline-primary mb-1">
+                Masungi Georeserve
+              </button>
+              <div id="priceBreakdownTableContainerLuzon" class="mt-4"></div>
             </div>
-
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-             <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-           <br>
-          <br>
-          <br>
-            
-          
-          
-
+          </div>
         </div>
 
+        <!-- Visayas -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingVisayas">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseVisayas"
+              aria-expanded="false"
+              aria-controls="collapseVisayas"
+            >
+              Visayas
+            </button>
+          </h2>
+          <div
+            id="collapseVisayas"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingVisayas"
+            data-bs-parent="#region"
+          >
+            <div class="accordion-body">
+              <button class="btn btn-outline-success mb-1">
+                Guisi Lighthouse
+              </button>
+              <button class="btn btn-outline-success mb-1">Linao Cave</button>
+              <button class="btn btn-outline-success mb-1">
+                Nova Shell Museum
+              </button>
+              <div id="priceBreakdownTableContainerVisayas" class="mt-4"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mindanao -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingMindanao">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseMindanao"
+              aria-expanded="false"
+              aria-controls="collapseMindanao"
+            >
+              Mindanao
+            </button>
+          </h2>
+          <div
+            id="collapseMindanao"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingMindanao"
+            data-bs-parent="#region"
+          >
+            <div class="accordion-body">
+              <button class="btn btn-outline-danger mb-1">
+                Philippine Eagle Center
+              </button>
+              <button class="btn btn-outline-danger mb-1">Tinago Falls</button>
+              <button class="btn btn-outline-danger mb-1">
+                Mount Hamiguitan Range Wildlife Sanctuary
+              </button>
+              <div id="priceBreakdownTableContainerMindanao" class="mt-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
 
     <!-- END of the contents of the website -->
     <!-- ------------------------------------------------------------------------------------------------ -->
 
-    <footer class="container-fluid px-4 py-4" >
-        <div class="row">
-          <!--logo with tagline-->
-          <div class="footer-col col-md-4 mb-4">
-            <div style="display: flex; align-items: center;">
-              <a href="index.html">
-                <img src="images/logo_footer.png" alt="ExploreMore PH Logo" style="height: 80px; margin-right: 10px;">
+    <footer class="container-fluid px-4 py-4">
+      <div class="row">
+        <!--logo with tagline-->
+        <div class="footer-col col-md-4 mb-4">
+          <div style="display: flex; align-items: center">
+            <a href="index.html">
+              <img
+                src="images/logo_footer.png"
+                alt="ExploreMore PH Logo"
+                style="height: 80px; margin-right: 10px"
+              />
+            </a>
+            <h1>More to See, <br />More to Explore</h1>
+          </div>
+          <br />
+          <p>© 2025 ExploreMore PH. All rights reserved.</p>
+          <p>Developed by Group1-CSS151L-AC1</p>
+        </div>
+
+        <!--quick nav-->
+        <div class="footer-col nav-col col-md-4 mb-4">
+          <h4>Quick Navigation</h4>
+          <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="budget.html">Budget Estimator</a></li>
+            <li><a href="luzon.html">Luzon</a></li>
+            <li><a href="promos.html">Promo & Discounts</a></li>
+            <li><a href="visayas.html">Visayas</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="mindanao.html">Mindanao</a></li>
+          </ul>
+        </div>
+
+        <!--contact and feedback-->
+        <div class="footer-col pad-left-col col-md-4 mb-4">
+          <h4>Contact us at</h4>
+          <ul>
+            <li>
+              <a href="mailto:Group1_CSS151L@mymail.mapua.edu.ph">
+                <svg
+                  class="email-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="1 0 32 32"
+                  width="30"
+                  height="30"
+                  style="margin-right: 8px"
+                >
+                  <g
+                    data-name="mail email e-mail letter"
+                    id="mail_email_e-mail_letter"
+                  >
+                    <path
+                      d="M28,13a1,1,0,0,0-1,1v8a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,0-2,0v8a3,3,0,0,0,.88,2.12A3,3,0,0,0,6,25H26a3,3,0,0,0,2.12-.88A3,3,0,0,0,29,22V14A1,1,0,0,0,28,13Z"
+                    />
+                    <path
+                      d="M15.4,18.8a1,1,0,0,0,1.2,0L28.41,9.94a1,1,0,0,0,.3-1.23,3.06,3.06,0,0,0-.59-.83A3,3,0,0,0,26,7H6a3,3,0,0,0-2.12.88,3.06,3.06,0,0,0-.59.83,1,1,0,0,0,.3,1.23ZM6,9H26a.9.9,0,0,1,.28,0L16,16.75,5.72,9A.9.9,0,0,1,6,9Z"
+                    />
+                  </g>
+                </svg>
+                Group1_CSS151L@mymail.mapua.edu.ph
               </a>
-              <h1 >
-                More to See, <br>More to Explore
-              </h1>
-            </div>
-            <br>
-            <p >© 2025 ExploreMore PH. All rights reserved.</p>
-            <p >Developed by Group1-CSS151L-AC1</p>
-          </div>
-
-          <!--quick nav-->
-          <div class="footer-col nav-col col-md-4 mb-4">
-            <h4>Quick Navigation</h4>
-            <ul class="nav-list">
-              <li><a href="index.html">Home</a></li>        
-              <li><a href="budget.html">Budget Estimator</a></li>
-              <li><a href="luzon.html">Luzon</a></li>
-              <li><a href="promos.html">Promo & Discounts</a></li>
-              <li><a href="visayas.html">Visayas</a></li>
-              <li><a href="aboutus.html">About</a></li>
-              <li><a href="mindanao.html">Mindanao</a></li>
-            </ul>
-          </div>
-
-          <!--contact and feedback-->
-          <div class="footer-col pad-left-col col-md-4 mb-4">
-            <h4>Contact us at</h4>
-            <ul>
-              <li>
-                <a href="mailto:Group1_CSS151L@mymail.mapua.edu.ph">
-                    <svg class="email-icon" xmlns="http://www.w3.org/2000/svg" viewBox="1 0 32 32" width="30" height="30" style="margin-right: 8px;">
-                        <g data-name="mail email e-mail letter" id="mail_email_e-mail_letter">
-                            <path d="M28,13a1,1,0,0,0-1,1v8a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,0-2,0v8a3,3,0,0,0,.88,2.12A3,3,0,0,0,6,25H26a3,3,0,0,0,2.12-.88A3,3,0,0,0,29,22V14A1,1,0,0,0,28,13Z"/>
-                            <path d="M15.4,18.8a1,1,0,0,0,1.2,0L28.41,9.94a1,1,0,0,0,.3-1.23,3.06,3.06,0,0,0-.59-.83A3,3,0,0,0,26,7H6a3,3,0,0,0-2.12.88,3.06,3.06,0,0,0-.59.83,1,1,0,0,0,.3,1.23ZM6,9H26a.9.9,0,0,1,.28,0L16,16.75,5.72,9A.9.9,0,0,1,6,9Z"/>
-                        </g>
-                    </svg>
-                  Group1_CSS151L@mymail.mapua.edu.ph
-                </a>
-              </li>
-            </ul>
-            <br>
-            <h4>Feedback</h4>
-            <ul>
-              <li>
-                <a href="aboutus.html">
-                    <svg class="feedback-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="20" height="20" style="margin-right: 16px;">
-                        <rect fill="none" height="50" width="50"/>
-                        <path d="M47,24c0,10.493-9.85,19-22,19  
+            </li>
+          </ul>
+          <br />
+          <h4>Feedback</h4>
+          <ul>
+            <li>
+              <a href="aboutus.html">
+                <svg
+                  class="feedback-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 50 50"
+                  width="20"
+                  height="20"
+                  style="margin-right: 16px"
+                >
+                  <rect fill="none" height="50" width="50" />
+                  <path
+                    d="M47,24c0,10.493-9.85,19-22,19  
                           c-2.076,0-4.085-0.248-5.99-0.712c0,0-3.807,4.739-10.01,4.712c3.001-4.258,2.996-7.673,2.996-7.673C6.541,35.869,3,30.292,3,24  
                           C3,13.507,12.849,5,25,5C37.15,5,47,13.507,47,24z"
-                          fill="none"/>
-                      </svg>
-                  Send Feedback
-                </a>
-              </li>
-            </ul>
-          </div>
-      
+                    fill="none"
+                  />
+                </svg>
+                Send Feedback
+              </a>
+            </li>
+          </ul>
         </div>
-      </footer>  <!-- END of footer -->
-      
- 
+      </div>
+    </footer>
+    <!-- END of footer -->
 
-    <script> 
-
-      function showSidebar(){
-        const sidebar = document.querySelector('.sidebar')
-        sidebar.style.display = 'flex'
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "flex";
       }
-      function hideSidebar(){
-        const sidebar = document.querySelector('.sidebar')
-        sidebar.style.display = 'none'
+      function hideSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        sidebar.style.display = "none";
       }
-    </script> <!-- END OF SCRIPT (this is for the nav /menu part)-->
+    </script>
+    <!-- END OF SCRIPT (this is for the nav /menu part)-->
 
     <script src="auth.js"></script>
     <script src="budget.js"></script>
@@ -281,9 +406,7 @@
     <script src="dashboard.js"></script>
 
     <script src="dash-price.js"></script>
-
-
-
-  </body> <!-- END OF BODY -->
-
-</html> <!-- END OF HTML -->
+  </body>
+  <!-- END OF BODY -->
+</html>
+<!-- END OF HTML -->
