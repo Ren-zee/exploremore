@@ -18,40 +18,50 @@ document.querySelectorAll(".priceBreakdownContainer").forEach((container) => {
 
         // Group by category
         const grouped = {};
-        breakdown.forEach(item => {
+        breakdown.forEach((item) => {
           if (!grouped[item.category]) grouped[item.category] = [];
           grouped[item.category].push(item);
         });
 
         // Handle Total first (if exists)
         if (grouped["Total"]) {
-            const liTotal = document.createElement("li");
-            grouped["Total"].forEach(item => {
-                const formatted = `₱${parseFloat(item.price_min).toLocaleString()}${item.price_min != item.price_max ? ` – ₱${parseFloat(item.price_max).toLocaleString()}` : ""}`;
-                liTotal.innerHTML += `
+          const liTotal = document.createElement("li");
+          grouped["Total"].forEach((item) => {
+            const formatted = `₱${parseFloat(item.price_min).toLocaleString()}${
+              item.price_min != item.price_max
+                ? ` – ₱${parseFloat(item.price_max).toLocaleString()}`
+                : ""
+            }`;
+            liTotal.innerHTML += `
                 <strong>${item.label}</strong>: <strong>${formatted}</strong>
                 ${item.notes ? ` <em>(${item.notes})</em>` : ""}<br>
                 `;
-            });
-            container.appendChild(liTotal);
-            delete grouped["Total"]; // So it's not repeated
-            }
+          });
+          container.appendChild(liTotal);
+          delete grouped["Total"]; // So it's not repeated
+        }
 
         // Handle the rest of the categories
         const categoryTitles = {
-          "Accommodation": "Accommodation",
-          "Transportation": "Transportation",
-          "Food": "Food",
-          "Fees": "Entrance Fees"
+          Accommodation: "Accommodation",
+          Transportation: "Transportation",
+          Food: "Food",
+          Fees: "Entrance Fees",
         };
 
         for (const [category, items] of Object.entries(grouped)) {
           const li = document.createElement("li");
 
-          li.innerHTML += `<strong>${categoryTitles[category] || category}</strong><br>`;
+          li.innerHTML += `<strong>${
+            categoryTitles[category] || category
+          }</strong><br>`;
 
           items.forEach((item) => {
-            const formatted = `₱${parseFloat(item.price_min).toLocaleString()}${item.price_min != item.price_max ? ` – ₱${parseFloat(item.price_max).toLocaleString()}` : ""}`;
+            const formatted = `₱${parseFloat(item.price_min).toLocaleString()}${
+              item.price_min != item.price_max
+                ? ` – ₱${parseFloat(item.price_max).toLocaleString()}`
+                : ""
+            }`;
             li.innerHTML += `
               ${item.label}: <strong>${formatted}</strong>
               ${item.notes ? ` <em>(${item.notes})</em>` : ""}<br>
@@ -68,7 +78,6 @@ document.querySelectorAll(".priceBreakdownContainer").forEach((container) => {
       console.error("Fetch error:", err.message);
     });
 });
-
 
 //SQL code for price breakdown
 
